@@ -2,7 +2,32 @@
 // Declare app level module which depends on views, and components
 angular.module('myApp', ['ui.router', 'myApp.movies', 'templates', 'ncy-angular-breadcrumb', 'ngMaterial', 'ngMessages'])
 
-    .config(function($stateProvider, $urlRouterProvider, $mdIconProvider, $resourceProvider, $httpProvider, $breadcrumbProvider) {
+    .config(function($stateProvider, $urlRouterProvider, $mdIconProvider, $resourceProvider, $httpProvider, $breadcrumbProvider, $mdThemingProvider) {
+
+
+        var black = {
+            '50': '#000000',
+            '100': '#00000f',
+            '200': '#0000ff',
+            '300': '#000fff',
+            '400': '#00ffff',
+            '500': '#000000',
+            '600': '#ffffff',
+            '700': '#fffff0',
+            '800': '#ffff00',
+            '900': '#fff000',
+            'A100': '#ff0000',
+            'A200': '#f00000',
+            'A400': '#000000',
+            'A700': '#000000',
+            'contrastDefaultColor': 'light'
+        };
+
+        $mdThemingProvider.definePalette('black',black);
+
+        $mdThemingProvider.theme('whatsong')
+            .primaryPalette('black');
+        $mdThemingProvider.setDefaultTheme('whatsong');
 
         // For any unmatched url, redirect to /movies
         $urlRouterProvider.otherwise("/movies");
@@ -35,7 +60,7 @@ angular.module('myApp', ['ui.router', 'myApp.movies', 'templates', 'ncy-angular-
         $httpProvider.interceptors.push('authInterceptor');
 
         $breadcrumbProvider.setOptions({
-            templateUrl:"components/breadcrumbs/breadcrumbs.html",
+            templateUrl:"components/breadcrumbs/breadcrumbs.html"
         });
 
     });

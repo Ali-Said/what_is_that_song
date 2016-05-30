@@ -6,7 +6,6 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "angular-video-bg": "~0.2",
     "angular": "^1.5.2",
     "angular-resource": "^1.5.2",
     "normalize-libsass": "^1.0.3",
