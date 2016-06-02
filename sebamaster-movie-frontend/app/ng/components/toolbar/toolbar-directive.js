@@ -44,6 +44,7 @@ angular.module('myApp')
                     });
                 };
 
+
                 function logout(){
                     currUser.logout();
                 }
