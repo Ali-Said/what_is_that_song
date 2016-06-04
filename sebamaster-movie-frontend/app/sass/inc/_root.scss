@@ -6,20 +6,147 @@
 
 body{
   background-color: black;
+  z-index: 0;
+
+  .button-container {
+    margin: 30px;
+  }
 }
+
+.stopfade {
+  opacity: .5;
+}
+
 video {
   position: fixed;
+  z-index: -99;
   top: 50%;
   left: 50%;
   min-width: 100%;
   min-height: 100%;
   width: auto;
   height: auto;
-  z-index: 0;
   transform: translateX(-50%) translateY(-50%);
   background-size: cover;
   transition: 1s opacity;
 }
-.stopfade {
-  opacity: .5;
+
+#searchbox
+{
+  background-color: #eaf8fc;
+  background-image: linear-gradient(#fff, #d4e8ec);
+  border-radius: 35px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #c4d9df #a4c3ca #83afb7;
+  width: 380px;
+  height: 35px;
+  padding: 10px;
+  margin: 50px auto 18px;
+  overflow: hidden; /* Clear floats */
+  position: static;
 }
+
+#search,
+#submit {
+  float: left;
+}
+
+#search {
+  padding: 5px 9px;
+  height: 23px;
+  width: 250px;
+  border: 1px solid #a4c3ca;
+  font: normal 13px 'trebuchet MS', arial, helvetica;
+  background: #f1f1f1;
+  border-radius: 50px 3px 3px 50px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25) inset, 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+/* ----------------------- */
+//
+//#submit
+//{
+//  background-color: #6cbb6b;
+//  background-image: linear-gradient(#95d788, #6cbb6b);
+//  border-radius: 3px 50px 50px 3px;
+//  border-width: 1px;
+//  border-style: solid;
+//  border-color: #7eba7c #578e57 #447d43;
+//  box-shadow: 0 0 1px rgba(0, 0, 0, 0.3),
+//  0 1px 0 rgba(255, 255, 255, 0.3) inset;
+//  height: 35px;
+//  margin: 0 0 0 10px;
+//  padding: 0;
+//  width: 90px;
+//  cursor: pointer;
+//  font: bold 14px Arial, Helvetica;
+//  color: #23441e;
+//  text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+//}
+//
+//#submit:hover {
+//  background-color: #95d788;
+//  background-image: linear-gradient(#6cbb6b, #95d788);
+//}
+//
+//#submit:active {
+//  background: #95d788;
+//  outline: none;
+//  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
+//}
+//
+//#submit::-moz-focus-inner {
+//  border: 0;  /* Small centering fix for Firefox */
+//}
+//
+//#search::-webkit-input-placeholder {
+//  color: #9c9c9c;
+//  font-style: italic;
+//}
+//
+//#search:-moz-placeholder {
+//  color: #9c9c9c;
+//  font-style: italic;
+//}
+//
+//#search:-ms-placeholder {
+//  color: #9c9c9c;
+//  font-style: italic;
+//}
+//
+//#MyButton {
+//  width: 180px;
+//  padding: 10px;
+//  margin: 50px auto 18px;
+//  font-weight: bold;
+//  font-size: 130%;
+//  background: #6cbb6b;
+//  color:#23441e;
+//  cursor: pointer;
+//  border: 1px solid #999999;
+//  border-radius: 25px;
+//
+//}
+//#MyButton:hover {
+//  color: #00004d;
+//  background: #95d788;
+//  border: 2px solid #00004d;
+//
+//}
+//
+///* ----------------------------------------------Wrapper------------------------------------- */
+//div.wrapper{display:block; width:100%; margin:0; text-align:left;}
+//div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, div.wrapper h6{margin:0 0 20px 0; padding:0 0 8px 0; font-size:18px; font-weight:normal; font-family:Georgia, "Times New Roman", Times, serif; border-bottom:1px dotted #DDDDDD;}
+//.col3, .col4, .col5{color:#666666; background-color: black; left: 82px; position: absolute}
+//
+///* ----------------------------------------------Intro------------------------------------- */
+//
+//#intro{padding:50px 0 5px 0; font-size:13px; font-family:Georgia, "Times New Roman", Times, serif;}
+//#intro .fl_left{display:block; float:left; width:580px; height:240px; margin:0; padding:30px; color:#FFFFFF; background-color:#00004d;}
+//#intro .f2_right{display:block; float:left; width:230px; height:240px; margin:0; padding:30px; color:#FFFFFF; background-color:#000000;}
+//#intro .fl_left h2{font-size:25px; margin:0 0 15px 0; padding:0; border:none; color:#FFFFFF; background-color:#00004d;}
+//#intro .fl_left p{margin:0; padding:0; line-height:1.6em;}
+//#intro .fl_left p.readmore{display:block; width:100%; margin:20px 0 0 0; padding:0; text-align:right; line-height:normal;}
+//#intro .fl_left p.readmore a{padding:8px 15px; font-size:16px; color:#FFFFFF; background-color:#000033;}
+//#intro .fl_right{float:right;}
