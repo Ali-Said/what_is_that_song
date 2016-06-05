@@ -30,7 +30,7 @@ angular.module('myApp.movies')
             ncyBreadcrumb: {
                 // a bit ugly (and not stable), but ncybreadcrumbs doesn't support direct access
                 // to a view controller yet if there are multiple views
-                label: "{{$$childHead.$$childHead.movie.title}}",
+                label: "{{movie.title || $$childHead.$$childHead.movie.title || 'Title'}}",
                 parent: "movies.list"
             }
 

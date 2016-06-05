@@ -21,7 +21,7 @@ angular.module('myApp')
                         $scope.user = currUser.getUser();
                     }
                     if (loggedIn && !$scope.profile) {
-                        $scope.profile = Profile.get({profileId: $scope.user._id});
+                        $scope.profile = Profile.get({username: $scope.user.username});
                     }
                 });
 

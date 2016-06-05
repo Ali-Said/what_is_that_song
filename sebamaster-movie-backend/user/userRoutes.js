@@ -12,8 +12,8 @@ function userRoutes(passport) {
 
     router.route('/profile')
         .get(userController.getProfiles);
-
-    router.route('/profile/:profile_id')
+    
+    router.route('/profile/:username')
         .get(userController.getProfile)
         .put(userController.putProfile);
 

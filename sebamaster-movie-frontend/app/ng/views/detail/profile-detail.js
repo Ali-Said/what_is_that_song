@@ -8,7 +8,7 @@ angular.module('myApp.profiles')
     .constant('profileDetailsState', {
         name: 'profiles.detail',
         options: {
-            url: '/{profileId}',
+            url: '/{username}',
 
             views: {
                 "content@root": {
@@ -17,23 +17,10 @@ angular.module('myApp.profiles')
                 }
             },
 
-            resolve: {
-                //we abuse the resolve feature for eventual redirection
-                redirect: function($state, $stateParams, Profile, $timeout, $q){
-                    var mid = $stateParams.profileId;
-                    if (!mid) {
-                        //timeout because the transition cannot happen from here
-                        $timeout(function(){
-                            $state.go("movies.list");
-                        });
-                        return $q.reject();
-                    }
-                }
-            },
             ncyBreadcrumb: {
                 // a bit ugly (and not stable), but ncybreadcrumbs doesn't support direct access
                 // to a view controller yet if there are multiple views
-                label: "Profile: {{$$childHead.profile.username}}",
+                label: "Profile: {{profile.username || $$childHead.profile.username}}",
                 parent: "root"
             }
 
@@ -42,14 +29,14 @@ angular.module('myApp.profiles')
     })
     .controller('ProfileDetailCtrl', function($scope, $stateParams, currUser, Profile) {
 
-        $scope.profile = Profile.get({profileId: $stateParams.profileId});
+        $scope.profile = Profile.get({username: $stateParams.username});
 
-        $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.profile.user;
+        $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.profile._id;
         $scope.updateProfile = updateProfile;
         $scope.cancelEditingProfile = function(){ showSimpleToast("Editing cancelled"); }
 
         $scope.profile.$promise.then(function(){
-            $scope.mayDelete = $scope.profile.user && $scope.profile.user == currUser.getUser()._id;
+            $scope.mayDelete = $scope.profile._id && $scope.profile._id == currUser.getUser()._id;
         });
 
         $scope.$watch(function(){
@@ -59,8 +46,8 @@ angular.module('myApp.profiles')
                 $scope.mayDelete = false;
                 $scope.mayEdit = false;
             } else {
-                $scope.mayEdit = currUser.getUser()._id == $scope.profile.user;
-                $scope.mayDelete = $scope.profile.user == currUser.getUser()._id;
+                $scope.mayEdit = currUser.getUser()._id == $scope.profile._id;
+                $scope.mayDelete = $scope.profile._id == currUser.getUser()._id;
             }
         });
 
