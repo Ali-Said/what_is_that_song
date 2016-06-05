@@ -3,7 +3,7 @@ angular.module('myApp')
         return {
             restrict: "A",
             templateUrl: "components/toolbar/toolbar.html",
-            controller: function($scope, currUser, $mdDialog, $mdMedia, $mdToast) {
+            controller: function($scope, Profile, $stateParams, currUser, $mdDialog, $mdMedia, $mdToast) {
 
                 $scope.user = null;
 
@@ -17,7 +17,7 @@ angular.module('myApp')
                 }, function(loggedIn){
                     $scope.loggedIn = loggedIn;
                     if (loggedIn && !$scope.user) {
-                        $scope.user = currUser.getUser();
+                        $scope.user = Profile.get({profileId: $stateParams.profileId});
                     }
                 });
 

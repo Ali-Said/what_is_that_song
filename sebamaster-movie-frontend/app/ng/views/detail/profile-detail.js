@@ -33,7 +33,7 @@ angular.module('myApp.profiles')
             ncyBreadcrumb: {
                 // a bit ugly (and not stable), but ncybreadcrumbs doesn't support direct access
                 // to a view controller yet if there are multiple views
-                label: "{{$$childHead.$$childHead.profile.username}}",
+                label: "{{$$childHead.$$childHead.user.username}}",
                 parent: "profiles.list"
             }
 
