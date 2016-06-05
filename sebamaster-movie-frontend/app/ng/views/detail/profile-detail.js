@@ -1,6 +1,3 @@
-/**
- * Created by Tim0theus on 01.06.2016.
- */
 'use strict';
 
 angular.module('myApp.profiles')
@@ -8,36 +5,23 @@ angular.module('myApp.profiles')
     .constant('profileDetailsState', {
         name: 'profiles.detail',
         options: {
-            url: '/{profileId}',
+            url: '/{username}',
 
             views: {
                 "content@root": {
                     templateUrl: 'views/detail/profile-detail.html',
                     controller: 'ProfileDetailCtrl'
                 },
-                'outside@root': {
+                "outside@root": {
                     templateUrl: 'views/list/profile-list-buttons.html',
                     controller: 'profileListButtonCtrl'
                 }
             },
 
-            resolve: {
-                //we abuse the resolve feature for eventual redirection
-                redirect: function($state, $stateParams, Profile, $timeout, $q){
-                    var mid = $stateParams.profileId;
-                    if (!mid) {
-                        //timeout because the transition cannot happen from here
-                        $timeout(function(){
-                            $state.go("movies.list");
-                        });
-                        return $q.reject();
-                    }
-                }
-            },
             ncyBreadcrumb: {
                 // a bit ugly (and not stable), but ncybreadcrumbs doesn't support direct access
                 // to a view controller yet if there are multiple views
-                label: "Profile",
+                label: "Profile: {{profile.username || $$childHead.profile.username}}",
                 parent: "root"
             }
 
@@ -45,16 +29,14 @@ angular.module('myApp.profiles')
         }
     })
     .controller('ProfileDetailCtrl', function($scope, $stateParams, currUser, Profile) {
-
-        $scope.imageSource = 'http://localhost:3000/profile/picture',//?id='+currUser.getUser()._id;
-        $scope.profile = Profile.get({profileId: $stateParams.profileId});
-        //window.alert(currUser.getUser()._id);
-        $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.profile.user;
+        $scope.profile = Profile.get({username: $stateParams.username});
+        $scope.imageSource = 'http://localhost:3000/profile/picture';
+        $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.profile._id;
         $scope.updateProfile = updateProfile;
         $scope.cancelEditingProfile = function(){ showSimpleToast("Editing cancelled"); }
 
         $scope.profile.$promise.then(function(){
-            $scope.mayDelete = $scope.profile.user && $scope.profile.user == currUser.getUser()._id;
+            $scope.mayDelete = $scope.profile._id && $scope.profile._id == currUser.getUser()._id;
         });
 
         $scope.$watch(function(){
@@ -64,8 +46,8 @@ angular.module('myApp.profiles')
                 $scope.mayDelete = false;
                 $scope.mayEdit = false;
             } else {
-                $scope.mayEdit = currUser.getUser()._id == $scope.profile.user;
-                $scope.mayDelete = $scope.profile.user == currUser.getUser()._id;
+                $scope.mayEdit = currUser.getUser()._id == $scope.profile._id;
+                $scope.mayDelete = $scope.profile._id == currUser.getUser()._id;
             }
         });
 
@@ -96,4 +78,40 @@ angular.module('myApp.profiles')
             );
         }
 
+    })
+    .controller('profileListButtonCtrl', function($scope, $mdMedia, $mdDialog, $mdToast, currUser){
+        window.alert('hiiiii');
+        $scope.uploadTrackDialog = uploadTrackDialog;
+        function uploadTrackDialog(ev) {
+            var useFullScreen = ( $mdMedia('xs'));
+            $mdDialog.show({
+                controller: "UserController",
+                templateUrl: 'components/upload-profile-pic/upload-picture.html',
+                targetEvent: ev,
+                clickOutsideToClose:true,
+                fullscreen: useFullScreen,
+                preserveScope:true
+            })
+                .then(function(answer) {
+
+                    if (answer) {
+                        showSimpleToast('Profile Picture saved successfully');
+                    } else {
+                        showSimpleToast('An Error occured!');
+                    }
+                }, function() {
+                    showSimpleToast('You do not wanna save?');
+                });
+
+        }
+
+        function showSimpleToast(txt){
+            $mdToast.show(
+                $mdToast.simple()
+                    .textContent(txt)
+                    .position('bottom right')
+                    .hideDelay(3000)
+
+            );
+        }
     });

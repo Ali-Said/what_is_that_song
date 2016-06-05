@@ -79,11 +79,12 @@ module.exports.getProfiles = function(req, res) {
 };
 
 module.exports.getProfile = function(req, res) {
-    User.findById(req.params.profile_id, function(err, profile) {
+    User.findOne({username: req.params.username}, function (err, profile) {
         if (err) {
             res.status(500).send(err)
             return;
-        };
+        }
+        ;
 
         res.json(profile);
     });
@@ -132,7 +133,8 @@ function createToken(user) {
     var tokenPayload = {
         user: {
             _id: user._id,
-            email: user.email
+            email: user.email,
+            username: user.username
         }
     };
     return jwt.encode(tokenPayload,Config.auth.jwtSecret);

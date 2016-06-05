@@ -28,8 +28,6 @@ angular.module('myApp.profiles')
     })
     .controller('ProfileListCtrl', function($scope, Profile) {
         $scope.profiles = Profile.query();
-
-
     })
     .controller('profileListButtonCtrl', function($scope, $mdMedia, $mdDialog, $mdToast, currUser){
         $scope.uploadTrackDialog = uploadTrackDialog;
@@ -51,6 +49,7 @@ angular.module('myApp.profiles')
                         showSimpleToast('An Error occured!');
                     }
                 }, function() {
+                    showSimpleToast('You do not wanna save?');
                 });
 
         }
