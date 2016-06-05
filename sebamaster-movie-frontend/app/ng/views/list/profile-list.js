@@ -16,11 +16,11 @@ angular.module('myApp.profiles')
                 'content@root': {
                     templateUrl: 'views/list/profile-list.html',
                     controller: 'ProfileListCtrl',
-                }/*,
+                },
                 'outside@root': {
                     templateUrl: 'views/list/profiles-list-buttons.html',
                     controller: 'profileListButtonCtrl'
-                }*/
+                }
             }
 
         }
@@ -30,19 +30,30 @@ angular.module('myApp.profiles')
         $scope.profiles = Profile.query();
 
 
-
     })
-
     .controller('profileListButtonCtrl', function($scope, $mdMedia, $mdDialog, $mdToast, currUser){
+        $scope.uploadTrackDialog = uploadTrackDialog;
+        function uploadTrackDialog(ev) {
+            var useFullScreen = ( $mdMedia('xs'));
+            $mdDialog.show({
+                controller: "UserController",
+                templateUrl: 'components/upload-profile-pic/upload-picture.html',
+                targetEvent: ev,
+                clickOutsideToClose:true,
+                fullscreen: useFullScreen,
+                preserveScope:true
+            })
+                .then(function(answer) {
 
-        $scope.authed = false;
+                    if (answer) {
+                        showSimpleToast('Profile Picture saved successfully');
+                    } else {
+                        showSimpleToast('An Error occured!');
+                    }
+                }, function() {
+                });
 
-        $scope.$watch(function(){
-            return currUser.loggedIn();
-        }, function(loggedIn){
-            $scope.authed = loggedIn;
-        });
-        
+        }
 
         function showSimpleToast(txt){
             $mdToast.show(
@@ -52,5 +63,5 @@ angular.module('myApp.profiles')
                     .hideDelay(3000)
 
             );
-        }
-    });
+    }
+});

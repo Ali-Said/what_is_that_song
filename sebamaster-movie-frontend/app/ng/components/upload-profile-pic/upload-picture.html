@@ -1,0 +1,16 @@
+<md-dialog class="mv-create-dialog" data-ng-controller="UserController">
+    <form name="clipForm">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Upload New profile Picture</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-icon="content:ic_clear_24px" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <input type="file"  ngf-select="upload($file)" name="image" accept="image/*" ngf-max-height="1000" ngf-max-size="2MB"></input>
+        </md-dialog-content>
+    </form>
+</md-dialog>

@@ -14,6 +14,10 @@ angular.module('myApp.profiles')
                 "content@root": {
                     templateUrl: 'views/detail/profile-detail.html',
                     controller: 'ProfileDetailCtrl'
+                },
+                'outside@root': {
+                    templateUrl: 'views/list/profile-list-buttons.html',
+                    controller: 'profileListButtonCtrl'
                 }
             },
 
@@ -33,7 +37,7 @@ angular.module('myApp.profiles')
             ncyBreadcrumb: {
                 // a bit ugly (and not stable), but ncybreadcrumbs doesn't support direct access
                 // to a view controller yet if there are multiple views
-                label: "Profile: {{$$childHead.profile.username}}",
+                label: "Profile",
                 parent: "root"
             }
 
@@ -42,8 +46,9 @@ angular.module('myApp.profiles')
     })
     .controller('ProfileDetailCtrl', function($scope, $stateParams, currUser, Profile) {
 
+        $scope.imageSource = 'http://localhost:3000/profile/picture',//?id='+currUser.getUser()._id;
         $scope.profile = Profile.get({profileId: $stateParams.profileId});
-
+        //window.alert(currUser.getUser()._id);
         $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.profile.user;
         $scope.updateProfile = updateProfile;
         $scope.cancelEditingProfile = function(){ showSimpleToast("Editing cancelled"); }

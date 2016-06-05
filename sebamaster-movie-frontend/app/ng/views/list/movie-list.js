@@ -48,7 +48,7 @@ angular.module('myApp.movies')
 
         $scope.createMovieDialog = createMovieDialog;
         $scope.authed = false;
-
+        
         $scope.$watch(function(){
             return currUser.loggedIn();
         }, function(loggedIn){
@@ -61,7 +61,7 @@ angular.module('myApp.movies')
             var useFullScreen = ( $mdMedia('xs'));
             $mdDialog.show({
                     controller: "CreateMovieCtrl",
-                    templateUrl: 'components/create-movie/create-movie.html',
+                    templateUrl: 'components/create-movie/upload-picture.html',
                     targetEvent: ev,
                     clickOutsideToClose:true,
                     fullscreen: useFullScreen,

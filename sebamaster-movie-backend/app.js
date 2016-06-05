@@ -48,10 +48,29 @@ jwtConfig(passport);
 var userRoutes = require("./user/userRoutes");
 var movieRoutes = require("./movie/movieRoutes");
 var trackRoutes = require("./track/trackRoutes");
+var multer = require('multer');
 
 app.use('/api', movieRoutes(passport));
 app.use('/api', trackRoutes(passport));
 app.use('/', userRoutes(passport));
 
+var storage =   multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, './uploads');
+    },
+    filename: function (req, file, callback) {
+        callback(null, file.fieldname + '-' + Date.now()+'.png');
+    }
+});
+var upload = multer({ storage : storage}).any();
 
+app.post('/api/photo',function(req,res){
+    upload(req,res,function(err) {
+        if(err) {
+            console.log(err);
+            return res.end("Error uploading file.");
+        }
+        res.end("File is uploaded");
+    });
+});
 module.exports = app;

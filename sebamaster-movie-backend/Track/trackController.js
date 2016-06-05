@@ -1,9 +1,7 @@
 var Track = require('./trackSchema');
 
 exports.postTrack = function(req, res) {
-
     var track = new Track(req.body);
-
     //do not allow user to fake identity. The user who post the track must be the same user that is logged in
     if (!req.user.equals(track.user)) {
         res.sendStatus(401);

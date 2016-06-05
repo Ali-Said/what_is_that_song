@@ -108,6 +108,25 @@ module.exports.putProfile = function(req, res) {
         });
 
 };
+var path = require('path');
+var fs = require('fs');
+
+module.exports.getPicture = function(req, res) {
+    //console.log(req.param('id'));
+    var f='defaultlogo.png';
+    fs.readdir(path.resolve('uploads'), function (err, files) { // '/' denotes the root folder
+        if (err) throw err;
+
+        for(var i=0; i<files.length;i++){
+
+            f = files[i];
+            console.log(files[i]);
+        }
+        res.sendFile(path.resolve('uploads/'+f));;
+    });
+    console.log(f);
+
+};
 
 function createToken(user) {
     var tokenPayload = {

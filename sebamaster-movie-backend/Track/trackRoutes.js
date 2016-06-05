@@ -6,7 +6,8 @@ function trackRoutes(passport) {
     var trackController = require('./trackController');
     var router = require('express').Router();
     var unless = require('express-unless');
-
+    var multer = require('multer');
+    var fs = require('fs');
     var mw = passport.authenticate('jwt', {session: false});
     mw.unless = unless;
 
