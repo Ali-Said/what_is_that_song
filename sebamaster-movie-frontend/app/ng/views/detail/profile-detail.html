@@ -1,0 +1,14 @@
+<div layout="row" layout-padding profile>
+    <div flex>
+        <div class="md-display-1 md-primary md-accent">{{profile.username}}</div>
+        <p class="md-body-1">Name: {{profile.name}}</p>
+        <p class="md-body-1">Birthday: {{profile.birthday | date:'dd.MM.yyyy'}}</p>
+        <p class="md-body-1">Rating: {{profile.rating}}</p>
+        <p class="md-body-1">E-Mail: {{profile.email}}</p>
+        <p class="md-body-1">Points: {{profile.points}}</p>
+        <p class="md-body-1">Songs:</p>
+        <div layout="row" layout-wrap>
+            <md-card mv-title-card class="mv-card" song="song" ng-repeat="song in profile.songs"></md-card>
+        </div>
+    </div>
+</div>

@@ -68,6 +68,47 @@ module.exports.unregister = function(req, res) {
     });
 };
 
+module.exports.getProfiles = function(req, res) {
+    User.find(function(err, profiles) {
+        if (err) {
+            res.status(500).send(err);
+            return;
+        }
+        res.json(profiles);
+    });
+};
+
+module.exports.getProfile = function(req, res) {
+    User.findById(req.params.profile_id, function(err, profile) {
+        if (err) {
+            res.status(500).send(err)
+            return;
+        };
+
+        res.json(profile);
+    });
+};
+
+module.exports.putProfile = function(req, res) {
+    // Use the Beer model to find a specific beer
+    User.findByIdAndUpdate(
+        req.params.profile_id,
+        req.body,
+        {
+            //pass the new object to cb function
+            new: true,
+            //run validations
+            runValidators: true
+        }, function (err, profile) {
+            if (err) {
+                res.status(500).send(err);
+                return;
+            }
+            res.json(profile);
+        });
+
+};
+
 function createToken(user) {
     var tokenPayload = {
         user: {
