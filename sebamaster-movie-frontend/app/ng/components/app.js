@@ -36,8 +36,11 @@ angular.module('myApp', ['ui.router', 'myApp.movies', 'myApp.profiles', 'templat
         $stateProvider
             .state('root', {
 
-                abstract: true,
-                templateUrl: "views/root/root.html"
+                abstract: false,
+                templateUrl: "views/root/root.html",
+                ncyBreadcrumb: {
+                    label: "Home"
+                }
             });
 
         $mdIconProvider

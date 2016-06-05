@@ -24,7 +24,7 @@ angular.module('myApp.profiles')
                     if (!mid) {
                         //timeout because the transition cannot happen from here
                         $timeout(function(){
-                            $state.go("profiles.list");
+                            $state.go("movies.list");
                         });
                         return $q.reject();
                     }
@@ -33,8 +33,8 @@ angular.module('myApp.profiles')
             ncyBreadcrumb: {
                 // a bit ugly (and not stable), but ncybreadcrumbs doesn't support direct access
                 // to a view controller yet if there are multiple views
-                label: "{{$$childHead.$$childHead.user.username}}",
-                parent: "profiles.list"
+                label: "Profile: {{$$childHead.profile.username}}",
+                parent: "root"
             }
 
 

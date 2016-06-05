@@ -14,17 +14,13 @@ angular.module('myApp.profiles')
 
             views: {
                 'content@root': {
-                    templateUrl: 'views/list/profiles-list.html',
+                    templateUrl: 'views/list/profile-list.html',
                     controller: 'ProfileListCtrl',
                 }/*,
                 'outside@root': {
                     templateUrl: 'views/list/profiles-list-buttons.html',
                     controller: 'profileListButtonCtrl'
                 }*/
-            },
-
-            ncyBreadcrumb: {
-                label: "Profiles"
             }
 
         }
@@ -37,7 +33,7 @@ angular.module('myApp.profiles')
 
     })
 
-    .controller('movieListButtonCtrl', function($scope, $mdMedia, $mdDialog, $mdToast, currUser){
+    .controller('profileListButtonCtrl', function($scope, $mdMedia, $mdDialog, $mdToast, currUser){
 
         $scope.authed = false;
 
