@@ -1,0 +1,16 @@
+<md-card-title>
+
+    <md-card-title-text>
+        <span class="md-headline">Title</span>
+        <span class="md-headline">{{song.title}}</span>
+    </md-card-title-text>
+    <md-card-title-media>
+        <img class="mv-card-pic" ng-src="{{song.posters.thumbnail}}" />
+
+    </md-card-title-media>
+</md-card-title>
+<md-card-actions layout="row" layout-align="end center">
+    <md-button class="md-ink-ripple md-accent" ng-href="{{song.url}}">
+        Download
+    </md-button>
+</md-card-actions>

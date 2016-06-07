@@ -5,7 +5,7 @@ angular.module('myApp.profiles')
     .constant('profileDetailsState', {
         name: 'profiles.detail',
         options: {
-            url: '/{username}',
+            url: '/:username',
 
             views: {
                 "content@root": {
@@ -19,17 +19,16 @@ angular.module('myApp.profiles')
             },
 
             ncyBreadcrumb: {
-                // a bit ugly (and not stable), but ncybreadcrumbs doesn't support direct access
-                // to a view controller yet if there are multiple views
-                label: "Profile: {{profile.username || $$childHead.profile.username}}",
+                label: "Profile: {{profile.username}}",
                 parent: "root"
             }
 
 
         }
     })
-    .controller('ProfileDetailCtrl', function($scope, $stateParams, currUser, Profile) {
+    .controller('ProfileDetailCtrl', function($scope, $breadcrumb, $stateParams, currUser, Profile) {
         $scope.profile = Profile.get({username: $stateParams.username});
+        $breadcrumb.ncyBreadcrumbLabel =  "Profile: {{profile.username}}";
         $scope.imageSource = 'http://localhost:3000/profile/picture';
         $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.profile._id;
         $scope.updateProfile = updateProfile;
@@ -80,7 +79,6 @@ angular.module('myApp.profiles')
 
     })
     .controller('profileListButtonCtrl', function($scope, $mdMedia, $mdDialog, $mdToast, currUser){
-        window.alert('hiiiii');
         $scope.uploadTrackDialog = uploadTrackDialog;
         function uploadTrackDialog(ev) {
             var useFullScreen = ( $mdMedia('xs'));
