@@ -17,7 +17,6 @@ angular.module('myApp.profiles')
                     controller: 'profileListButtonCtrl'
                 }
             },
-
             ncyBreadcrumb: {
                 label: "Profile: {{profile.username}}",
                 parent: "root"
@@ -26,9 +25,17 @@ angular.module('myApp.profiles')
 
         }
     })
-    .controller('ProfileDetailCtrl', function($scope, $breadcrumb, $stateParams, currUser, Profile) {
-        $scope.profile = Profile.get({username: $stateParams.username});
-        $breadcrumb.ncyBreadcrumbLabel =  "Profile: {{profile.username}}";
+    .controller('ProfileDetailCtrl', function($scope, $state, $breadcrumb, $stateParams, currUser, Profile) {
+        $scope.profile = Profile.get({username: $stateParams.username}, function(success){
+            if(angular.equals({}, success)) {
+                $state.go("movies.list");
+                return;
+            }
+        }, function(error) {
+            $state.go("movies.list");
+            return;
+        });
+
         $scope.imageSource = 'http://localhost:3000/profile/picture';
         $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.profile._id;
         $scope.updateProfile = updateProfile;

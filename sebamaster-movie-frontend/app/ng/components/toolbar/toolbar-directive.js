@@ -15,6 +15,7 @@ angular.module('myApp')
                 $scope.logout = logout;
 
                 $scope.$watch(function(){
+                    $scope.profile.username = $stateParams.username;
                     return currUser.loggedIn();
                 }, function(loggedIn){
                     $scope.loggedIn = loggedIn;

@@ -19,7 +19,7 @@
         function res(res){
 
             // If a token was sent back, save it
-            if(res && res.config.url.indexOf(BASEURL) === 0 && res.data.token) {
+            if(res && res.config.url.indexOf(BASEURL) === 0 && res.data && res.data.token) {
                 auth.saveToken(res.data.token);
             }
 

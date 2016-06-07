@@ -13,7 +13,7 @@ var userSchema = mongoose.Schema({
     admin: Boolean,
     rating: {type: Number, default: 3 ,min: 0, max: 5,},
     points: {type: Number, default: 0},
-    songs: {type:[String]}
+    songs: {type: Array}
 });
 
 userSchema.pre('save', function(next) {

@@ -23,7 +23,7 @@ Just for the front end application
 
 * go to your project folder `cd to/your/folder`
 * execute gulp tasks (and keep watching for further changes) `gulp watch`
-* optional: start built in web server `node node_modules/.bin/http-server` (you can also run the project using your own installation of e.g. XAMPP on windows or even locally). The root folder will be public/
+* optional: start built in web server `node node_modules/http-server/bin/http-server` (you can also run the project using your own installation of e.g. XAMPP on windows or even locally). The root folder will be public/
 
 ## Directory structure
 
