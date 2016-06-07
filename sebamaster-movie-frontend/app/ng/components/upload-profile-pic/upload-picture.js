@@ -1,18 +1,29 @@
 angular.module('myApp.profiles')
-    .controller('UserController', ['$scope', 'Upload', function ($scope, Upload, currUser) {
-        $scope.$watch('files', function () {
-            $scope.upload($scope.files);
-        });
+    .controller('UserController', function ($rootScope, $scope, Upload, $mdDialog) {
+
         $scope.upload = function (file) {
             if (file) {
-            //window.alert('we got a ' + currUser.getUser()._id)
-            $scope.file = file;
-            Upload.upload({
-                url: 'http://localhost:3000/api/photo',//?id='+currUser.getUser()._id,
-                file: file
-            }).success(function (data, status, headers, config) {
-                window.alert('wohooo')
-            });
+                $scope.file = file;
+            }
         }
-    }
-    }]);
+
+        $scope.save = function() {
+            if ($scope.file) {
+                Upload.upload({
+                    url: 'http://localhost:3000/api/photo',
+                    file: $scope.file
+                }).success(function () {
+                    $mdDialog.hide();
+                    $rootScope.$broadcast('picture-changed', { picture: $scope.file.name });
+                });
+            }
+            else {
+                $mdDialog.hide();
+                return "No file";
+            }
+        }
+
+        $scope.cancel = function() {
+            $mdDialog.cancel();
+        };
+    });

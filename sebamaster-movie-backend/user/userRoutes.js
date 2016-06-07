@@ -12,11 +12,10 @@ function userRoutes(passport) {
 
     router.route('/profile')
         .get(userController.getProfiles);
-    router.route('/profile/picture')
+    router.route('/profile/pic/:filename')
         .get(userController.getPicture);
 
     router.route('/profile/:username')
-
         .get(userController.getProfile)
         .put(userController.putProfile);
 

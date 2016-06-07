@@ -25,7 +25,7 @@ angular.module('myApp.profiles')
 
         }
     })
-    .controller('ProfileDetailCtrl', function($scope, $state, $breadcrumb, $stateParams, currUser, Profile) {
+    .controller('ProfileDetailCtrl', function($rootScope, $scope, $state, $breadcrumb, $stateParams, currUser, Profile, $mdMedia, $mdToast, $mdDialog) {
         $scope.profile = Profile.get({username: $stateParams.username}, function(success){
             if(angular.equals({}, success)) {
                 $state.go("movies.list");
@@ -36,9 +36,9 @@ angular.module('myApp.profiles')
             return;
         });
 
-        $scope.imageSource = 'http://localhost:3000/profile/picture';
         $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.profile._id;
         $scope.updateProfile = updateProfile;
+        $scope.uploadPictureDialog = uploadPictureDialog;
         $scope.cancelEditingProfile = function(){ showSimpleToast("Editing cancelled"); }
 
         $scope.profile.$promise.then(function(){
@@ -57,8 +57,35 @@ angular.module('myApp.profiles')
             }
         });
 
+        $scope.$on('picture-changed', function(event, args) {
+            $scope.profile.picture = args.picture;
+            updateProfile(true);
+        });
+
         ////////////////////
 
+        function uploadPictureDialog(ev) {
+            var useFullScreen = ( $mdMedia('xs'));
+            $mdDialog.show({
+                controller: "UserController",
+                templateUrl: 'components/upload-profile-pic/upload-picture.html',
+                targetEvent: ev,
+                clickOutsideToClose:true,
+                fullscreen: useFullScreen,
+                preserveScope:true
+            })
+                .then(function(answer) {
+                    if (answer) {
+                        showSimpleToast('Profile Picture saved successfully');
+                    } else {
+
+                        showSimpleToast('An Error occured!');
+                    }
+                }, function() {
+                    //showSimpleToast('You do not wanna save?');
+                });
+
+        }
 
         function updateProfile(changed) {
 
@@ -67,8 +94,8 @@ angular.module('myApp.profiles')
                 return;
             }
 
-            $scope.profile.$update().then(function(updated){
-                $scope.profile = updated;
+            $scope.profile.$update().then(function(){
+                $rootScope.$broadcast('profileUpdated', $scope.profile);
                 showSimpleToast("update successfull");
             }, function(){
                 showSimpleToast("error. please try again later");
@@ -88,25 +115,7 @@ angular.module('myApp.profiles')
     .controller('profileListButtonCtrl', function($scope, $mdMedia, $mdDialog, $mdToast, currUser){
         $scope.uploadTrackDialog = uploadTrackDialog;
         function uploadTrackDialog(ev) {
-            var useFullScreen = ( $mdMedia('xs'));
-            $mdDialog.show({
-                controller: "UserController",
-                templateUrl: 'components/upload-profile-pic/upload-picture.html',
-                targetEvent: ev,
-                clickOutsideToClose:true,
-                fullscreen: useFullScreen,
-                preserveScope:true
-            })
-                .then(function(answer) {
 
-                    if (answer) {
-                        showSimpleToast('Profile Picture saved successfully');
-                    } else {
-                        showSimpleToast('An Error occured!');
-                    }
-                }, function() {
-                    showSimpleToast('You do not wanna save?');
-                });
 
         }
 

@@ -1,6 +1,8 @@
 <div layout="row" layout-padding profile>
     <div flex>
-        <img ng-src="{{imageSource}}" height="182" width="182">
+        <md-button class="round-button" ng-click="uploadPictureDialog()" ng-cloak>
+            <img ng-src="http://localhost:3000/profile/pic/{{profile.picture || 'default'}}">
+        </md-button>
         <div class="md-display-1 md-primary md-accent">{{profile.username}}</div>
         <p class="md-body-1">Name: {{profile.name}}</p>
         <p class="md-body-1">Birthday: {{profile.birthday | date:'dd.MM.yyyy'}}</p>

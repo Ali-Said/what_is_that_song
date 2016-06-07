@@ -1,3 +1,17 @@
 .mv-display-pic {
   width: 100%;
 }
+
+.round-button {
+  width:182px;
+  height:182px;
+  img {
+    width: 100%;
+  }
+}
+
+
+.md-button.md-whatsong-theme:hover:not([disabled]) {
+  background: none;
+
+}

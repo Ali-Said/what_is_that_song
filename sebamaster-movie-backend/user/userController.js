@@ -92,8 +92,8 @@ module.exports.getProfile = function(req, res) {
 
 module.exports.putProfile = function(req, res) {
     // Use the Beer model to find a specific beer
-    User.findByIdAndUpdate(
-        req.params.profile_id,
+    User.findOneAndUpdate(
+        {username: req.params.username},
         req.body,
         {
             //pass the new object to cb function
@@ -117,15 +117,13 @@ module.exports.getPicture = function(req, res) {
     var f='defaultlogo.png';
     fs.readdir(path.resolve('uploads'), function (err, files) { // '/' denotes the root folder
         if (err) throw err;
-
+                
         for(var i=0; i<files.length;i++){
-
-            f = files[i];
-            console.log(files[i]);
+            if (req.params.filename == files[i])
+                f = files[i];
         }
         res.sendFile(path.resolve('uploads/'+f));;
     });
-    console.log(f);
 
 };
 
