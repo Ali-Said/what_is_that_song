@@ -7,9 +7,12 @@
         <p class="md-body-1">Rating: {{profile.rating}}</p>
         <p class="md-body-1">E-Mail: {{profile.email}}</p>
         <p class="md-body-1">Points: {{profile.points}}</p>
-        <p class="md-body-1">Songs:</p>
-        <div layout="row" layout-wrap>
+        <p class="md-body-1">Songs: {{profile.songs.length == 0 ? 'No songs': ''}}</p>
+        <div layout="column" layout-align="center stretch">
             <md-card mv-song-card class="mv-card" song="song" ng-repeat="song in profile.songs"></md-card>
         </div>
+
+        <p class="md-body-3">Buy Songs</p>
+        <p class="md-body-1">{{profile.points < 100 ? 'Not enough points' : 'Get these:'}}</p>
     </div>
 </div>
