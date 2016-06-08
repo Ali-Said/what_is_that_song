@@ -19,7 +19,7 @@ exports.postMovie = function(req, res) {
     });
 };
 
-// Create endpoint /api/movies for GET
+// Create endpoint /api/dashboards for GET
 exports.getMovies = function(req, res) {
     Movie.find(function(err, movies) {
         if (err) {
@@ -31,7 +31,7 @@ exports.getMovies = function(req, res) {
 };
 
 
-// Create endpoint /api/movies/:movie_id for GET
+// Create endpoint /api/dashboards/:movie_id for GET
 exports.getMovie = function(req, res) {
     // Use the Beer model to find a specific beer
     Movie.findById(req.params.movie_id, function(err, movie) {
@@ -44,7 +44,7 @@ exports.getMovie = function(req, res) {
     });
 };
 
-// Create endpoint /api/movies/:movie_id for PUT
+// Create endpoint /api/dashboards/:movie_id for PUT
 exports.putMovie = function(req, res) {
     // Use the Beer model to find a specific beer
     Movie.findByIdAndUpdate(
@@ -65,7 +65,7 @@ exports.putMovie = function(req, res) {
 
 };
 
-// Create endpoint /api/movies/:movie_id for DELETE
+// Create endpoint /api/dashboards/:movie_id for DELETE
 exports.deleteMovie = function(req, res) {
     // Use the Beer model to find a specific beer and remove it
     Movie.findById(req.params.movie_id, function(err, m) {

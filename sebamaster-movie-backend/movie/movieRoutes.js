@@ -13,11 +13,11 @@ function movieRoutes(passport) {
     //middleware
     router.use(mw.unless({method: ['GET', 'OPTIONS']}));
 
-    router.route('/movies')
+    router.route('/dashboards')
         .post(movieController.postMovie)
         .get(movieController.getMovies);
 
-    router.route('/movies/:movie_id')
+    router.route('/dashboards/:movie_id')
         .get(movieController.getMovie)
         .put(movieController.putMovie)
         .delete(movieController.deleteMovie);

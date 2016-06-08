@@ -10,6 +10,16 @@
   }
 }
 
+#profileWrapper {
+  max-width: 960px !important;
+  left:-200px;
+  width:100%;
+  height:auto;
+  background: white;
+  margin:auto;
+  text-align: center;
+}
+
 
 .md-button.md-whatsong-theme:hover:not([disabled]) {
   background: none;

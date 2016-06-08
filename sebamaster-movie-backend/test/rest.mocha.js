@@ -78,7 +78,7 @@ describe('REST API test', function () {
             };
             //create the test movie
             request(app)
-                .post("/api/movies")
+                .post("/api/dashboards")
                 .send({
                     title: testmovie.title,
                     year: testmovie.year,
@@ -104,15 +104,15 @@ describe('REST API test', function () {
 
         after(function (done) {
             request(app)
-                .delete("/api/movies/" + testmovie._id)
+                .delete("/api/dashboards/" + testmovie._id)
                 .set("Authorization", "JWT " + testuser.token)
                 .expect(200, done)
         });
 
-        it('should list all movies', function (done) {
+        it('should list all dashboards', function (done) {
 
             request(app)
-                .get("/api/movies")
+                .get("/api/dashboards")
                 //no authorization
                 .expect('Content-Type', /json/)
                 .expect(200)
@@ -125,7 +125,7 @@ describe('REST API test', function () {
 
         it('should show one movie', function (done) {
             request(app)
-                .get("/api/movies/" + testmovie._id)
+                .get("/api/dashboards/" + testmovie._id)
                 .expect('Content-Type', /json/)
                 .expect(200)
                 .expect(function (res) {
@@ -140,7 +140,7 @@ describe('REST API test', function () {
             var testmovieCopy = JSON.parse(JSON.stringify(testmovie)); //copy testmovie object w/o reference
             testmovieCopy.title = "new title";
             request(app)
-                .put("/api/movies/" + testmovie._id)
+                .put("/api/dashboards/" + testmovie._id)
                 .send(testmovieCopy)
                 .set("Authorization", "JWT " + testuser.token)
                 .expect('Content-Type', /json/)
@@ -168,7 +168,7 @@ describe('REST API test', function () {
 
         it("should deny unauthenticated movie creating", function (done) {
             request(app)
-                .post("/api/movies")
+                .post("/api/dashboards")
                 .send(testmovie)
                 .expect(401)
                 .end(done);

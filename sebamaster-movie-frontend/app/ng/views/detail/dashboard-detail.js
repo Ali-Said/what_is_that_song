@@ -1,27 +1,27 @@
 'use strict';
 
-angular.module('myApp.movies')
+angular.module('myApp.dashboards')
 
-    .constant('movieDetailsState', {
-        name: 'movies.detail',
+    .constant('dashboardDetailsState', {
+        name: 'dashboards.detail',
         options: {
-            url: '/{movieId}',
+            url: '/home',
 
             views: {
                 "content@root": {
-                    templateUrl: 'views/detail/movie-detail.html',
-                    controller: 'MovieDetailCtrl'
+                    templateUrl: 'views/detail/dashboard-detail.html',
+                    controller: 'dashboardDetailCtrl'
                 }
             },
 
             resolve: {
                 //we abuse the resolve feature for eventual redirection
-                redirect: function($state, $stateParams, Movie, $timeout, $q){
-                    var mid = $stateParams.movieId;
+                redirect: function($state, $stateParams, dashboard, $timeout, $q){
+                    var mid = $stateParams.dashboardId;
                     if (!mid) {
                         //timeout because the transition cannot happen from here
                         $timeout(function(){
-                            $state.go("movies.list");
+                            $state.go("dashboards.list");
                         });
                         return $q.reject();
                     }
@@ -30,24 +30,24 @@ angular.module('myApp.movies')
             ncyBreadcrumb: {
                 // a bit ugly (and not stable), but ncybreadcrumbs doesn't support direct access
                 // to a view controller yet if there are multiple views
-                label: "{{movie.title || $$childHead.$$childHead.movie.title || 'Title'}}",
-                parent: "movies.list"
+                label: "{{dashboard.title || $$childHead.$$childHead.dashboard.title || 'Title'}}",
+                parent: "dashboards.list"
             }
 
         }
     })
-    .controller('MovieDetailCtrl', function($scope, Movie, $mdToast, $mdDialog, $stateParams, $state, currUser) {
+    .controller('dashboardDetailCtrl', function($scope, dashboard, $mdToast, $mdDialog, $stateParams, $state, currUser) {
 
-        $scope.movie = Movie.get({movieId: $stateParams.movieId});
+        $scope.dashboard = dashboard.get({dashboardId: $stateParams.dashboardId});
 
         $scope.mayDelete;
         $scope.mayEdit = currUser.loggedIn();
-        $scope.deleteMovie = deleteMovie;
-        $scope.updateMovie = updateMovie;
-        $scope.cancelEditingMovie = function(){ showSimpleToast("Editing cancelled"); }
+        $scope.deletedashboard = deletedashboard;
+        $scope.updatedashboard = updatedashboard;
+        $scope.cancelEditingdashboard = function(){ showSimpleToast("Editing cancelled"); }
 
-        $scope.movie.$promise.then(function(){
-            $scope.mayDelete = $scope.movie.user && $scope.movie.user == currUser.getUser()._id;
+        $scope.dashboard.$promise.then(function(){
+            $scope.mayDelete = $scope.dashboard.user && $scope.dashboard.user == currUser.getUser()._id;
         });
 
         $scope.$watch(function(){
@@ -58,42 +58,42 @@ angular.module('myApp.movies')
                 $scope.mayEdit = false;
             } else {
                 $scope.mayEdit = true;
-                $scope.mayDelete = $scope.movie.user == currUser.getUser()._id;
+                $scope.mayDelete = $scope.dashboard.user == currUser.getUser()._id;
             }
         });
 
         ////////////////////
 
 
-        function updateMovie(changed) {
+        function updatedashboard(changed) {
 
             if (!changed) {
                 showSimpleToast("no change");
                 return;
             }
 
-            $scope.movie.$update().then(function(updated){
-                $scope.movie = updated;
+            $scope.dashboard.$update().then(function(updated){
+                $scope.dashboard = updated;
                 showSimpleToast("update successfull");
             }, function(){
                 showSimpleToast("error. please try again later");
             });
         }
 
-        function deleteMovie(ev) {
+        function deletedashboard(ev) {
 
             var confirm = $mdDialog.confirm()
-                .title('Are you sure you want to delete this movie?')
+                .title('Are you sure you want to delete this dashboard?')
                 .targetEvent(ev)
                 .ok('Yes')
                 .cancel('Abort');
 
             var toastText;
             $mdDialog.show(confirm).then(function() {
-                return $scope.movie.$remove().then(function() {
-                    return $state.go('movies.list');
+                return $scope.dashboard.$remove().then(function() {
+                    return $state.go('dashboards.list');
                 }).then(function(){
-                    showSimpleToast('Movie deleted successfully');
+                    showSimpleToast('dashboard deleted successfully');
                 }, function() {
                     showSimpleToast("Error. Try again later");
                 });

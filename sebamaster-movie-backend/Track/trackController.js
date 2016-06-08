@@ -42,7 +42,7 @@ exports.getTrack = function(req, res) {
     });
 };
 
-// Create endpoint /api/movies/:movie_id for PUT
+// Create endpoint /api/dashboards/:movie_id for PUT
 exports.rateTrack = function(req, res) {
     // Use the Beer model to find a specific beer
     Track.findByIdAndUpdate(
@@ -63,7 +63,7 @@ exports.rateTrack = function(req, res) {
 
 };
 
-// Create endpoint /api/movies/:movie_id for DELETE
+// Create endpoint /api/dashboards/:movie_id for DELETE
 exports.deleteTrack = function(req, res) {
     // Use the Beer model to find a specific beer and remove it
     Track.findById(req.params.track_id, function(err, m) {
