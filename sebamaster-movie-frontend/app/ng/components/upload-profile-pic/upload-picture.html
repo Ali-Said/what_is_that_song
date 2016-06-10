@@ -1,4 +1,4 @@
-<md-dialog class="mv-create-dialog" data-ng-controller="UserController">
+<md-dialog class="mv-create-dialog" controller="UserController">
     <form name="clipForm">
         <md-toolbar>
             <div class="md-toolbar-tools">
@@ -10,7 +10,7 @@
             </div>
         </md-toolbar>
         <md-dialog-content>
-            <input type="file"  ngf-select="upload($file)" name="image" accept="image/*" ngf-max-height="1000" ngf-max-size="2MB"></input>
+            <input ng-file-select ng-model="file" type="file" name="image" accept="image/*" ng-accept="'.jpg'" ng-model-rejected="rejectedFiles" ngf-max-height="1000" ngf-max-size="2MB"></input>
         </md-dialog-content>
     </form>
     <md-button ng-click="save()">Save</md-button>
