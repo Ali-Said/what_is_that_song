@@ -75,12 +75,7 @@ angular.module('myApp.profiles')
                 preserveScope:true
             })
                 .then(function(answer) {
-                    if (answer) {
-                        showSimpleToast('Profile Picture saved successfully');
-                    } else {
-
-                        showSimpleToast('An Error occured!');
-                    }
+                    showSimpleToast('Profile Picture saved successfully');
                 }, function() {
                     //showSimpleToast('You do not wanna save?');
                 });
