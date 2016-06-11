@@ -38,15 +38,16 @@
     </md-toolbar>
     <md-content>
         <md-list flex>
-            <md-subheader class="md-no-sticky">5 line items</md-subheader>
+            <md-subheader class="md-no-sticky">
             <md-list-item class="md-3-line" ng-repeat="profile in profiles | orderBy: 'username' | limitTo: 10 " ng-click="null">
                 <img ng-src="http://localhost:3000/profile/pic/{{profile.picture}}" class="md-avatar" alt="{{profile.username}}" />
                 <div class="md-list-item-text" layout="column">
                     <h3>{{ profile.username }}</h3>
                     <h4>{{ profile.rating }}</h4>
+                    <md-divider ></md-divider>
                 </div>
             </md-list-item>
-            <md-divider ></md-divider>
+                </md-subheader>
         </md-list>
     </md-content>
 </div>

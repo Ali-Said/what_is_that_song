@@ -2,20 +2,20 @@
 
 angular.module('myApp.dashboards')
 
-    .constant('dashboardListState', {
-        name: 'dashboard.list',
+    .constant('dashboardsState', {
+        name: 'dashboards.home',
         options: {
 
-            url: '/',
+            url: '/home',
 
             views: {
                 'content@root': {
-                    templateUrl: 'views/list/dashboard-list.html',
-                    controller: 'DashboardListCtrl',
+                    templateUrl: 'views/root/dashboards.html',
+                    controller: 'DashboardsCtrl',
                 },
                 'outside@root': {
-                    templateUrl: 'views/list/dashboard-list-buttons.html',
-                    controller: 'DashboardListButtonCtrl'
+                    templateUrl: 'views/root/dashboards-buttons.html',
+                    controller: 'DashboardsButtonCtrl'
                 }
             },
 
@@ -26,23 +26,23 @@ angular.module('myApp.dashboards')
         }
 
     })
-    .controller('DashboardListCtrl', function($scope, Profile) {
+    .controller('DashboardsCtrl', function($scope, Profile) {
         $scope.profiles = [{username: 'blubb'}];
         $scope.profile = Profile.query(function(success){
             $scope.profiles = success;
             if(angular.equals({}, success)) {
-                $state.go("dashboards.list");
+                $state.go("dashboards");
                 return;
             }
         }, function(error) {
-            $state.go("dashboards.list");
+            $state.go("dashboards");
             return;
         });
 
 
     })
 
-    .controller('DashboardListButtonCtrl', function($scope, $mdMedia, $mdDialog, $mdToast, currUser){
+    .controller('DashboardsButtonCtrl', function($scope, $mdMedia, $mdDialog, $mdToast, currUser){
 
         $scope.authed = false;
         

@@ -36,7 +36,7 @@ angular.module('myApp', ['ui.router', 'myApp.dashboards', 'myApp.profiles', 'tem
         $stateProvider
             .state('root', {
 
-                abstract: false,
+                abstract: true,
                 templateUrl: "views/root/root.html",
                 ncyBreadcrumb: {
                     label: "Home"
