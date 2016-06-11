@@ -14,7 +14,8 @@ angular.module('myApp.dashboards', ['ngResource', 'ui.router'])
 
             views: {
                 "content@root": {
-                    templateUrl: 'views/list/dashboard-list.html'
+                    templateUrl: 'views/list/dashboard-list.html',
+                    controller: 'DashboardListCtrl'
                 }
             },
 

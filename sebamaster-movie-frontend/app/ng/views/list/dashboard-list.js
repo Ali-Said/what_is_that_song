@@ -26,8 +26,18 @@ angular.module('myApp.dashboards')
         }
 
     })
-    .controller('DashboardListCtrl', function($scope) {
-
+    .controller('DashboardListCtrl', function($scope, Profile) {
+        $scope.profiles = [{username: 'blubb'}];
+        $scope.profile = Profile.query(function(success){
+            $scope.profiles = success;
+            if(angular.equals({}, success)) {
+                $state.go("dashboards.list");
+                return;
+            }
+        }, function(error) {
+            $state.go("dashboards.list");
+            return;
+        });
 
 
     })
