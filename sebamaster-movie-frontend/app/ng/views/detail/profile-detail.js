@@ -15,7 +15,7 @@ angular.module('myApp.profiles')
             },
             ncyBreadcrumb: {
                 label: "Profile: {{profile.username}}",
-                parent: "root"
+                parent: "dashboards.home"
             }
 
 
