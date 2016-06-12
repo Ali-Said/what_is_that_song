@@ -21,8 +21,8 @@
                 <img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}" />
                 <div class="md-list-item-text" layout="column">
                     <h3>{{ item.text }}</h3>
-                    <h4>{{ item.date }}</h4>
-                    <p>{{ item.rating }}</p>
+                    <h4>Rating: {{ item.rating }}</h4>
+                    <p>{{ item.date | date : "dd.MM.yyyy - hh:mm a"  }}</p>
                     <md-divider ></md-divider>
                 </div>
             </md-list-item></md-subheader>
@@ -40,11 +40,11 @@
     <md-content>
         <md-list flex>
             <md-subheader class="md-no-sticky">
-            <md-list-item class="md-3-line" ng-repeat="profile in profiles | orderBy: 'rating' | limitTo: 10 " ng-click="null">
+            <md-list-item class="md-3-line" ng-repeat="profile in profiles | orderBy: 'rating' : true | limitTo: 10 " ng-click="null">
                 <img ng-src="http://localhost:3000/profile/pic/{{profile.picture}}" class="md-avatar" alt="{{profile.username}}" />
                 <div class="md-list-item-text" layout="column">
                     <h3>{{ profile.username }}</h3>
-                    <h4>{{ profile.rating }}</h4>
+                    <h4>Rating: {{ profile.rating }}</h4>
                     <md-divider ></md-divider>
                 </div>
             </md-list-item>
