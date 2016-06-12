@@ -26,5 +26,8 @@
     "http-server": "^0.6.1",
     "main-bower-files": "^2.11.1",
     "merge-stream": "^1.0.0"
+  },
+  "devDependencies": {
+    "gulp-connect": "^4.0.0"
   }
 }

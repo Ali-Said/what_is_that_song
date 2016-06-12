@@ -1,8 +1,8 @@
 'use strict';
 // Declare app level module which depends on views, and components
-angular.module('myApp', ['ui.router', 'myApp.dashboards', 'myApp.profiles', 'templates', 'webcam', 'ncy-angular-breadcrumb', 'ngMaterial', 'ngMessages', 'ngFileUpload'])
+angular.module('myApp', ['ui.router', 'myApp.dashboards', 'myApp.profiles', 'myApp.posts', 'templates', 'webcam', 'ncy-angular-breadcrumb', 'ngMaterial', 'ngMessages', 'ngFileUpload'])
 
-    .config(function($stateProvider, $urlRouterProvider, $mdIconProvider, $resourceProvider, $httpProvider, $breadcrumbProvider, $mdThemingProvider) {
+    .config(function($stateProvider, $urlRouterProvider, $locationProvider, $mdIconProvider, $resourceProvider, $httpProvider, $breadcrumbProvider, $mdThemingProvider) {
 
 
         var black = {
@@ -31,6 +31,8 @@ angular.module('myApp', ['ui.router', 'myApp.dashboards', 'myApp.profiles', 'tem
 
         // For any unmatched url, redirect to /dashboards
         $urlRouterProvider.otherwise("/home");
+
+        $locationProvider.html5Mode(true);
 
 
         $stateProvider

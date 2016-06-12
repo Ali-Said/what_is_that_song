@@ -48,10 +48,12 @@ jwtConfig(passport);
 var userRoutes = require("./user/userRoutes");
 var movieRoutes = require("./movie/movieRoutes");
 var trackRoutes = require("./track/trackRoutes");
+var postRoutes = require("./post/postRoutes");
 var multer = require('multer');
 
 app.use('/api', movieRoutes(passport));
 app.use('/api', trackRoutes(passport));
+app.use('/api', postRoutes(passport));
 app.use('/', userRoutes(passport));
 
 var storage =   multer.diskStorage({

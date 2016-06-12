@@ -11,6 +11,7 @@ var filter = require('gulp-filter');
 var merge = require('merge-stream');
 var debug = require('gulp-debug');
 var plumber = require('gulp-plumber');
+var connect = require('gulp-connect');
 
 var s_filter_i, js_filter, js_filter_i;
 
@@ -34,6 +35,15 @@ var s_filter_i, js_filter, js_filter_i;
     js_filter_i = createFilter('js',true)
 
 })();
+
+gulp.task('serve', function() {
+    return connect.server({
+        root: 'public',
+        port: 8080,
+        host: '127.0.0.1',
+        fallback: 'public/index.html'
+    });
+});
 
 
 gulp.task('sass', function () {
@@ -106,7 +116,7 @@ gulp.task('app-templates', function () {
         .pipe(gulp.dest('./public/js'));
 });
 
-var MAIN_TASKS = ['app-js', 'app-templates', 'frontend-libs-copy', 'sass'];
+var MAIN_TASKS = ['app-js', 'app-templates', 'frontend-libs-copy', 'sass', 'serve'];
 
 gulp.task('watch', MAIN_TASKS, function () {
     gulp.watch('app/ng/**/*.js', ['app-js']);

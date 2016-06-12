@@ -26,7 +26,7 @@ angular.module('myApp.dashboards')
         }
 
     })
-    .controller('DashboardsCtrl', function($scope, Profile) {
+    .controller('DashboardsCtrl', function($scope, Profile, Post) {
         $scope.profiles = [{username: 'blubb'}];
         $scope.profile = Profile.query(function(success){
             $scope.profiles = success;
@@ -39,6 +39,7 @@ angular.module('myApp.dashboards')
             return;
         });
 
+        $scope.posts = Post.query();
 
     })
 
