@@ -40,7 +40,7 @@
     <md-content>
         <md-list flex>
             <md-subheader class="md-no-sticky">
-            <md-list-item class="md-3-line" ng-repeat="profile in profiles | orderBy: 'rating' : true | limitTo: 10 " ng-click="null">
+            <md-list-item class="md-3-line" ng-repeat="profile in profiles | orderBy: 'rating' : true | limitTo: 10 " ng-click="gotoProfile(profile.username)">
                 <img ng-src="http://localhost:3000/profile/pic/{{profile.picture}}" class="md-avatar" alt="{{profile.username}}" />
                 <div class="md-list-item-text" layout="column">
                     <h3>{{ profile.username }}</h3>
