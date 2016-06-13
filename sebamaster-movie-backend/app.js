@@ -75,4 +75,15 @@ app.post('/api/photo',function(req,res){
         res.end("File is uploaded");
     });
 });
+
+app.post('/api/video',function(req,res){
+    upload(req,res,function(err) {
+        if(err) {
+            console.log(err);
+            return res.end("Error uploading file.");
+        }
+        console.log('video uploaded');
+        res.end("File is uploaded");
+    });
+});
 module.exports = app;

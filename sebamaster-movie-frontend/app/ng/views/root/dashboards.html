@@ -1,6 +1,11 @@
 <div id="dashboardWrapper">
 <div class="button-container" layout="row" layout-align="center none">
-    <md-button class="md-raised">Record</md-button>
+    <video id="camera-preview"></video>
+
+    <div>
+        <md-button class="md-raised" id="start-recording">Start Recording</md-button>
+        <md-button class="md-raised" id="stop-recording" disabled="">Stop Recording</md-button>
+    </div>
     <div class="bar">
         <input type="text" ng-model="searchString" placeholder="Enter your search terms" />
     </div>
