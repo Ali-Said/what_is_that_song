@@ -2,7 +2,7 @@
   "name": "whatsong",
   "private": true,
   "version": "0.1.0",
-  "description": "Movies example application based on AngularJS",
+  "description": "Whatsong application based on AngularJS",
   "repository": "https://github.com/adrianhdezm/angular-movies",
   "license": "MIT",
   "scripts": {

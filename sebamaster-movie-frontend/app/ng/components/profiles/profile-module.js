@@ -6,7 +6,7 @@ angular.module('myApp.profiles', ['ngResource', 'ui.router'])
             .state('profiles', {
 
                 abstract: true,
-                parent: 'dashboards.home',
+                parent: 'root',
 
                 url: '/profile'
 

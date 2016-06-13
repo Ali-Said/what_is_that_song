@@ -1,9 +1,9 @@
 /**
  * Created by Timotheus on 12.06.2016.
  */
-angular.module('myApp.posts', ['ngResource', 'ui.router'])
+angular.module('myApp.posts', ['ngResource', 'ui.router', 'ui.tinymce'])
 
-    .config(function ($stateProvider,   $urlRouterProvider) {
+    .config(function ($stateProvider,   $urlRouterProvider, postDetailsState) {
         $stateProvider
 
             .state('posts', {
@@ -13,10 +13,11 @@ angular.module('myApp.posts', ['ngResource', 'ui.router'])
                 abstract: true,
                 parent: 'root',
 
-                url: ''
+                url: '/posts'
 
             })
 
+            .state(postDetailsState.name, postDetailsState.options);
 
     });
 

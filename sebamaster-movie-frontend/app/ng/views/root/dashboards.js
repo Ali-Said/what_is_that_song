@@ -31,11 +31,16 @@ angular.module('myApp.dashboards')
         $scope.posts = Post.query();
 
         $scope.gotoProfile = gotoProfile;
+        $scope.gotoPost = gotoPost;
 
 
 
         function gotoProfile(username) {
             $state.go('profiles.detail', {username: username});
+        }
+
+        function gotoPost(postId) {
+            $state.go('posts.detail', {postId: postId});
         }
 
 

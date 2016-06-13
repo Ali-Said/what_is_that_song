@@ -102,21 +102,4 @@ angular.module('myApp.profiles')
             );
         }
 
-    })
-    .controller('profileListButtonCtrl', function($scope, $mdMedia, $mdDialog, $mdToast, currUser){
-        $scope.uploadTrackDialog = uploadTrackDialog;
-        function uploadTrackDialog(ev) {
-
-
-        }
-
-        function showSimpleToast(txt){
-            $mdToast.show(
-                $mdToast.simple()
-                    .textContent(txt)
-                    .position('bottom right')
-                    .hideDelay(3000)
-
-            );
-        }
     });

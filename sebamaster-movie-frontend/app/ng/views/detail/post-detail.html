@@ -1,0 +1,14 @@
+<div ng-app="myapp.posts" layout="row" id="postWrapper" layout-align="center start" layout-padding  ng-controller="TinyMceController" post>
+    <div ng-show="!editing">
+        <md-button ng-click="edit()">Edit</md-button>
+        {{post.text}}
+
+    </div>
+    <div ng-show="editing">
+        <form method="post">
+            <textarea ui-tinymce="tinymceOptions" ng-model="tinymceModel"></textarea>
+            <md-button ng-click="cancel()">Cancel</md-button>
+            <md-button ng-click="save()">Save</md-button>
+        </form>
+    </div>
+</div>
