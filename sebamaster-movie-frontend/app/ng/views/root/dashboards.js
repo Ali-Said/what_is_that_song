@@ -12,10 +12,6 @@ angular.module('myApp.dashboards')
                 'content@root': {
                     templateUrl: 'views/root/dashboards.html',
                     controller: 'DashboardsCtrl',
-                },
-                'outside@root': {
-                    templateUrl: 'views/root/dashboards-buttons.html',
-                    controller: 'DashboardsButtonCtrl'
                 }
             },
 
@@ -44,27 +40,4 @@ angular.module('myApp.dashboards')
         }
 
 
-    })
-
-    .controller('DashboardsButtonCtrl', function($scope, $mdMedia, $mdDialog, $mdToast, currUser){
-
-        $scope.authed = false;
-        
-        $scope.$watch(function(){
-            return currUser.loggedIn();
-        }, function(loggedIn){
-            $scope.authed = loggedIn;
-        });
-
-        ////////////////////////////////////
-
-        function showSimpleToast(txt){
-            $mdToast.show(
-                $mdToast.simple()
-                    .textContent(txt)
-                    .position('bottom right')
-                    .hideDelay(3000)
-
-            );
-        }
     });
