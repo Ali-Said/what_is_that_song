@@ -1,8 +1,8 @@
 {
-  "name": "angular-movies",
+  "name": "whatsong",
   "private": true,
-  "version": "0.0.0",
-  "description": "Movies example application based on AngularJS",
+  "version": "0.1.0",
+  "description": "Whatsong application based on AngularJS",
   "repository": "https://github.com/adrianhdezm/angular-movies",
   "license": "MIT",
   "scripts": {
@@ -26,5 +26,8 @@
     "http-server": "^0.6.1",
     "main-bower-files": "^2.11.1",
     "merge-stream": "^1.0.0"
+  },
+  "devDependencies": {
+    "gulp-connect": "^4.0.0"
   }
 }

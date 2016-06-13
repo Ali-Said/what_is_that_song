@@ -1,8 +1,5 @@
 .mv-content {
-  //max-width: 960px !important;
-  //left:-200px;
   width:100%;
-  height:100%;
 }
 
 md-content.md-whatsong-theme {
@@ -11,7 +8,6 @@ md-content.md-whatsong-theme {
 
 body{
   background-color: black;
-  z-index: 0;
 
   .button-container {
     margin: 30px;
@@ -24,7 +20,6 @@ body{
 
 video {
   position: fixed;
-  z-index: -99;
   top: 50%;
   left: 50%;
   min-width: 100%;
@@ -39,8 +34,8 @@ video {
 
 // Dashboard-list
 
-#dashboardWrapper {
-
+#dashboardWrapper md-content.md-whatsong-theme {
+  background: white;
 }
 
 .listdemoBasicUsage md-divider {
@@ -79,6 +74,11 @@ video {
 
 .md-3-line {
   background-color: white;
+}
+
+#stars .md-avatar {
+  height: 100px;
+  width: 100px;
 }
 
 /*-------------------------

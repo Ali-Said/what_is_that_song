@@ -1,8 +1,8 @@
 'use strict';
 // Declare app level module which depends on views, and components
-angular.module('myApp', ['ui.router', 'myApp.dashboards', 'myApp.profiles', 'templates', 'ncy-angular-breadcrumb', 'ngMaterial', 'ngMessages', 'ngFileUpload'])
+angular.module('myApp', ['ui.router', 'myApp.dashboards', 'myApp.profiles', 'myApp.posts', 'templates', 'webcam', 'ncy-angular-breadcrumb', 'ui.tinymce', 'ngMaterial', 'ngMessages', 'ngFileUpload'])
 
-    .config(function($stateProvider, $urlRouterProvider, $mdIconProvider, $resourceProvider, $httpProvider, $breadcrumbProvider, $mdThemingProvider) {
+    .config(function($stateProvider, $urlRouterProvider, $locationProvider, $mdIconProvider, $resourceProvider, $httpProvider, $breadcrumbProvider, $mdThemingProvider) {
 
 
         var black = {
@@ -32,11 +32,13 @@ angular.module('myApp', ['ui.router', 'myApp.dashboards', 'myApp.profiles', 'tem
         // For any unmatched url, redirect to /dashboards
         $urlRouterProvider.otherwise("/home");
 
+        $locationProvider.html5Mode({enabled: true, requireBase: false}).hashPrefix('!');
+
 
         $stateProvider
             .state('root', {
 
-                abstract: false,
+                abstract: true,
                 templateUrl: "views/root/root.html",
                 ncyBreadcrumb: {
                     label: "Home"
@@ -47,7 +49,8 @@ angular.module('myApp', ['ui.router', 'myApp.dashboards', 'myApp.profiles', 'tem
             .iconSet('content', 'libs/material-design-icons/sprites/svg-sprite/svg-sprite-content.svg')
             .iconSet('action', 'libs/material-design-icons/sprites/svg-sprite/svg-sprite-action.svg')
             .iconSet('editor', 'libs/material-design-icons/sprites/svg-sprite/svg-sprite-editor.svg')
-            .iconSet('navigation', 'libs/material-design-icons/sprites/svg-sprite/svg-sprite-navigation.svg');
+            .iconSet('navigation', 'libs/material-design-icons/sprites/svg-sprite/svg-sprite-navigation.svg')
+            .iconSet('image', 'libs/material-design-icons/sprites/svg-sprite/svg-sprite-image.svg');
 
         //this overrides the defaults actiosn for all $resources
         angular.extend($resourceProvider.defaults.actions, {

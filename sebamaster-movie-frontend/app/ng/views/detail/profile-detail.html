@@ -1,4 +1,4 @@
-<div layout="row" id="profileWrapper" layout-padding profile>
+<div ng-app="myapp.profiles" layout="row" id="profileWrapper" layout-padding profile>
     <div flex>
         <md-button class="round-button" ng-click="uploadPictureDialog()" ng-cloak>
             <img ng-src="http://localhost:3000/profile/pic/{{profile.picture || 'default'}}">

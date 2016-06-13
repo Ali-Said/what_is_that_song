@@ -10,7 +10,10 @@
             </div>
         </md-toolbar>
         <md-dialog-content>
-            <input ng-file-select ng-model="file" type="file" name="image" accept="image/*" ng-accept="'.jpg'" ng-model-rejected="rejectedFiles" ngf-max-height="1000" ngf-max-size="2MB"></input>
+            <input ngf-select ng-model="picFile" type="file" name="file" accept="image/*" ngf-accept="'image/*'" ng-model-rejected="rejectedFile" ngf-max-height="1000" ngf-max-size="2MB"></input>
+            <p class="mv-error-text"><i ng-show="clipForm.file.$error.maxSize">File too large. Max 2 MB</i></p>
+            <p class="mv-error-text"><i ng-show="clipForm.file.$error.maxHeight"> Picture too large. Max 1000 px</i></p>
+
         </md-dialog-content>
     </form>
     <md-button ng-click="save()">Save</md-button>

@@ -11,6 +11,7 @@ var filter = require('gulp-filter');
 var merge = require('merge-stream');
 var debug = require('gulp-debug');
 var plumber = require('gulp-plumber');
+var connect = require('gulp-connect');
 
 var s_filter_i, js_filter, js_filter_i;
 
@@ -35,6 +36,15 @@ var s_filter_i, js_filter, js_filter_i;
 
 })();
 
+gulp.task('serve', function() {
+    connect.server({
+        root: ['./','public'],
+        port: 8080,
+        host: 'localhost',
+        fallback: 'public/index.html'
+    });
+});
+
 
 gulp.task('sass', function () {
     return gulp.src([
@@ -49,8 +59,9 @@ gulp.task('sass', function () {
         .pipe(sass({
             outputStyle: 'compressed'
         }).on('error', sass.logError))
-        .pipe(sourcemaps.write())
-        .pipe(gulp.dest('public/css'));
+        .pipe(sourcemaps.write('../maps'))
+        .pipe(gulp.dest('public/css'))
+        .pipe(connect.reload());
 });
 
 
@@ -76,7 +87,8 @@ gulp.task('frontend-libs-copy', function() {
         .pipe(concat('libs.js'))
         //.pipe(uglify())
         //.pipe(sourcemaps.write())
-        .pipe(gulp.dest('./public/libs'));
+        .pipe(gulp.dest('./public/libs'))
+        .pipe(connect.reload());
 
     return merge(other_libs, js_libs);
 });
@@ -94,6 +106,7 @@ gulp.task('app-js', function () {
         //.pipe(uglify())
         //.pipe(sourcemaps.write())
         .pipe(gulp.dest('./public/js'))
+        .pipe(connect.reload());
 })
 
 gulp.task('app-templates', function () {
@@ -103,10 +116,11 @@ gulp.task('app-templates', function () {
         .pipe(sourcemaps.init())
         .pipe(uglify())
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('./public/js'));
+        .pipe(gulp.dest('./public/js'))
+        .pipe(connect.reload());
 });
 
-var MAIN_TASKS = ['app-js', 'app-templates', 'frontend-libs-copy', 'sass'];
+var MAIN_TASKS = ['serve', 'app-js', 'app-templates', 'frontend-libs-copy', 'sass'];
 
 gulp.task('watch', MAIN_TASKS, function () {
     gulp.watch('app/ng/**/*.js', ['app-js']);

@@ -1,12 +1,6 @@
 angular.module('myApp.profiles')
     .controller('UserController', function ($rootScope, $scope, Upload, $mdDialog) {
 
-        $scope.$watch('rejectedFiles', function () {
-            if ($scope.rejectedFiles) {
-                window.alert("File too big! Max: 2MB");
-            }
-        });
-
         $scope.upload = function (file) {
             if (file) {
                 $scope.file = file;
@@ -14,16 +8,13 @@ angular.module('myApp.profiles')
         }
 
         $scope.save = function() {
-            if ($scope.file) {
+            if ($scope.picFile) {
                 Upload.upload({
                     url: 'http://localhost:3000/api/photo',
-                    file: $scope.file
-                }).$promise(function () {
+                    file: $scope.picFile
+                }).success(function () {
                     $mdDialog.hide();
-                    $rootScope.$broadcast('picture-changed', { picture: $scope.file.name });
-                },
-                function(error) {
-                    window.alert("File too big");
+                    $rootScope.$broadcast('picture-changed', { picture: $scope.picFile.name });
                 });
             }
             else {

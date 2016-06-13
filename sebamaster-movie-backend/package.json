@@ -1,7 +1,7 @@
 {
-  "name": "moviebass",
+  "name": "whatsongbass",
   "version": "1.0.0",
-  "description": "Movie backend as a service",
+  "description": "Whatsong backend as a service",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -11,11 +11,11 @@
     "url": "git+https://bitbucket.org/sebischair/sebamaster-movie-backend"
   },
   "keywords": [
-    "movie-backend",
+    "whatsong-backend",
     "seba",
     "master"
   ],
-  "author": "sebis",
+  "author": "Team 54",
   "license": "ISC",
   "bugs": {
     "url": "https://bitbucket.org/sebischair/sebamaster-movie-backend"

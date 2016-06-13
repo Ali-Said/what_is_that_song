@@ -11,15 +11,11 @@ angular.module('myApp.profiles')
                 "content@root": {
                     templateUrl: 'views/detail/profile-detail.html',
                     controller: 'ProfileDetailCtrl'
-                },
-                "outside@root": {
-                    templateUrl: 'views/list/profile-list-buttons.html',
-                    controller: 'profileListButtonCtrl'
                 }
             },
             ncyBreadcrumb: {
                 label: "Profile: {{profile.username}}",
-                parent: "root"
+                parent: "dashboards.home"
             }
 
 
@@ -28,11 +24,11 @@ angular.module('myApp.profiles')
     .controller('ProfileDetailCtrl', function($rootScope, $scope, $state, $breadcrumb, $stateParams, currUser, Profile, $mdMedia, $mdToast, $mdDialog) {
         $scope.profile = Profile.get({username: $stateParams.username}, function(success){
             if(angular.equals({}, success)) {
-                $state.go("dashboards.list");
+                $state.go("dashboards.home");
                 return;
             }
         }, function(error) {
-            $state.go("dashboards.list");
+            $state.go("dashboards.home");
             return;
         });
 
@@ -75,12 +71,7 @@ angular.module('myApp.profiles')
                 preserveScope:true
             })
                 .then(function(answer) {
-                    if (answer) {
-                        showSimpleToast('Profile Picture saved successfully');
-                    } else {
-
-                        showSimpleToast('An Error occured!');
-                    }
+                    showSimpleToast('Profile Picture saved successfully');
                 }, function() {
                     //showSimpleToast('You do not wanna save?');
                 });
@@ -111,21 +102,4 @@ angular.module('myApp.profiles')
             );
         }
 
-    })
-    .controller('profileListButtonCtrl', function($scope, $mdMedia, $mdDialog, $mdToast, currUser){
-        $scope.uploadTrackDialog = uploadTrackDialog;
-        function uploadTrackDialog(ev) {
-
-
-        }
-
-        function showSimpleToast(txt){
-            $mdToast.show(
-                $mdToast.simple()
-                    .textContent(txt)
-                    .position('bottom right')
-                    .hideDelay(3000)
-
-            );
-        }
     });
