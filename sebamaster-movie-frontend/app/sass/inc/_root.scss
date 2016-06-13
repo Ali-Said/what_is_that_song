@@ -50,6 +50,35 @@ video {
 
 .dashboard{
   width: 800px;
+  position: absolute;
+  left: 46px;
+}
+
+.dashboardTop{
+  width: 800px;
+  position: absolute;
+  left: 46px;
+  padding-top: 200px;
+}
+
+.advertisementSpo {
+  position: absolute;
+  left: 900px;
+}
+
+.advertisementItu {
+  position: absolute;
+  left: 900px;
+  padding-top: 350px;
+  }
+
+.md-toolbar-tools {
+  background-color: black;
+
+}
+
+.md-3-line {
+  background-color: white;
 }
 
 /*-------------------------
@@ -87,4 +116,17 @@ video {
   font-weight: bold;
   outline: none;
   text-indent: 40px;
+}
+
+/*-------------------------
+	Copyright
+--------------------------*/
+
+.copyright {
+  overflow: hidden;
+  margin-top:80%;
+  color: white;
+  width: 100%;
+  left:46px;
+
 }

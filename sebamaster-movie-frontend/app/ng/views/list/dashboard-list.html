@@ -16,7 +16,7 @@
     </md-toolbar>
     <md-content>
         <md-list flex>
-            <md-subheader class="md-no-sticky">5 line items</md-subheader>
+            <md-subheader class="md-no-sticky">10 line items</md-subheader>
             <md-list-item class="md-3-line" ng-repeat="item in todos" ng-click="null">
                 <img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}" />
                 <div class="md-list-item-text" layout="column">
@@ -30,7 +30,7 @@
     </md-content>
 </div>
 
-<div id="stars" class="dashboard">
+<div id="stars" class="dashboardTop">
     <md-toolbar layout="row" class="md-hue-3">
         <div class="md-toolbar-tools">
             <span>What is that song stars</span>
@@ -38,7 +38,7 @@
     </md-toolbar>
     <md-content>
         <md-list flex>
-            <md-subheader class="md-no-sticky">5 line items</md-subheader>
+            <md-subheader class="md-no-sticky">10 line items</md-subheader>
             <md-list-item class="md-3-line" ng-repeat="profile in profiles | orderBy: 'username' | limitTo: 10 " ng-click="null">
                 <img ng-src="http://localhost:3000/profile/pic/{{profile.picture}}" class="md-avatar" alt="{{profile.username}}" />
                 <div class="md-list-item-text" layout="column">
@@ -49,6 +49,27 @@
             <md-divider ></md-divider>
         </md-list>
     </md-content>
+</div>
+</div>
+
+
+
+<div class="advertisementSpo">
+    <a href="https://www.spotify.com" target="_blank">
+        <img src="/img/spotify.png" width="350" height="300" alt="MND">
+    </a>
+</div>
+
+<div class="advertisementItu">
+    <a href="http://www.apple.com/itunes" target="_blank">
+        <img src="/img/tunes.png" width="350" height="300" alt="MND">
+    </a>
+</div>
+
+
+<div class="wrapper">
+<div class="copyright">
+    <p><FONT size = 2>Copyright &copy; 2016 - All Rights Reserved - <a href="#">What is that song</a></FONT></p>
 </div>
 </div>
 
