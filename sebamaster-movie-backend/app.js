@@ -1,9 +1,5 @@
 var Config = require('./config/config.js');
 
-/**
- * db connect
- */
-
 var mongoose = require('mongoose');
 mongoose.connect([Config.db.host, '/', Config.db.name].join(''),{
     //eventually it's a good idea to make this secure
@@ -11,19 +7,12 @@ mongoose.connect([Config.db.host, '/', Config.db.name].join(''),{
     pass: Config.db.pass
 });
 
-/**
- * create application
- */
-
 var express = require('express');
 var bodyParser = require('body-parser');
 var cors = require('cors');
 
 var app = express();
 
-/**
- * app setup
- */
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -31,19 +20,12 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-
-//passport
-
 var passport = require('passport');
 var jwtConfig = require('./passport/jwtConfig');
 
 app.use(passport.initialize());
 jwtConfig(passport);
 
-
-/**
- * routing
- */
 
 var userRoutes = require("./user/userRoutes");
 var movieRoutes = require("./movie/movieRoutes");
@@ -61,6 +43,7 @@ var storage =   multer.diskStorage({
         callback(null, './uploads');
     },
     filename: function (req, file, callback) {
+        console.log(file.originalname);
         callback(null, file.originalname);
     }
 });
@@ -76,14 +59,30 @@ app.post('/api/photo',function(req,res){
     });
 });
 
+
+var storage2 =   multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, './uploads');
+    },
+    filename: function (req, file, callback) {
+        var d = new Date();
+        var l = d.getDay();
+        var h = (d.getHours());
+        var m = (d.getMinutes());
+        var s = (d.getSeconds());
+        var name = file.originalname + l + "_"+ h + "_" + m + "_" + s +".webm";
+        callback(null, name);
+    }
+});
+var upload2 = multer({ storage : storage2}).any();
 app.post('/api/video',function(req,res){
-    upload(req,res,function(err) {
+    upload2(req,res,function(err) {
         if(err) {
             console.log(err);
             return res.end("Error uploading file.");
         }
-        console.log('video uploaded');
         res.end("File is uploaded");
     });
 });
+
 module.exports = app;

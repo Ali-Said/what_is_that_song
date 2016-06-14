@@ -22,7 +22,7 @@ angular.module('myApp.dashboards')
         }
 
     })
-    .controller('DashboardsCtrl', function($scope, $state, Profile, Post) {
+    .controller('DashboardsCtrl', function($scope, $state, Upload,Profile, Post) {
         $scope.profiles = Profile.query();
         $scope.posts = Post.query();
 
@@ -118,24 +118,20 @@ angular.module('myApp.dashboards')
             files.audio = {
                 name: fileName + (isFirefox ? '.webm' : '.wav'),
                 type: isFirefox ? 'video/webm' : 'audio/wav',
-                contents: audioDataURL
+                contents: recordAudio.getBlob()
             };
 
             if (!isFirefox) {
                 files.video = {
                     name: fileName + '.webm',
                     type: 'video/webm',
-                    contents: videoDataURL
+                    contents: recordVideo.getBlob()
                 };
             }
-            var link = document.createElement("a");
-            link.download = files.video.name;
-            link.href = files.video.contents;
-            link.click();
-            files.isFirefox = isFirefox;
+
             Upload.upload({
                 url: 'http://localhost:3000/api/video',
-                file: files.video.contents
+                file: files.video
             }).success(function () {
                 window.alert('uploaded to server');
             });
