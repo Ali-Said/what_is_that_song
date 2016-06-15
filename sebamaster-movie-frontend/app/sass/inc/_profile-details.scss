@@ -17,11 +17,39 @@
   height:auto;
   background: white;
   margin:auto;
-  text-align: center;
+  text-align: left;
+  font-size: 100%
 }
 
 
 .md-button.md-whatsong-theme:hover:not([disabled]) {
   background: none;
+}
 
+.md-body-1 {
+  font: 12pt/10pt sans-serif;
+}
+
+.star-rating {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+
+  .star {
+    padding: 1px;
+    color: #ddd;
+    font-size: 20px;
+    text-shadow: .05em .05em #aaa;
+    list-style-type: none;
+    display: inline-block;
+    cursor: pointer;
+
+    &.filled {
+      color: #fd0;
+    }
+  }
+
+  &.readonly .star.filled {
+    color: #666;
+  }
 }

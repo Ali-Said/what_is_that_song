@@ -30,7 +30,15 @@ angular.module('myApp.profiles')
         }, function(error) {
             $state.go("dashboards.home");
             return;
-        });
+        },
+        $scope.save = function (answer, answerForm){
+            if(answerForm.$valid){
+                alert("Your status is saved");
+            }}
+        );
+
+
+
 
         $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.profile._id;
         $scope.updateProfile = updateProfile;
@@ -93,6 +101,10 @@ angular.module('myApp.profiles')
             });
         }
 
+
+       
+
+
         function showSimpleToast(txt) {
             $mdToast.show(
                 $mdToast.simple()
@@ -103,3 +115,4 @@ angular.module('myApp.profiles')
         }
 
     });
+

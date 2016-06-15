@@ -3,18 +3,35 @@
         <md-button class="round-button" ng-click="uploadPictureDialog()" ng-cloak>
             <img ng-src="http://localhost:3000/profile/pic/{{profile.picture || 'default'}}">
         </md-button>
+        <p class="md-body-1">Rating: {{profile.rating}}</p>
+        <star-rating ng-model="profile.rating"></star-rating>
+    </div>
+    <div flex>
         <div class="md-display-1 md-primary md-accent">{{profile.username}}</div>
         <p class="md-body-1">Name: {{profile.name}}</p>
         <p class="md-body-1">Birthday: {{profile.birthday | date:'dd.MM.yyyy'}}</p>
-        <p class="md-body-1">Rating: {{profile.rating}}</p>
         <p class="md-body-1">E-Mail: {{profile.email}}</p>
         <p class="md-body-1">Points: {{profile.points}}</p>
-        <p class="md-body-1">Songs: {{profile.songs.length == 0 ? 'No songs': ''}}</p>
+
+        <div ng-controller="ProfileDetailCtrl">
+        <form name="answerForm">
+            <fieldset border="0px">
+                <p><label for="answerText">About me</label>
+                    <input id="answerText" ng-model="answer.text" required placeholder="Enter text" /></p>
+            </fieldset>
+            <button type="submit" ng-click="save(answer, answerForm)">SAVE</button>
+        </form>
+        </div>
+
+        <p class="md-body-1">Songs {{profile.songs.length == 0 ? 'Currently you have no songs': ''}}</p>
+        <md-button class="md-raised" id="uploadsong" ng-click="uploadSong()" ng-cloak>Upload Song</md-button>
+
         <div layout="column" layout-align="center stretch">
             <md-card mv-song-card class="mv-card" song="song" ng-repeat="song in profile.songs"></md-card>
         </div>
-
         <p class="md-body-3">Buy Songs</p>
-        <p class="md-body-1">{{profile.points < 100 ? 'Not enough points' : 'Get these:'}}</p>
+        <div layout="column" layout-align="center stretch">
+        <p class="md-body-1">{{profile.points < 100 ? 'Unfortunately you do not have enough points' : 'Get these:'}}</p>
+        </div>
     </div>
 </div>
