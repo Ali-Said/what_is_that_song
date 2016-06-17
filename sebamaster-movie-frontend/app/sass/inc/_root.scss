@@ -106,11 +106,15 @@ video {
 	Copyright
 --------------------------*/
 
-.copyright {
+#footer {
+  background: #2e2e2e;
   position: fixed;
-  bottom: 10px;
-  color: white;
+  bottom: 0px;
   width: 100%;
-  left:46px;
+  left:0px;
+}
+
+.copyright {
+  color: white;
 
 }
