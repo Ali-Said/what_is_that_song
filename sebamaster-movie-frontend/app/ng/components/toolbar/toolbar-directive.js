@@ -25,7 +25,9 @@ angular.module('myApp')
                 }
                 );
 
-
+                $scope.$on('logged-in', function(event, args) {
+                    $scope.user = currUser.getUser();
+                });
 
                 /////////////////////
 

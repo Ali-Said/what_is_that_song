@@ -25,27 +25,50 @@ exports.postPost = function(req, res) {
 
 // Create endpoint /api/posts for GET
 exports.getPosts = function(req, res) {
-    Post.find(function(err, posts) {
-        if (err) {
-            res.status(500).send(err);
-            return;
-        }
-        res.json(posts);
-    });
+    Post.find()
+        .lean()
+        .populate('user')
+        .populate({
+            path: 'comments',
+            model: 'Post',
+            populate: {
+                path: 'user',
+                model: 'User'
+            }
+        })
+        .exec(function(err, post) {
+            if (err) {
+                res.status(500).send(err);
+                return;
+            }
+
+            res.json(post);
+        });
 };
 
 
 // Create endpoint /api/posts/:post_id for GET
 exports.getPost = function(req, res) {
     // Use the Beer model to find a specific beer
-    Post.findById(req.params.post_id, function(err, post) {
-        if (err) {
-            res.status(500).send(err)
-            return;
-        };
+    Post.findById(req.params.post_id)
+        .lean()
+        .populate('user')
+        .populate({
+            path: 'comments',
+            model: 'Post',
+            populate: {
+                path: 'user',
+                model: 'User'
+            }
+        })
+        .exec(function(err, post) {
+            if (err) {
+                res.status(500).send(err);
+                return;
+            }
 
-        res.json(post);
-    });
+            res.json(post);
+        });
 };
 
 // Create endpoint /api/posts/:post_id for PUT

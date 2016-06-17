@@ -1,14 +1,78 @@
-<div ng-app="myapp.posts" layout="row" id="postWrapper" layout-align="center start" layout-padding  ng-controller="TinyMceController" post>
+<div ng-app="myapp.posts" layout="column" id="postWrapper" layout-padding controller="PostDetailController" post>
     <div ng-show="!editing">
-        <md-button ng-click="edit()">Edit</md-button>
-        {{post.text}}
+        <md-menu class="tool-buttons" ng-show="mayEdit" ng-disabled="!mayEdit" ng-cloak>
+                <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"><md-icon md-menu-origin md-svg-icon="action:ic_settings_24px"></md-icon></md-button>
+                <md-menu-content>
+                    <md-menu-item>
+                        <md-button ng-click="edit()">Edit<md-icon md-menu-origin md-svg-icon="editor:ic_mode_edit_24px"></md-icon></md-button>
+                    </md-menu-item>
+                </md-menu-content>
+        </md-menu>
+        <div><img ng-src="http://localhost:3000/profile/pic/{{'default'}}"></div>
+        <div>{{post.text}}</div>
 
     </div>
-    <div ng-show="editing">
+    <div ng-show="editing" ng-controller="RequestController">
+        <div><img ng-src="http://localhost:3000/profile/pic/{{'default'}}"></div>
         <form method="post">
-            <textarea ui-tinymce="tinymceOptions" ng-model="tinymceModel"></textarea>
-            <md-button ng-click="cancel()">Cancel</md-button>
-            <md-button ng-click="save()">Save</md-button>
+            <textarea ui-tinymce="tinymceOptions" ng-model="request"></textarea>
+            <md-button class="md-raised" ng-click="save()">Save</md-button>
+            <md-button class="md-raised md-warn" ng-click="cancel()">Cancel</md-button>
         </form>
     </div>
+
+    <div>Rate performance:<star-rating ng-model="post.rating"></star-rating></div>
+
+    <div layout="row" layout-align="start center" flex>
+        <div class="md-title">{{post.comments.length}} Answer{{post.comments.length != 1 ? 's' : ''}}</div>
+        <span flex></span>
+        <md-tabs id="tabs" md-selected="select.selectedIndex" md-autoselect>
+            <md-tab ng-repeat="tab in tabs" label="{{tab.title}}"></md-tab>
+        </md-tabs>
+    </div>
+    <md-divider></md-divider>
+    <div id="comments">
+        <script type="text/ng-template" id="categoryTree">
+            <p class="comment">{{ comment.text }} - <a class="user" ui-sref="profiles.detail({username: comment.user.username})"> {{comment.user.username}}</a> <span class="date"> {{comment.date | date:"MMM d yy 'at' H:mm"}}</span></p>
+            <ul ng-if="comment.comments">
+                <md-divider></md-divider>
+                <li ng-repeat="comment in comment.comments" ng-include="'commentTree'">
+                </li>
+            </ul>
+        </script>
+        <ul>
+            <li ng-repeat="comment in post.comments | orderBy: selected.search : selected.reverse">
+                <ul ng-if="comment.comments">
+                    <div layout="row" layout-align="space-between center">
+                        <div layout="column">
+                            <md-icon md-menu-origin md-svg-icon="navigation:ic_arrow_drop_up_24px"></md-icon>
+                            <span>{{comment.votes}}</span>
+                            <md-icon md-menu-origin md-svg-icon="navigation:ic_arrow_drop_down_24px"></md-icon>
+                        </div>
+
+                        <p class="comment">{{ comment.text }} - <a class="user" ui-sref="profiles.detail({username: comment.user.username})"> {{comment.user.username}}</a> <span class="date"> {{comment.date | date:"MMM d yy 'at' H:mm"}}</span></p>
+
+                    </div>
+                    <md-divider></md-divider>
+                    <li ng-repeat="comment in comment.comments" ng-include="'commentTree'"></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div id="answer" controller="CommentController">
+        <div class="md-title">Your Answer</div>
+        <p></p>
+        <form method="post">
+            <textarea ui-tinymce="tinymceOptions" ng-model="newComment"></textarea>
+            <div ng-show="loggedIn">
+                <md-button class="md-raised" ng-click="saveComment()">Send</md-button>
+                <md-button class="md-raised md-warn" ng-click="cancelComment()">Reset</md-button>
+            </div>
+            <div ng-show="!loggedIn">
+                <p>You have to login!</p>
+                <md-button class="md-raised md-primary" ng-click="showLoginDialog()">Login</md-button>
+            </div>
+        </form>
+    </div>
+
 </div>

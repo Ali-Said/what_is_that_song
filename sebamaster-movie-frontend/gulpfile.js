@@ -120,9 +120,9 @@ gulp.task('app-templates', function () {
         .pipe(connect.reload());
 });
 
-var MAIN_TASKS = ['serve', 'app-js', 'app-templates', 'frontend-libs-copy', 'sass'];
+var MAIN_TASKS = ['app-js', 'app-templates', 'frontend-libs-copy', 'sass'];
 
-gulp.task('watch', MAIN_TASKS, function () {
+gulp.task('watch', MAIN_TASKS.concat(['serve']), function () {
     gulp.watch('app/ng/**/*.js', ['app-js']);
     gulp.watch('app/ng/**/*.html', [ 'app-templates']);
     gulp.watch('bower.json', [ 'frontend-libs-copy']);

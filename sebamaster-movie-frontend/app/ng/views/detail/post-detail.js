@@ -25,7 +25,10 @@ angular.module('myApp.posts')
         }
     })
     .controller('PostDetailCtrl', function($rootScope, $scope, $state, $breadcrumb, $stateParams, currUser, Post, $mdMedia, $mdToast, $mdDialog) {
+
         $scope.post = Post.get({postId: $stateParams.postId}, function(success){
+            $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.post.user._id;
+
             if(angular.equals({}, success)) {
                 $state.go("dashboards.home");
                 return;
@@ -35,12 +38,28 @@ angular.module('myApp.posts')
             return;
         });
 
-        $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.post._id;
         $scope.cancelEditingProfile = function(){ showSimpleToast("Editing cancelled"); };
+        $scope.edit = edit;
+        $scope.editing = false;
+
 
         $scope.post.$promise.then(function(){
-            $scope.mayDelete = $scope.post._id && $scope.post._id == currUser.getUser()._id;
+            $scope.mayDelete = $scope.post.user._id && $scope.post.user._id == currUser.getUser()._id;
         });
+
+
+
+        var tabs = [ {title : 'oldest', search: 'date', reverse: true}, {title: 'votes', search: 'votes', reverse: true}];
+        $scope.selected = {};
+        $scope.tabs = tabs;
+        $scope.select = {selectedIndex: 1};
+
+        $scope.$watch('select.selectedIndex', function(current, old){
+            $scope.selected = tabs[current];
+        });
+
+
+
 
         $scope.$watch(function(){
             return currUser.loggedIn();
@@ -48,14 +67,23 @@ angular.module('myApp.posts')
             if (!loggedIn) {
                 $scope.mayDelete = false;
                 $scope.mayEdit = false;
-            } else {
-                $scope.mayEdit = currUser.getUser()._id == $scope.post._id;
-                $scope.mayDelete = $scope.post._id == currUser.getUser()._id;
+            } else if($scope.post.user) {
+                $scope.mayEdit = currUser.getUser()._id == $scope.post.user._id;
+                $scope.mayDelete = $scope.post.user._id == currUser.getUser()._id;
             }
+        });
+
+        $scope.$on('logged-in', function(event, args) {
+            $scope.mayEdit = currUser.getUser()._id == $scope.post.user._id;
+            $scope.mayDelete = $scope.post.user._id == currUser.getUser()._id;
         });
 
 
         ////////////////////
+
+        function edit() {
+            $scope.editing = true;
+        }
 
         function showSimpleToast(txt) {
             $mdToast.show(
@@ -67,37 +95,40 @@ angular.module('myApp.posts')
         }
 
     })
-    .controller('TinyMceController', function($scope, $stateParams, Post) {
+    .controller('RequestController', function($scope) {
 
-        $scope.post = Post.get({postId: $stateParams.postId}, function(success){
-            if(angular.equals({}, success)) {
-                $state.go("dashboards.home");
-                return;
-            }
-            $scope.tinymceModel = $scope.post.text;
-        }, function(error) {
-            $state.go("dashboards.home");
-            return;
-        });
-        $scope.edit = edit;
         $scope.cancel = cancel;
         $scope.save = save;
         $scope.tinymceOptions = {
             plugins: 'link image code',
             toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
         };
-        $scope.editing = false;
 
-        function edit() {
-            $scope.editing = true;
-        }
 
         function cancel() {
-            $scope.tinymceModel = $scope.post.text;
-            $scope.editing = false;
+            $scope.request = $scope.post.text;
+            $scope.$parent.editing = false;
         };
 
         function save() {
-            $scope.tinymceModel = 'Time: ' + (new Date());
+            $scope.request = 'Time: ' + (new Date());
+        };
+    })
+    .controller('CommentsController', function($scope) {
+
+
+        $scope.cancel = cancel;
+        $scope.save = save;
+        $scope.tinymceOptions = {
+            plugins: 'link image code',
+            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+        };
+
+        function cancel() {
+            $scope.newComment = $scope.post.text;
+        };
+
+        function save() {
+            $scope.newComment = 'Time: ' + (new Date());
         };
     });
