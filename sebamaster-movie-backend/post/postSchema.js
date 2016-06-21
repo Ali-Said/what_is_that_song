@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 // Define our movie schema
 var Post   = new mongoose.Schema({
     text: String,
+    type: String,
     media: String,
     date: {type: Date, default: Date.now},
     user: {

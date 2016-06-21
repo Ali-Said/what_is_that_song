@@ -22,9 +22,11 @@ angular.module('myApp.dashboards')
         }
 
     })
-    .controller('DashboardsCtrl', function($scope, $state, Upload,Profile, Post) {
+    .controller('DashboardsCtrl', function($scope, $filter, $state, Upload,Profile, Post) {
         $scope.profiles = Profile.query();
-        $scope.posts = Post.query();
+        Post.query(function(sucess) {
+            $scope.posts = $filter('filter')(sucess, {type: 'request'}, true);
+        });
 
         $scope.gotoProfile = gotoProfile;
         $scope.gotoPost = gotoPost;
