@@ -1,7 +1,7 @@
 /**
  * Created by Timotheus on 12.06.2016.
  */
-angular.module('myApp.posts', ['ngResource', 'ui.router', 'ui.tinymce'])
+angular.module('myApp.posts', ['ngResource', 'ui.router', 'ui.tinymce', 'ngSanitize'])
 
     .config(function ($stateProvider,   $urlRouterProvider, postDetailsState) {
         $stateProvider

@@ -1,4 +1,4 @@
-angular.module('myApp.dashboards', ['ngResource', 'ui.router'])
+angular.module('myApp.dashboards', ['ngResource', 'ui.router', 'ngSanitize'])
 
 .config(function ($stateProvider,   $urlRouterProvider, dashboardsState) {
     $stateProvider

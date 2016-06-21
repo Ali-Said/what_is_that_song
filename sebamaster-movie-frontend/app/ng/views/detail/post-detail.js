@@ -27,6 +27,7 @@ angular.module('myApp.posts')
     .controller('PostDetailCtrl', function($rootScope, $scope, $state, $breadcrumb, $stateParams, currUser, Post, $mdMedia, $mdToast, $mdDialog) {
 
         $scope.post = Post.get({postId: $stateParams.postId}, function(success){
+            $scope.post = success;
             $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.post.user._id;
 
             if(angular.equals({}, success)) {
@@ -82,6 +83,7 @@ angular.module('myApp.posts')
         ////////////////////
 
         function edit() {
+            $scope.request = $scope.post.text;
             $scope.editing = true;
         }
 
@@ -111,7 +113,9 @@ angular.module('myApp.posts')
         };
 
         function save() {
-            $scope.request = 'Time: ' + (new Date());
+            $scope.post.text = $scope.request;
+            $scope.post.$update();
+            $scope.$parent.editing = false;
         };
     })
     .controller('CommentsController', function($scope) {

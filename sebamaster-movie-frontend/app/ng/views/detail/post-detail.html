@@ -9,7 +9,7 @@
                 </md-menu-content>
         </md-menu>
         <div><img ng-src="http://localhost:3000/profile/pic/{{'default'}}"></div>
-        <div>{{post.text}}</div>
+        <div ng-bind-html="post.text"></div>
 
     </div>
     <div ng-show="editing" ng-controller="RequestController">
