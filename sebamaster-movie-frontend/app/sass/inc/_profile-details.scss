@@ -15,19 +15,43 @@
   left:-200px;
   width:100%;
   height:auto;
-  background: white;
+  background: #f2f2f2;
   margin:auto;
   text-align: left;
-  font-size: 100%
 }
 
+#pic {
+  width:300px;
+  layout-align:center;
+}
 
-.md-button.md-whatsong-theme:hover:not([disabled]) {
-  background: none;
+#header {
+  background-color: #595959;
+  border: outset;
+  color: white;
+  text-align: center;
+  padding: 4px;
+}
+
+#headerOwn {
+  background-color: #595959;
+  border: outset;
+  color: white;
+  text-align: center;
+  padding: 4px;
+}
+
+#ratingInfo{
+  margin-left: 40px;
 }
 
 .md-body-1 {
-  font: 12pt/10pt sans-serif;
+  font:12pt/10pt sans-serif;
+}
+
+.md-button.md-whatsong-theme:hover:not([disabled]) {
+  background: none;
+
 }
 
 .star-rating {
@@ -52,4 +76,17 @@
   &.readonly .star.filled {
     color: #666;
   }
+}
+
+.filled md-icon{
+  fill: rgb(141, 224, 59);
+}
+
+#dv1{
+  margin-left: 0px;
+  width:450px;
+}
+
+#list {
+  font: 200 12pt/1.5 sans-serif;
 }

@@ -22,12 +22,13 @@ angular.module('myApp.dashboards')
         }
 
     })
-    .controller('DashboardsCtrl', function($scope, $state, Profile, Post) {
+    .controller('DashboardsCtrl', function($scope, $state, Upload,Profile, Post) {
         $scope.profiles = Profile.query();
         $scope.posts = Post.query();
 
         $scope.gotoProfile = gotoProfile;
         $scope.gotoPost = gotoPost;
+        $scope.search = search;
 
 
 
@@ -85,6 +86,26 @@ angular.module('myApp.dashboards')
             }
         };
 
+        function search() {
+
+            var name = document.getElementById("searchForm").elements["searchItem"].value;
+            var pattern = name.toLowerCase();
+            var targetId = "";
+
+            var divs = document.getElementsByClassName("md-3-line");
+            for (var i = 0; i < divs.length; i++) {
+                var para = divs[i].getElementsByTagName("p");
+                var index = para[0].innerText.toLowerCase().indexOf(pattern);
+                if (index != -1) {
+                    targetId = divs[i].parentNode.id;
+                    document.getElementById(targetId).scrollIntoView();
+                    break;
+                }
+            }
+        }
+        
+        
+
 
         stopRecording.onclick = function() {
             startRecording.disabled = false;
@@ -118,24 +139,20 @@ angular.module('myApp.dashboards')
             files.audio = {
                 name: fileName + (isFirefox ? '.webm' : '.wav'),
                 type: isFirefox ? 'video/webm' : 'audio/wav',
-                contents: audioDataURL
+                contents: recordAudio.getBlob()
             };
 
             if (!isFirefox) {
                 files.video = {
                     name: fileName + '.webm',
                     type: 'video/webm',
-                    contents: videoDataURL
+                    contents: recordVideo.getBlob()
                 };
             }
-            var link = document.createElement("a");
-            link.download = files.video.name;
-            link.href = files.video.contents;
-            link.click();
-            files.isFirefox = isFirefox;
+
             Upload.upload({
                 url: 'http://localhost:3000/api/video',
-                file: files.video.contents
+                file: files.video
             }).success(function () {
                 window.alert('uploaded to server');
             });

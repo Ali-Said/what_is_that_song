@@ -107,10 +107,19 @@ video {
 --------------------------*/
 
 .copyright {
-  position: fixed;
-  bottom: 10px;
+  position: absolute;
+  bottom: 2px;
   color: white;
   width: 100%;
-  left:46px;
+  left:60px;
+  clear: both;
+  font:12pt/10pt sans-serif
+}
 
+#advertisementSpo {
+z-index: 0;
+}
+
+#advertisementItu {
+  z-index: 0;
 }
