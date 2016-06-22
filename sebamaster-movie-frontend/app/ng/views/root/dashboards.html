@@ -5,8 +5,9 @@
         <md-button class="md-raised" id="start-recording">Start Recording</md-button>
         <md-button class="md-raised" id="stop-recording" disabled="">Stop Recording</md-button>
     </div>
+
     <div class="bar">
-        <input type="text" ng-model="searchString" placeholder="Enter your search terms" />
+       <input type="text" ng-model="searchTerm" placeholder="Enter your search terms" />
     </div>
 </div>
 
@@ -20,7 +21,7 @@
     </md-toolbar>
     <md-content>
         <md-list flex>
-            <md-list-item class="md-3-line" ng-repeat="post in posts | orderBy: 'date' : true | limitTo: 10" ng-click="gotoPost(post._id)">
+        <md-list-item class="md-3-line" ng-repeat="post in posts | orderBy: 'date' : true | limitTo: 10 | filter:searchTerm" ng-click="gotoPost(post._id)">
                 <md-icon md-svg-icon="image:ic_movie_creation_24px">
                 </md-icon>
                 <div class="md-list-item-text" layout="column">
@@ -43,7 +44,7 @@
     </md-toolbar>
     <md-content>
         <md-list flex>
-            <md-list-item class="md-3-line" ng-repeat="profile in profiles | orderBy: 'rating' : true | limitTo: 10 " ng-click="gotoProfile(profile.username)">
+            <md-list-item class="md-3-line" ng-repeat="profile in profiles | orderBy: 'rating' : true | limitTo: 10" ng-click="gotoProfile(profile.username)">
                 <img ng-src="http://localhost:3000/profile/pic/{{profile.picture}}" class="md-avatar" alt="{{profile.username}}" />
                 <div layout="row" layout-align="space-around center" layout-padding><h3>{{ profile.username }}</h3>
                 <h4>Rating: {{ profile.rating }}</h4></div>
@@ -70,7 +71,5 @@
     </div>
 
 </div>
-
-
 </div>
-    </div>
+</div>
