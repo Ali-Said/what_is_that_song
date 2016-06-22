@@ -27,7 +27,6 @@ angular.module('myApp.posts')
     .controller('PostDetailCtrl', function($rootScope, $scope, $state, $breadcrumb, $stateParams, currUser, Post, $mdMedia, $mdToast, $mdDialog) {
 
         $scope.post = Post.get({postId: $stateParams.postId}, function(success){
-            $scope.post = success;
             $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.post.user._id;
 
             if(angular.equals({}, success)) {
@@ -40,6 +39,7 @@ angular.module('myApp.posts')
         });
 
         $scope.cancelEditingProfile = function(){ showSimpleToast("Editing cancelled"); };
+        $scope.updatePost = updatePost;
         $scope.edit = edit;
         $scope.editing = false;
 
@@ -50,7 +50,7 @@ angular.module('myApp.posts')
 
 
 
-        var tabs = [ {title : 'oldest', search: 'date', reverse: true}, {title: 'votes', search: 'votes', reverse: true}];
+        var tabs = [ {title : 'newest', search: 'date', reverse: true}, {title: 'votes', search: 'votes', reverse: true}];
         $scope.selected = {};
         $scope.tabs = tabs;
         $scope.select = {selectedIndex: 1};
@@ -59,6 +59,10 @@ angular.module('myApp.posts')
             $scope.selected = tabs[current];
         });
 
+        $scope.$on('comment-added', function(event, args) {
+            $scope.post.comments.push(args);
+            updatePost(true);
+        });
 
 
 
@@ -85,6 +89,21 @@ angular.module('myApp.posts')
         function edit() {
             $scope.request = $scope.post.text;
             $scope.editing = true;
+        }
+
+        function updatePost(changed) {
+
+            if (!changed) {
+                showSimpleToast("no change");
+                return;
+            }
+
+            $scope.post.$update().then(function(){
+                $rootScope.$broadcast('postUpdated', $scope.post);
+                showSimpleToast("update successfull");
+            }, function(){
+                showSimpleToast("error. please try again later");
+            });
         }
 
         function showSimpleToast(txt) {
@@ -114,25 +133,69 @@ angular.module('myApp.posts')
 
         function save() {
             $scope.post.text = $scope.request;
-            $scope.post.$update();
+            $scope.updatePost(true);
             $scope.$parent.editing = false;
         };
     })
-    .controller('CommentsController', function($scope) {
-
+    .controller('CommentController', function($rootScope, $scope, currUser, Post) {
 
         $scope.cancel = cancel;
         $scope.save = save;
         $scope.tinymceOptions = {
             plugins: 'link image code',
-            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
+            forced_root_block: ''
         };
+        $scope.comment = new Post();
 
         function cancel() {
-            $scope.newComment = $scope.post.text;
+            $scope.newComment = '';
         };
 
         function save() {
-            $scope.newComment = 'Time: ' + (new Date());
+            $scope.comment.text = $scope.newComment;
+            $scope.comment.type = "comment";
+            $scope.comment.date = new Date();
+            $scope.comment.user = currUser.getUser();
+            $scope.comment.votes = 0;
+            $scope.comment.$save(function(success) {
+                $rootScope.$broadcast('comment-added', success);
+            });
+        };
+    })
+    .controller('AnswerListController', function($scope, currUser, Post) {
+
+        $scope.mayEdit = false;
+
+        if ($scope.comment._id)
+            $scope.comment = Post.get({postId: $scope.comment._id}, function(success) {
+                $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == success.user._id;
+            });
+
+
+
+        $scope.editing = false;
+        $scope.edit = edit;
+        $scope.cancel = cancel;
+        $scope.save = save;
+        $scope.tinymceOptions = {
+            plugins: 'link image code',
+            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
+            forced_root_block: ''
+        };
+
+        function edit() {
+            $scope.commentText = $scope.comment.text;
+            $scope.editing = true;
+        }
+
+        function cancel() {
+            $scope.commentText = $scope.comment.text;
+        };
+
+        function save(text) {
+            $scope.comment.text = text;
+            $scope.comment.$update();
+            $scope.editing = false;
         };
     });

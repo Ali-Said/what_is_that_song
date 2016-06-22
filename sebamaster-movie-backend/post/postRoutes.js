@@ -18,10 +18,10 @@ function postRoutes(passport) {
     router.use(mw.unless({method: ['GET', 'OPTIONS']}));
 
     router.route('/posts')
+        .post(postController.postPost)
         .get(postController.getPosts);
 
     router.route('/posts/:post_id')
-        .post(postController.postPost)
         .get(postController.getPost)
         .put(postController.putPost)
         .delete(postController.deletePost);

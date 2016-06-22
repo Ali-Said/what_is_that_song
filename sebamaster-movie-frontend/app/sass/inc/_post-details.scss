@@ -5,7 +5,6 @@
   height:auto;
   background: white;
   margin:auto;
-  text-align: center;
 }
 
 .tool-buttons {
@@ -14,11 +13,37 @@
 }
 
 #tabs {
-  min-width: 200px;
+  width: 250px;
 }
 
-#comments ul {
+#answers ul {
   list-style: none;
+}
+
+.center {
+  text-align: center;
+}
+
+.answer {
+  width: 100%;
+
+  .md-avatar {
+    height: 40px;
+    margin-right: 10px;
+  }
+  .usercard {
+    padding: 10px;
+    .date {
+      color: darkgray;
+      font-size: 0.8em;
+    }
+    width: 200px;
+    background: lightsteelblue;
+  }
+}
+
+.vote {
+  height: 100px;
 }
 
 .comment .date {
