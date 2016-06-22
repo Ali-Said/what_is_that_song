@@ -82,13 +82,25 @@ exports.putPost = function(req, res) {
             new: true,
             //run validations
             runValidators: true
-        }, function (err, post) {
+        })
+        .lean()
+        .populate('user')
+        .populate({
+            path: 'comments',
+            model: 'Post',
+            populate: {
+                path: 'user',
+                model: 'User'
+            }
+        })
+        .exec(function(err, post) {
             if (err) {
                 res.status(500).send(err);
                 return;
             }
+
             res.json(post);
-        });
+        });;
 
 };
 
