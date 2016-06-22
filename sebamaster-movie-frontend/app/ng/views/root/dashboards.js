@@ -31,7 +31,9 @@ angular.module('myApp.dashboards')
         $scope.gotoProfile = gotoProfile;
         $scope.gotoPost = gotoPost;
         $scope.search = search;
-
+        $scope.startRecording = startRecording;
+        $scope.stopRecording = stopRecording;
+        $scope.recording = false;
 
 
         function gotoProfile(username) {
@@ -41,47 +43,53 @@ angular.module('myApp.dashboards')
         function gotoPost(postId) {
             $state.go('posts.detail', {postId: postId});
         }
-        var startRecording = document.getElementById('start-recording');
-        var stopRecording = document.getElementById('stop-recording');
-        var cameraPreview = document.getElementById('camera-preview');
 
-        var audio = document.querySelector('audio');
 
-        var isFirefox = !!navigator.mozGetUserMedia;
 
-        var recordAudio, recordVideo;
-        startRecording.onclick = function() {
-            startRecording.disabled = true;
-            navigator.getUserMedia_ = (   navigator.getUserMedia
+        var video;
+
+        var constraints = {
+            audio: true,
+            video: true
+        };
+
+        var mediaRecorder = null;
+        function startRecording() {
+            $scope.recording = true;
+            navigator.getUserMedia = navigator.getUserMedia
             || navigator.webkitGetUserMedia
-            || navigator.mozGetUserMedia
-            || navigator.msGetUserMedia);
+            || navigator.mozGetUserMedia;
 
-            if ( !! navigator.getUserMedia_) {
-                navigator.getUserMedia_({
-                    audio: true,
-                    video: true
-                }, function (stream) {
-                    cameraPreview.src = window.URL.createObjectURL(stream);
-                    cameraPreview.play();
+            if ( !! navigator.getUserMedia) {
+                navigator.getUserMedia(
+                    constraints
+                    , function (stream) {
+                        mediaRecorder = new MediaRecorder(stream);
+                        mediaRecorder.start();
 
-                    recordAudio = RecordRTC(stream, {
-                        bufferSize: 16384
-                    });
+                        var url = window.URL || window.webkitURL;
+                        video = document.createElement('video');
+                        video.src = url ? url.createObjectURL(stream) : stream;
+                        video.play();
 
-                    if (!isFirefox) {
-                        recordVideo = RecordRTC(stream, {
-                            type: 'video'
-                        });
-                    }
+                        var chunks = [];
 
-                    recordAudio.startRecording();
+                        mediaRecorder.ondataavailable = function(e) {
+                            chunks.push(e.data);
+                        }
 
-                    if (!isFirefox) {
-                        recordVideo.startRecording();
-                    }
+                        mediaRecorder.onstop = function(){
+                            $scope.recording = false;
+                            stream.stop();
+                            video.remove();
 
-                    stopRecording.disabled = false;
+                            var blob = new Blob(chunks, {type: "video/webm"});
+                            chunks = [];
+
+                            postFiles('video', blob);
+                        }
+
+
                 }, function (error) {
                     alert(JSON.stringify(error));
                 });
@@ -109,81 +117,44 @@ angular.module('myApp.dashboards')
         
 
 
-        stopRecording.onclick = function() {
-            startRecording.disabled = false;
-            stopRecording.disabled = true;
+        function stopRecording() {
 
-            recordAudio.stopRecording(function() {
-                if (isFirefox) onStopRecording();
-            });
+            mediaRecorder.stop();
 
-            if (!isFirefox) {
-                recordVideo.stopRecording();
-                onStopRecording();
-            }
-
-            function onStopRecording() {
-                recordAudio.getDataURL(function(audioDataURL) {
-                    if (!isFirefox) {
-                        recordVideo.getDataURL(function(videoDataURL) {
-                            postFiles(audioDataURL, videoDataURL);
-                        });
-                    } else postFiles(audioDataURL);
-                });
-            }
         };
         var fileName;
 
-        function postFiles(audioDataURL, videoDataURL) {
+        function postFiles(type, blob) {
             fileName = getRandomString();
             var files = { };
 
-            files.audio = {
-                name: fileName + (isFirefox ? '.webm' : '.wav'),
-                type: isFirefox ? 'video/webm' : 'audio/wav',
-                contents: recordAudio.getBlob()
-            };
-
-            if (!isFirefox) {
+            if (type == 'audio'){
+                files.audio = {
+                    name: fileName + ('.wav'),
+                    type: 'audio/wav',
+                    contents: blob
+                };
+            }
+            else {
                 files.video = {
                     name: fileName + '.webm',
                     type: 'video/webm',
-                    contents: recordVideo.getBlob()
+                    contents: blob
                 };
             }
 
+
+
             Upload.upload({
                 url: 'http://localhost:3000/api/video',
-                file: files.video
+                file: files.audio || files.video
             }).success(function () {
                 window.alert('uploaded to server');
             });
 
-            /*xhr('/upload', JSON.stringify(files), function(_fileName) {
-             var href = location.href.substr(0, location.href.lastIndexOf('/') + 1);
-             cameraPreview.src = href + 'uploads/' + _fileName;
-             cameraPreview.play();
-
-             var h2 = document.createElement('h2');
-             h2.innerHTML = '<a href="' + cameraPreview.src + '">' + cameraPreview.src + '</a>';
-             document.body.appendChild(h2);
-             });*/
         }
 
-        /*function xhr(url, data, callback) {
-         var request = new XMLHttpRequest();
-         request.onreadystatechange = function() {
-         if (request.readyState == 4 && request.status == 200) {
-         callback(request.responseText);
-         }
-         };
-         request.open('POST', url);
-         request.send(data);
-         }*/
 
-        window.onbeforeunload = function() {
-            startRecording.disabled = false;
-        };
 
         function getRandomString() {
             if (window.crypto) {
