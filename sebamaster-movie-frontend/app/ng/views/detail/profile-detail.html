@@ -31,7 +31,6 @@
     <div layout="row" id="profileWrapper1">
     <div flex>
         <div id="headerOwn"><h4>Songs {{profile.songs.length == 0 ? 'No songs': ''}}</h4></div>
-        <md-button class="md-raised" id="uploadsong" ng-click="uploadSong()" ng-cloak>Upload Song</md-button>
         <div layout="column" layout-align="center stretch">
             <md-card mv-song-card class="mv-card" song="song" ng-repeat="song in profile.songs"></md-card>
         </div>
