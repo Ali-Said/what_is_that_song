@@ -15,6 +15,10 @@ body{
   }
 }
 
+#main {
+  padding-bottom: 100px;
+}
+
 .stopfade {
   opacity: .5;
 }
@@ -28,6 +32,7 @@ video {
   width: auto;
   height: auto;
   transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
   background-size: cover;
   transition: 1s opacity;
 }
@@ -106,20 +111,19 @@ video {
 	Copyright
 --------------------------*/
 
-.copyright {
-  position: absolute;
-  bottom: 2px;
-  color: white;
+#footer {
+  background: #2e2e2e;
+  position: fixed;
+  bottom: 0px;
   width: 100%;
-  left:60px;
-  clear: both;
-  font:12pt/10pt sans-serif
+  left:0px;
 }
 
-#advertisementSpo {
-z-index: 0;
+.copyright {
+  color: white;
+
 }
 
-#advertisementItu {
-  z-index: 0;
+.gray {
+  color: gray;
 }

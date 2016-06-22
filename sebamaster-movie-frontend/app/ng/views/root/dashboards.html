@@ -1,14 +1,13 @@
 <div id="dashboardWrapper">
 <div class="button-container" layout="row" layout-align="center none">
     <video id="camera-preview"></video>
+
     <div>
         <md-button class="md-raised" id="start-recording">Start Recording</md-button>
         <md-button class="md-raised" id="stop-recording" disabled="">Stop Recording</md-button>
     </div>
     <div class="bar">
-        <form method="get" action="/index" target="_blank">
         <input type="text" ng-model="searchString" placeholder="Enter your search terms" />
-        </form>
     </div>
 </div>
 
@@ -26,7 +25,7 @@
                 <md-icon md-svg-icon="image:ic_movie_creation_24px">
                 </md-icon>
                 <div class="md-list-item-text" layout="column">
-                    <h3>{{ post.text }}</h3>
+                    <h3>{{post.text | stripTags | characters:50}}</h3>
                     <h4>Rating: {{ post.rating }}</h4>
                     <p>{{ post.date | date : "dd.MM.yyyy - hh:mm a"  }}</p>
                     <md-divider ></md-divider>
@@ -56,27 +55,22 @@
 </div>
 
 
-<div layout="column">
+
+
+
     <div class="advertisementSpo">
         <a href="http://www.spotify.com" target="_blank">
             <img src="/img/spotify.png" width="350" height="300" alt="MND">
         </a>
-</div>
-
-
-<div class="advertisementItu"> <a href="http://www.apple.com/itunes" target="_blank">
-    <img src="/img/tunes.png" width="350" height="300" alt="MND"></a>
     </div>
-</div>
-</div>
 
-</div>
-
-
-</div>
-
-<div class="wrapper">
-    <div class="copyright">
-        <p>Copyright &copy; 2016 - All Rights Reserved - What is that song</p>
+    <div class="advertisementItu">
+        <a href="http://www.apple.com/itunes" target="_blank">
+            <img src="/img/tunes.png" width="350" height="300" alt="MND">
+        </a>
     </div>
+
+</div>
+
+
 </div>

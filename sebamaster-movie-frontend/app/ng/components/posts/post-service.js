@@ -7,6 +7,10 @@
 angular.module('myApp.posts')
 
     .factory('Post', function( $resource) {
-        return $resource('http://localhost:3000/api/posts/:postId',  {postId: '@_id'});
+        return $resource('http://localhost:3000/api/posts/:postId',  {postId: '@_id'}, {
+            update: {
+                method: 'PUT'
+            }
+        });
 
     });

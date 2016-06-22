@@ -5,5 +5,52 @@
   height:auto;
   background: white;
   margin:auto;
+}
+
+.tool-buttons {
+  position: relative;
+  right: calc(-50% + 10px);
+}
+
+#tabs {
+  width: 250px;
+}
+
+#answers ul {
+  list-style: none;
+}
+
+.center {
   text-align: center;
+}
+
+.answer {
+  width: 100%;
+
+  .md-avatar {
+    height: 40px;
+    margin-right: 10px;
+  }
+  .usercard {
+    padding: 10px;
+    .date {
+      color: darkgray;
+      font-size: 0.8em;
+    }
+    width: 200px;
+    background: lightsteelblue;
+  }
+}
+
+.vote {
+  height: 100px;
+}
+
+.comment .date {
+  color: darkgray;
+  font-size: 0.8em;
+}
+
+.comment .user {
+  font-size: 0.7em;
 }

@@ -7,16 +7,18 @@ var mongoose = require('mongoose');
 
 // Define our movie schema
 var Post   = new mongoose.Schema({
-    text: String,
+    text: {type: String, required: true},
+    type: {type: String, required: true},
     media: String,
-    date: {type: Date, default: Date.now},
+    date: {type: Date, default: Date.now, required: true},
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
-    comments: [{type: mongoose.Schema.Types.ObjectId,
-                ref: 'Post'}],
-    rating: Number
+    comments: [{type: mongoose.Schema.Types.ObjectId, ref:'Post'}],
+    rating: Number,
+    votes: Number
 
 });
 

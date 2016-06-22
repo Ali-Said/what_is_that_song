@@ -1,6 +1,6 @@
 'use strict';
 // Declare app level module which depends on views, and components
-angular.module('myApp', ['ui.router', 'myApp.dashboards', 'myApp.profiles', 'myApp.posts', 'templates', 'ncy-angular-breadcrumb', 'ui.tinymce', 'ngMaterial', 'ngMessages', 'ngFileUpload'])
+angular.module('myApp', ['ui.router', 'myApp.dashboards', 'myApp.profiles', 'myApp.posts', 'templates', 'ncy-angular-breadcrumb', 'ui.tinymce', 'ngSanitize', 'ngMaterial', 'ngMessages', 'ngFileUpload'])
 
     .config(function($stateProvider, $urlRouterProvider, $locationProvider, $mdIconProvider, $resourceProvider, $httpProvider, $breadcrumbProvider, $mdThemingProvider) {
 
@@ -69,4 +69,14 @@ angular.module('myApp', ['ui.router', 'myApp.dashboards', 'myApp.profiles', 'myA
             templateUrl:"components/breadcrumbs/breadcrumbs.html"
         });
 
+    })
+    .filter('stripTags', function() {
+        return function(text) {
+            return  text ? String(text).replace(/<[^>]+>/gm, '') : '';
+        };
+    })
+    .filter('characters', function() {
+        return function(text,count) {
+            return text ? text.length > count ? String(text).split(' ')[0].length > count ? text.substring(0, count) + " ..." : String(text).substring(0, text.substring(0,count).lastIndexOf(' ')) + " ..." : text : '';
+        }
     });
