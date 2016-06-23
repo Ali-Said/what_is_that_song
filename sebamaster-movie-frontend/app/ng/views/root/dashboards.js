@@ -146,7 +146,7 @@ angular.module('myApp.dashboards')
 
 
             Upload.upload({
-                url: 'http://localhost:3000/api/video',
+                url: 'http://localhost:3000/api/media',
                 file: files.audio || files.video
             }).success(function () {
                 window.alert('uploaded to server');
