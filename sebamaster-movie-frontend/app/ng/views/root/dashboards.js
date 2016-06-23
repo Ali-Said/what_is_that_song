@@ -22,7 +22,7 @@ angular.module('myApp.dashboards')
         }
 
     })
-    .controller('DashboardsCtrl', function($scope, $filter, $state, Upload,Profile, Post) {
+    .controller('DashboardsCtrl', function($scope, $q, $filter, $state, Upload, Profile, Post) {
         $scope.profiles = Profile.query();
         Post.query(function(sucess) {
             $scope.posts = $filter('filter')(sucess, {type: 'request'}, true);
@@ -33,7 +33,9 @@ angular.module('myApp.dashboards')
         $scope.search = search;
         $scope.startRecording = startRecording;
         $scope.stopRecording = stopRecording;
-        $scope.recording = false;
+        $scope.Vars = {
+            recording : false
+        };
 
 
         function gotoProfile(username) {
@@ -53,48 +55,67 @@ angular.module('myApp.dashboards')
             video: true
         };
 
-        var mediaRecorder = null;
+        var media;
+        var tracks;
         function startRecording() {
-            $scope.recording = true;
-            navigator.getUserMedia = navigator.getUserMedia
-            || navigator.webkitGetUserMedia
-            || navigator.mozGetUserMedia;
 
-            if ( !! navigator.getUserMedia) {
-                navigator.getUserMedia(
-                    constraints
-                    , function (stream) {
-                        mediaRecorder = new MediaRecorder(stream);
-                        mediaRecorder.start();
+            var promisifiedOldGUM = function(constraints) {
+                // First get ahold of getUserMedia, if present
+                var getUserMedia = (navigator.getUserMedia ||
+                navigator.webkitGetUserMedia ||
+                navigator.mozGetUserMedia);
 
-                        var url = window.URL || window.webkitURL;
-                        video = document.createElement('video');
-                        video.src = url ? url.createObjectURL(stream) : stream;
-                        video.play();
+                // Some browsers just don't implement it - return a rejected promise with an error
+                // to keep a consistent interface
+                if(!getUserMedia) {
+                    return $q.reject(new Error('getUserMedia is not implemented in this browser'));
+                }
 
-                        var chunks = [];
-
-                        mediaRecorder.ondataavailable = function(e) {
-                            chunks.push(e.data);
-                        }
-
-                        mediaRecorder.onstop = function(){
-                            $scope.recording = false;
-                            stream.stop();
-                            video.remove();
-
-                            var blob = new Blob(chunks, {type: "video/webm"});
-                            chunks = [];
-
-                            postFiles('video', blob);
-                        }
-
-
-                }, function (error) {
-                    alert(JSON.stringify(error));
+                // Otherwise, wrap the call to the old navigator.getUserMedia with a Promise
+                return new $q(function(resolve, reject) {
+                    getUserMedia.call(navigator, constraints, resolve, reject);
                 });
+
             }
-        };
+
+            // Older browsers might not implement mediaDevices at all, so we set an empty object first
+            if(navigator.mediaDevices === undefined) {
+                navigator.mediaDevices = {};
+            }
+
+            // Some browsers partially implement mediaDevices. We can't just assign an object
+            // with getUserMedia as it would overwrite existing properties.
+            // Here, we will just add the getUserMedia property if it's missing.
+            if(navigator.mediaDevices.getUserMedia === undefined) {
+                navigator.mediaDevices.getUserMedia = promisifiedOldGUM;
+            }
+
+
+            navigator.mediaDevices
+                .getUserMedia (constraints)
+                .then(function(stream) {
+                    media = RecordRTC(stream, {
+                        type: 'video'
+                    });
+
+
+                    media.startRecording();
+
+                    $scope.$apply(function() {$scope.Vars.recording = true;});
+                    tracks = stream.getTracks();
+
+                    /*var url = window.URL || window.webkitURL;
+                     video = document.createElement('video');
+                     video.src = url ? url.createObjectURL(stream) : stream;
+                     video.play();*/
+                })
+                .catch(function (error) {
+                    alert("Error:" + JSON.stringify(error));
+                });
+
+
+        }
+
 
         function search() {
 
@@ -113,15 +134,25 @@ angular.module('myApp.dashboards')
                 }
             }
         }
-        
-        
+
+
 
 
         function stopRecording() {
 
-            mediaRecorder.stop();
+            media.stopRecording(function () {
 
+                var recordedBlob = media.getBlob();
+                postFiles('video', recordedBlob);
+                $scope.Vars.recording = false;
+            });
+            tracks.forEach( function(track)
+            {
+                track.stop();
+            });
         };
+
+
         var fileName;
 
         function postFiles(type, blob) {
