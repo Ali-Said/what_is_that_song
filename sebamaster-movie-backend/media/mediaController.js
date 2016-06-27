@@ -44,7 +44,25 @@ module.exports.postMedia = function(req, res) {
         if(err) {
             console.log(err);
             return res.end("Error uploading file.");
-        }
-        res.end("File is uploaded");
+        };
+        res.end(req.files[0].path);
     });
+};
+
+var path = require('path');
+var fs = require('fs');
+
+module.exports.getMedia = function(req, res) {
+    //console.log(req.param('id'));
+    var f='defaultlogo.png';
+    fs.readdir(path.resolve('uploads'), function (err, files) { // '/' denotes the root folder
+        if (err) throw err;
+        for(var i=0; i<files.length;i++){
+            if (req.params.filename == files[i])
+                f = files[i];
+        }
+
+        res.sendFile(path.resolve('uploads/'+f));;
+    });
+
 };
