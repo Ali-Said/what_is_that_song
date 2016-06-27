@@ -18,7 +18,6 @@ exports.postPost = function(req, res) {
             res.status(500).send(err);
             return;
         }
-
         res.status(201).json(m);
     });
 };

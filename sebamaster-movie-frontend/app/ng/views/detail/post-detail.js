@@ -24,7 +24,7 @@ angular.module('myApp.posts')
 
         }
     })
-    .controller('PostDetailCtrl', function($rootScope, $scope, $state, $breadcrumb, $stateParams, currUser, Post, $mdMedia, $mdToast, $mdDialog) {
+    .controller('PostDetailCtrl', function($rootScope, $sce, $scope, $state, $breadcrumb, $stateParams, currUser, Post, $mdMedia, $mdToast, $mdDialog) {
 
         $scope.post = Post.get({postId: $stateParams.postId}, function(success){
             $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.post.user._id;
@@ -38,6 +38,11 @@ angular.module('myApp.posts')
             return;
         });
 
+
+        var mediaUrl = "http://localhost:3000/api/files/"+$scope.post.media;
+        $scope.mediaUrl = $sce.trustAsResourceUrl(mediaUrl);
+        alert($scope.mediaUrl);
+
         $scope.cancelEditingProfile = function(){ showSimpleToast("Editing cancelled"); };
         $scope.updatePost = updatePost;
         $scope.edit = edit;
@@ -47,8 +52,6 @@ angular.module('myApp.posts')
         $scope.post.$promise.then(function(){
             $scope.mayDelete = $scope.post.user._id && $scope.post.user._id == currUser.getUser()._id;
         });
-
-
 
         var tabs = [ {title : 'newest', search: 'date', reverse: true}, {title: 'votes', search: 'votes', reverse: true}];
         $scope.selected = {};
@@ -124,7 +127,6 @@ angular.module('myApp.posts')
             plugins: 'link image code',
             toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
         };
-
 
         function cancel() {
             $scope.request = $scope.post.text;

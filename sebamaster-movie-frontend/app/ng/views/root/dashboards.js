@@ -22,7 +22,7 @@ angular.module('myApp.dashboards')
         }
 
     })
-    .controller('DashboardsCtrl', function($scope, $q, $filter, $state, Upload, Profile, Post) {
+    .controller('DashboardsCtrl', function($scope, $q, $filter, $state, Upload, Profile, Post, currUser) {
         $scope.profiles = Profile.query();
         Post.query(function(sucess) {
             $scope.posts = $filter('filter')(sucess, {type: 'request'}, true);
@@ -45,7 +45,6 @@ angular.module('myApp.dashboards')
         function gotoPost(postId) {
             $state.go('posts.detail', {postId: postId});
         }
-
 
 
         var video;
@@ -98,16 +97,23 @@ angular.module('myApp.dashboards')
                         type: 'video'
                     });
 
-
                     media.startRecording();
-
-                    $scope.$apply(function() {$scope.Vars.recording = true;});
+                    if (!$scope.$$phase){
+                        $scope.$apply(function() {$scope.Vars.recording = true;});
+                    }
+                    else
+                    {
+                        $scope.Vars.recording = true;
+                    }
                     tracks = stream.getTracks();
 
-                    /*var url = window.URL || window.webkitURL;
-                     video = document.createElement('video');
+                     var url = window.URL || window.webkitURL;
+                     video = document.getElementById('video_stream');
+                     document.getElementById('video_container').style="";
+                     video.style="position:inherit;z-index:0;transform:inherit;-webkit-transform:inherit;top:0%;left:0%;";
                      video.src = url ? url.createObjectURL(stream) : stream;
-                     video.play();*/
+                     video.focus();
+                     video.play();
                 })
                 .catch(function (error) {
                     alert("Error:" + JSON.stringify(error));
@@ -145,6 +151,8 @@ angular.module('myApp.dashboards')
                 var recordedBlob = media.getBlob();
                 postFiles('video', recordedBlob);
                 $scope.Vars.recording = false;
+                var vid = document.getElementById('video_stream');
+                vid.parentNode.removeChild(vid);
             });
             tracks.forEach( function(track)
             {
@@ -157,9 +165,9 @@ angular.module('myApp.dashboards')
 
         function postFiles(type, blob) {
             fileName = getRandomString();
-            var files = { };
+            var files = {};
 
-            if (type == 'audio'){
+            if (type == 'audio') {
                 files.audio = {
                     name: fileName + ('.wav'),
                     type: 'audio/wav',
@@ -175,17 +183,25 @@ angular.module('myApp.dashboards')
             }
 
 
-
             Upload.upload({
                 url: 'http://localhost:3000/api/media',
                 file: files.audio || files.video
-            }).success(function () {
-                window.alert('uploaded to server');
+            }).success(function (f) {
+                //redirect to post with video
+                $scope.post = new Post();
+                $scope.post.text = "Enter text here";
+                $scope.post.type = "request";
+                $scope.post.date = new Date();
+                $scope.post.user = currUser.getUser();
+                $scope.post.votes = 0;
+                $scope.post.media = f;
+                $scope.post.$save(function (success) {
+                    $state.go('posts.detail', {postId: success._id});
+                });
+
             });
 
         }
-
-
 
         function getRandomString() {
             if (window.crypto) {
