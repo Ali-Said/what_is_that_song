@@ -36,10 +36,33 @@
 
         <div id="header"><h4>Buy Songs</h4></div>
 
-        <p class="md-body-1" id="number of points">{{profile.points < 100 ? 'You do not have enough points' : 'Get these:'}}</p>
-        <div layout="column" layout-align="center stretch">
+
+        <div layout="row" layout-align="center stretch">
+        <input type="text" ng-model="searchTerm" class="bar" placeholder="Enter your search terms" />
         </div>
-        <button><a href="http://www.apple.com/itunes" target="_blank"><img src="/img/cart.png" alt="cart" width = '25' height = '25' style = "vertical-align: middle"> Buy now</a></button>
+
+        <md-content>
+            <md-list flex>
+                <md-list-item class="md-3-line" ng-repeat="track in tracks | orderBy: 'title' | filter:searchTerm"">
+                    <div class="md-list-item-text" layout="column">
+                        <h3>{{track.title }}</h3>
+                        <h4>{{ track.artist }}</h4>
+                        <p>Price: {{ track.points }}</p>
+                        <p class="md-body-1" id="number of points">
+                            <div ng-if="profile.points < track.points">You do not have enough points</div>
+                            <div ng-if="profile.points >= track.points">
+                                <md-button href="http://www.apple.com/itunes" target="_blank">
+                                    <img src="/img/cart.png" alt="cart" width = "25" height = "25" style = "vertical-align: middle">Get now
+                                </md-button>
+                            </div>
+                        </p>
+                        <md-divider ></md-divider>
+                    </div>
+                </md-list-item>
+
+            </md-list>
+        </md-content>
+
 
 </div>
 </div>

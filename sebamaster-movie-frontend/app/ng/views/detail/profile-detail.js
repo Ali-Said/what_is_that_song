@@ -23,7 +23,7 @@ angular.module('myApp.profiles')
     })
 
 
-     .controller('ProfileDetailCtrl', function($rootScope, $scope, $state, $breadcrumb, $stateParams, currUser, Profile, $mdMedia, $mdToast, $mdDialog) {
+     .controller('ProfileDetailCtrl', function($rootScope, $scope, $state, $breadcrumb, $stateParams, currUser, Track, Profile, $mdMedia, $mdToast, $mdDialog) {
         $scope.profile = Profile.get({username: $stateParams.username}, function(success){
             if(angular.equals({}, success)) {
                 $state.go("dashboards.home");
@@ -39,8 +39,8 @@ angular.module('myApp.profiles')
             }}
         );
 
-
-
+         $scope.tracks = Track.query();
+         
 
         $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.profile._id;
         $scope.updateProfile = updateProfile;
