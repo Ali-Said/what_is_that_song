@@ -45,7 +45,7 @@ module.exports.postMedia = function(req, res) {
             console.log(err);
             return res.end("Error uploading file.");
         };
-        res.end(req.files[0].path);
+        res.end(req.files[0].filename);
     });
 };
 

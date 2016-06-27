@@ -29,6 +29,8 @@ angular.module('myApp.posts')
         $scope.post = Post.get({postId: $stateParams.postId}, function(success){
             $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.post.user._id;
 
+            var mediaUrl = "http://localhost:3000/api/files/"+$scope.post.media;
+            $scope.mediaUrl = $sce.trustAsResourceUrl(mediaUrl);
             if(angular.equals({}, success)) {
                 $state.go("dashboards.home");
                 return;
@@ -39,9 +41,6 @@ angular.module('myApp.posts')
         });
 
 
-        var mediaUrl = "http://localhost:3000/api/files/"+$scope.post.media;
-        $scope.mediaUrl = $sce.trustAsResourceUrl(mediaUrl);
-        alert($scope.mediaUrl);
 
         $scope.cancelEditingProfile = function(){ showSimpleToast("Editing cancelled"); };
         $scope.updatePost = updatePost;
