@@ -12,6 +12,7 @@ var userSchema = mongoose.Schema({
     picture: {type: String},
     birthday: Date,
     admin: Boolean,
+    status: [String],
     rating: {type: Number, default: 3 ,min: 0, max: 5,},
     points: {type: Number, default: 0},
     songs: {type: Array}
