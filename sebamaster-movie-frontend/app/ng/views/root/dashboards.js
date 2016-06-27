@@ -31,8 +31,12 @@ angular.module('myApp.dashboards')
         $scope.gotoProfile = gotoProfile;
         $scope.gotoPost = gotoPost;
         $scope.search = search;
+        $scope.openCamera = openCamera;
         $scope.startRecording = startRecording;
         $scope.stopRecording = stopRecording;
+
+        $scope.saveRecording = saveRecording;
+        $scope.cancelRecording = cancelRecording;
         $scope.Vars = {
             recording : false
         };
@@ -56,7 +60,8 @@ angular.module('myApp.dashboards')
 
         var media;
         var tracks;
-        function startRecording() {
+
+        function openCamera() {
 
             var promisifiedOldGUM = function(constraints) {
                 // First get ahold of getUserMedia, if present
@@ -93,6 +98,7 @@ angular.module('myApp.dashboards')
             navigator.mediaDevices
                 .getUserMedia (constraints)
                 .then(function(stream) {
+                    /*
                     media = RecordRTC(stream, {
                         type: 'video'
                     });
@@ -106,7 +112,7 @@ angular.module('myApp.dashboards')
                         $scope.Vars.recording = true;
                     }
                     tracks = stream.getTracks();
-
+                    */
                      var url = window.URL || window.webkitURL;
                      video = document.getElementById('video_stream');
                      document.getElementById('video_container').style="";
@@ -121,7 +127,85 @@ angular.module('myApp.dashboards')
 
 
         }
+        function startRecording(){
+            navigator.mediaDevices
+                .getUserMedia (constraints)
+                .then(function(stream) {
+                    media = RecordRTC(stream, {
+                        type: 'video'
+                    });
 
+                    media.startRecording();
+                    if (!$scope.$$phase){
+                        $scope.$apply(function() {$scope.Vars.recording = true;});
+                    }
+                    else
+                    {
+                        $scope.Vars.recording = true;
+                    }
+                    tracks = stream.getTracks();
+                    var url = window.URL || window.webkitURL;
+                    video = document.getElementById('video_stream');
+                    document.getElementById('video_container').style="";
+                    video.style="position:inherit;z-index:0;transform:inherit;-webkit-transform:inherit;top:0%;left:0%;";
+                    video.src = url ? url.createObjectURL(stream) : stream;
+                    video.focus();
+                    video.play();
+                })
+                .catch(function (error) {
+                    alert("Error:" + JSON.stringify(error));
+                });
+        }
+        function stopRecording() {
+            media.stopRecording(function () {
+                var recordedBlob = media.getBlob();
+                //postFiles('video', recordedBlob);
+                video = document.getElementById('video_stream');
+                video.src = window.URL.createObjectURL(recordedBlob);
+                video.controls="controls";
+                //$scope.Vars.recording = false;
+            });
+            tracks.forEach( function(track)
+            {
+                track.stop();
+            });
+        };
+
+        function saveRecording() {
+            var file = {
+                name: 'currentBlob.webm',
+                type: 'video/webm',
+                contents: media.getBlob()
+            };
+            postFiles('video', file);
+            $scope.Vars.recording = false;
+        };
+
+        function cancelRecording() {
+            var vid = document.getElementById('video_stream');
+            vid.parentNode.removeChild(vid);
+            vid.parentNode.parentNode.removeChild(vid.parentNode);
+            $scope.Vars.recording = false;
+        };
+
+        function postFiles(type, blob) {
+            Upload.upload({
+                url: 'http://localhost:3000/api/media',
+                file: blob
+            }).success(function (f) {
+                //redirect to post with video
+                $scope.post = new Post();
+                $scope.post.text = "Enter text here";
+                $scope.post.type = "request";
+                $scope.post.date = new Date();
+                $scope.post.user = currUser.getUser();
+                $scope.post.votes = 0;
+                $scope.post.media = f;
+                $scope.post.$save(function (success) {
+                    $state.go('posts.detail', {postId: success._id});
+                });
+            });
+        }
 
         function search() {
 
@@ -140,78 +224,4 @@ angular.module('myApp.dashboards')
                 }
             }
         }
-
-
-
-
-        function stopRecording() {
-
-            media.stopRecording(function () {
-
-                var recordedBlob = media.getBlob();
-                postFiles('video', recordedBlob);
-                $scope.Vars.recording = false;
-                var vid = document.getElementById('video_stream');
-                vid.parentNode.removeChild(vid);
-            });
-            tracks.forEach( function(track)
-            {
-                track.stop();
-            });
-        };
-
-
-        var fileName;
-
-        function postFiles(type, blob) {
-            fileName = getRandomString();
-            var files = {};
-
-            if (type == 'audio') {
-                files.audio = {
-                    name: fileName + ('.wav'),
-                    type: 'audio/wav',
-                    contents: blob
-                };
-            }
-            else {
-                files.video = {
-                    name: fileName + '.webm',
-                    type: 'video/webm',
-                    contents: blob
-                };
-            }
-
-
-            Upload.upload({
-                url: 'http://localhost:3000/api/media',
-                file: files.audio || files.video
-            }).success(function (f) {
-                //redirect to post with video
-                $scope.post = new Post();
-                $scope.post.text = "Enter text here";
-                $scope.post.type = "request";
-                $scope.post.date = new Date();
-                $scope.post.user = currUser.getUser();
-                $scope.post.votes = 0;
-                $scope.post.media = f;
-                $scope.post.$save(function (success) {
-                    $state.go('posts.detail', {postId: success._id});
-                });
-
-            });
-
-        }
-
-        function getRandomString() {
-            if (window.crypto) {
-                var a = window.crypto.getRandomValues(new Uint32Array(3)),
-                    token = '';
-                for (var i = 0, l = a.length; i < l; i++) token += a[i].toString(36);
-                return token;
-            } else {
-                return (Math.random() * new Date().getTime()).toString(36).replace( /\./g , '');
-            }
-        }
-
     });

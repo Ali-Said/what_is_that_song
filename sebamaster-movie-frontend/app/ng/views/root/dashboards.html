@@ -4,8 +4,12 @@
     <div layout="row" layout-align="center center" layout-padding>
 
         <div ng-show="loggedIn">
+            <md-button class="md-raised" id="open-camera" ng-click="openCamera()" ng-disabled="Vars.recording">Open Webcam</md-button>
             <md-button class="md-raised" id="start-recording" ng-click="startRecording()" ng-disabled="Vars.recording">Start Recording</md-button>
+
             <md-button class="md-raised" id="stop-recording" ng-click="stopRecording()" ng-disabled="!Vars.recording">Stop Recording</md-button>
+            <md-button class="md-raised" id="save-recording" ng-click="saveRecording()" ng-disabled="!Vars.recording">Save File</md-button>
+            <md-button class="md-raised" id="cancel-recording" ng-click="cancelRecording()" ng-disabled="!Vars.recording">Cancel</md-button>
         </div>
 
         <div ng-show="!loggedIn">
