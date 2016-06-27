@@ -44,6 +44,15 @@
 
 .vote {
   height: 100px;
+
+  .green {
+    fill: green;
+  }
+  .red {
+    fill: red;
+  }
+
+
 }
 
 .comment .date {

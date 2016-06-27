@@ -21,7 +21,7 @@
         </form>
     </div>
 
-    <div>Rate performance:<star-rating ng-model="post.rating"></star-rating></div>
+    <div>Rate performance:<star-rating ng-model="personalRating.rating" on-rating-select="rated(rating)"></star-rating> Current Rating: {{post.rating}}</div>
 
     <div layout="row" layout-align="start center" flex>
         <div class="md-title">{{post.comments.length}} Answer{{post.comments.length != 1 ? 's' : ''}}</div>
@@ -44,9 +44,9 @@
             <li ng-repeat="comment in post.comments | orderBy: selected.search : selected.reverse" ng-controller="AnswerListController">
                 <div layout="row" layout-padding>
                     <div class="vote" layout="column" layout-align="start center">
-                        <md-icon md-menu-origin md-svg-icon="navigation:ic_arrow_drop_up_24px"></md-icon>
+                        <md-button ng-click="voteUp()" aria-label="Vote Up"><md-icon ng-class="{green: votedUp}" md-menu-origin md-svg-icon="navigation:ic_arrow_drop_up_24px"></md-icon></md-button>
                         <span>{{comment.votes}}</span>
-                        <md-icon md-menu-origin md-svg-icon="navigation:ic_arrow_drop_down_24px"></md-icon>
+                        <md-button ng-click="voteDown()" aria-label="Vote Down"><md-icon ng-class="{red: votedDown}" md-menu-origin md-svg-icon="navigation:ic_arrow_drop_down_24px"></md-icon></md-button>
                     </div>
 
                     <div class="answer" layout-padding>
