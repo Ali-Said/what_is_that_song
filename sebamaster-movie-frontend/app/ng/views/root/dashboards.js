@@ -22,7 +22,7 @@ angular.module('myApp.dashboards')
         }
 
     })
-    .controller('DashboardsCtrl', function($scope, $q, $filter, $state, Upload, Profile, Post, currUser) {
+    .controller('DashboardsCtrl', function($scope, $q, $filter, $state, $timeout, Upload, Profile, Post, currUser) {
         $scope.profiles = Profile.query();
         Post.query(function(sucess) {
             $scope.posts = $filter('filter')(sucess, {type: 'request'}, true);
@@ -38,7 +38,8 @@ angular.module('myApp.dashboards')
         $scope.saveRecording = saveRecording;
         $scope.cancelRecording = cancelRecording;
         $scope.Vars = {
-            recording : false
+            recording : false,
+            camera : false
         };
 
 
@@ -51,7 +52,7 @@ angular.module('myApp.dashboards')
         }
 
 
-        var video;
+        var video = document.getElementById('video_stream');
 
         var constraints = {
             audio: true,
@@ -60,6 +61,8 @@ angular.module('myApp.dashboards')
 
         var media;
         var tracks;
+        var mainstream = null;
+        var url = window.URL || window.webkitURL;
 
         function openCamera() {
 
@@ -113,79 +116,82 @@ angular.module('myApp.dashboards')
                     }
                     tracks = stream.getTracks();
                     */
-                     var url = window.URL || window.webkitURL;
-                     video = document.getElementById('video_stream');
                      document.getElementById('video_container').style="";
                      video.style="position:inherit;z-index:0;transform:inherit;-webkit-transform:inherit;top:0%;left:0%;";
                      video.src = url ? url.createObjectURL(stream) : stream;
                      video.focus();
                      video.play();
+                    mainstream = stream;
+                    $timeout(function() {
+                        $scope.Vars.camera= true;
+                    });
+
                 })
-                .catch(function (error) {
+                /*.catch(function (error) {
                     alert("Error:" + JSON.stringify(error));
-                });
+                })*/;
 
 
         }
         function startRecording(){
-            navigator.mediaDevices
-                .getUserMedia (constraints)
-                .then(function(stream) {
-                    media = RecordRTC(stream, {
-                        type: 'video'
-                    });
-
-                    media.startRecording();
-                    if (!$scope.$$phase){
-                        $scope.$apply(function() {$scope.Vars.recording = true;});
-                    }
-                    else
-                    {
-                        $scope.Vars.recording = true;
-                    }
-                    tracks = stream.getTracks();
-                    var url = window.URL || window.webkitURL;
-                    video = document.getElementById('video_stream');
-                    document.getElementById('video_container').style="";
-                    video.style="position:inherit;z-index:0;transform:inherit;-webkit-transform:inherit;top:0%;left:0%;";
-                    video.src = url ? url.createObjectURL(stream) : stream;
-                    video.focus();
-                    video.play();
-                })
-                .catch(function (error) {
-                    alert("Error:" + JSON.stringify(error));
+            if(mainstream) {
+                var stream = mainstream;
+                media = RecordRTC(stream, {
+                    type: 'video'
                 });
+
+                media.startRecording();
+                $timeout(function() {
+                    $scope.Vars.recording = true;
+                });
+                tracks = stream.getTracks();
+                video = document.getElementById('video_stream');
+                document.getElementById('video_container').style="";
+                video.style="position:inherit;z-index:0;transform:inherit;-webkit-transform:inherit;top:0%;left:0%;";
+                video.src = url ? url.createObjectURL(stream) : stream;
+                video.focus();
+                video.play();
+            }
         }
         function stopRecording() {
             media.stopRecording(function () {
                 var recordedBlob = media.getBlob();
-                //postFiles('video', recordedBlob);
-                video = document.getElementById('video_stream');
-                video.src = window.URL.createObjectURL(recordedBlob);
+                video.src = url ? url.createObjectURL(recordedBlob) : recordedBlob;
                 video.controls="controls";
                 //$scope.Vars.recording = false;
-            });
-            tracks.forEach( function(track)
-            {
-                track.stop();
             });
         };
 
         function saveRecording() {
+            tracks.forEach( function(track)
+            {
+                track.stop();
+            });
+            $timeout(function() {
+                $scope.Vars.camera= false;
+                $scope.Vars.recording = false;
+            });
             var file = {
                 name: 'currentBlob.webm',
                 type: 'video/webm',
                 contents: media.getBlob()
             };
             postFiles('video', file);
-            $scope.Vars.recording = false;
+
         };
 
         function cancelRecording() {
+            tracks.forEach( function(track)
+            {
+                track.stop();
+            });
+            $timeout(function() {
+                $scope.Vars.camera= false;
+                $scope.Vars.recording = false;
+            });
             var vid = document.getElementById('video_stream');
             vid.parentNode.removeChild(vid);
             vid.parentNode.parentNode.removeChild(vid.parentNode);
-            $scope.Vars.recording = false;
         };
 
         function postFiles(type, blob) {
