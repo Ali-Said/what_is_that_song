@@ -31,8 +31,10 @@
         <div flex>
             <div layout="column" layout-align="center stretch">
                 <md-button class="md-raised md-primary" style="background-color: #01579b">Songs {{profile.songs.length == 0 ? 'No songs': ''}}</md-button></div>
+        <div style="height: 230px; overflow: auto; padding: 5px;">
         <div layout="column" layout-align="center stretch">
             <md-card mv-song-card class="mv-card" song="song" ng-repeat="song in profile.songs"></md-card>
+        </div>
         </div>
 
 
@@ -41,19 +43,16 @@
         </div>
 
 
-            <div class="bar">
-            <input type="text" ng-model="searchTerm" placeholder="Enter song title or artist" />
-            </div>
-
-
+        <div class="bar">
+        <input type="text" ng-model="searchTerm" placeholder="Enter song title or artist" />
+        </div>
         <md-content>
+            <div style="height: 350px; overflow: auto; padding: 5px;">
             <md-list flex>
               <md-list-item class="md-3-line" ng-repeat="track in tracks | orderBy: 'title' | filter:searchTerm"">
                 <img id="note_pic" src="/img/music_note.png" alt="music" width = "40" height = "35">
                 </img>
-
                 <div class="md-list-item-text" layout="column" layout-align="center stretch">
-
                         <h3>{{track.title }}</h3>
                         <h4>{{ track.artist }}</h4>
                         <p>Price: {{ track.points }}</p> </div>
@@ -65,14 +64,11 @@
                                     <img src="/img/cart.png" alt="cart" width = "25" height = "25" style="color: black; vertical-align: middle">Get now
                                 </md-button>
                             </div>
-
                         </div>
                         <md-divider ></md-divider>
-
-
                 </md-list-item>
-
             </md-list>
+            </div>
         </md-content>
 
 
