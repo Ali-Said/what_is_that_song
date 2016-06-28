@@ -9,3 +9,29 @@ md-input-container textarea[md-no-autogrow].md-input {
 .mv-error-text {
   color: red;
 }
+
+.star-rating {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+
+  .star {
+    padding: 1px;
+    color: #ddd;
+    font-size: 20px;
+    text-shadow: .05em .05em #aaa;
+    list-style-type: none;
+    display: inline-block;
+    cursor: pointer;
+
+    &.filled {
+      md-icon {
+        fill: rgb(141, 224, 59);
+      }
+    }
+  }
+
+  &.readonly .star.filled {
+    fill: grey;
+  }
+}
