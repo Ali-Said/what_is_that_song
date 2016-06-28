@@ -32,7 +32,7 @@ exports.getTracks = function(req, res) {
 // Create endpoint /api/tracks/:track_id for GET
 exports.getTrack = function(req, res) {
     // Use the Beer model to find a specific beer
-    Track.findById(req.params.track_id, function(err, track) {
+    Track.findById(req.params.trackId, function(err, track) {
         if (err) {
             res.status(500).send(err)
             return;
@@ -42,26 +42,6 @@ exports.getTrack = function(req, res) {
     });
 };
 
-// Create endpoint /api/dashboards/:movie_id for PUT
-exports.rateTrack = function(req, res) {
-    // Use the Beer model to find a specific beer
-    Track.findByIdAndUpdate(
-        req.params.track_id,
-        {$set: {rating: reg.params.rating}},
-        {
-            //pass the new object to cb function
-            new: true,
-            //run validations
-            runValidators: true
-        }, function (err, track) {
-        if (err) {
-            res.status(500).send(err);
-            return;
-        }
-        res.json(track);
-    });
-
-};
 
 // Create endpoint /api/dashboards/:movie_id for DELETE
 exports.deleteTrack = function(req, res) {

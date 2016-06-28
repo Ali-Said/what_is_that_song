@@ -24,7 +24,7 @@ angular.module('myApp.posts')
 
         }
     })
-    .controller('PostDetailCtrl', function($rootScope, $scope, $state, $filter, $breadcrumb, $stateParams, currUser, Post, $mdMedia, $mdToast, $mdDialog) {
+    .controller('PostDetailCtrl', function($rootScope, $scope, $sce, $state, $filter, $breadcrumb, $stateParams, currUser, Post, $mdMedia, $mdToast, $mdDialog) {
 
         $scope.cancelEditingProfile = function(){ showSimpleToast("Editing cancelled"); };
         $scope.updatePost = updatePost;
@@ -123,6 +123,9 @@ angular.module('myApp.posts')
 
             var result = $filter('filter')(success.voters, {user: currUser.getUser()._id}, true);
             result && result.length > 0 ? $scope.personalRating = result[0] : $scope.personalRating = {rating: 0};
+
+            var mediaUrl = "http://localhost:3000/api/files/"+$scope.post.media;
+            $scope.mediaUrl = $sce.trustAsResourceUrl(mediaUrl);
         }
 
         function edit() {
@@ -164,7 +167,6 @@ angular.module('myApp.posts')
             plugins: 'link image code',
             toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
         };
-
 
         function cancel() {
             $scope.request = $scope.post.text;

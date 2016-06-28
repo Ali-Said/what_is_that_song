@@ -21,7 +21,9 @@ angular.module('myApp.profiles')
 
         }
     })
-    .controller('ProfileDetailCtrl', function($rootScope, $scope, $state, $breadcrumb, $stateParams, currUser, Profile, $mdMedia, $mdToast, $mdDialog) {
+
+
+     .controller('ProfileDetailCtrl', function($rootScope, $scope, $state, $breadcrumb, $stateParams, currUser, Track, Profile, $mdMedia, $mdToast, $mdDialog) {
         $scope.profile = Profile.get({username: $stateParams.username}, function(success){
             if(angular.equals({}, success)) {
                 $state.go("dashboards.home");
@@ -37,8 +39,8 @@ angular.module('myApp.profiles')
             }}
         );
 
-
-
+         $scope.tracks = Track.query();
+         
 
         $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.profile._id;
         $scope.updateProfile = updateProfile;
@@ -113,18 +115,32 @@ angular.module('myApp.profiles')
             );
         }
 
+
+
+
+
     })
 
- .controller ('FrmController', function ($scope) {
-    $scope.comment = [];
-    $scope.btn_add = function() {
-        if($scope.txtcomment !=''){
-            $scope.comment.push($scope.txtcomment);
-            $scope.txtcomment = "";
-        }
-    }
+     .controller ('FrmController', function ($scope,currUser) {
+         $scope.btn_add = addComment;
+         $scope.remItem = deleteComment;
 
-    $scope.remItem = function($index) {
-        $scope.comment.splice($index, 1);
-    }
-});
+        
+
+         //////////
+
+         function addComment() {
+             if ($scope.txtcomment != '') {
+                 $scope.$parent.profile.status.push($scope.txtcomment);
+                 $scope.$parent.updateProfile(true);
+             }
+         }
+
+         function deleteComment(index) {
+             $scope.$parent.profile.status.splice(index, 1);
+             $scope.$parent.updateProfile(true);
+         }
+
+
+
+    });

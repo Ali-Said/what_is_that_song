@@ -8,12 +8,17 @@
                     </md-menu-item>
                 </md-menu-content>
         </md-menu>
-        <div><img ng-src="http://localhost:3000/profile/pic/{{'default'}}"></div>
+        <div layout="row" layout-align="center">
+            <md-toolbar id="video_container" layout="row" style="width:450px;height:350px;">
+                <video id="real_video" ng-src="{{mediaUrl}}" style="position:inherit;" controls></video>
+            </md-toolbar>
+        </div>
+        <br>
+        <br>
         <div ng-bind-html="post.text"></div>
 
     </div>
     <div class="center" ng-show="editing" ng-controller="RequestController">
-        <div><img ng-src="http://localhost:3000/profile/pic/{{'default'}}"></div>
         <form method="post">
             <textarea ui-tinymce="tinymceOptions" ng-model="request"></textarea>
             <md-button class="md-raised" ng-click="save()">Save</md-button>

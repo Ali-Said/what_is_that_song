@@ -15,6 +15,8 @@ function mediaRoutes(passport) {
     router.route('/media')
         .post(mediaController.postMedia);
 
+    router.route('/files/:filename')
+        .get(mediaController.getMedia);
     return router;
 
 }
