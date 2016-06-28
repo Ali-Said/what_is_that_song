@@ -88,7 +88,7 @@
             <textarea ui-tinymce="tinymceOptions" ng-model="newComment"></textarea>
             <div ng-show="loggedIn">
                 <md-button class="md-raised" ng-click="save()">Send</md-button>
-                <md-button class="md-raised md-warn" ng-click="cancel()">Reset</md-button>
+                <md-button class="md-raised md-warn" style="background-color: #01579b" ng-click="cancel()">Reset</md-button>
             </div>
             <div ng-show="!loggedIn">
                 <p>You have to login!</p>

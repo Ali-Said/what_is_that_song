@@ -19,7 +19,7 @@
             Post your Status
             <form ng-show="mayDelete">
                     <textarea ng-model="txtcomment" id = "status" placeholder="Enter your text here" style='width:450px'></textarea>
-                    <button ng-click='btn_add();' style='margin-top:10px;'>POST</button>
+                    <md-button class="md-raised md-primary" ng-click='btn_add();' layout-align="center end" style="background-color: #01579b; margin-left:369px;">POST</md-button>
             </form>
             <li id='list' ng-repeat="comnt in profile.status"> {{ comnt }} <a ng-show="mayDelete" style="float: right;" href="" ng-click="remItem($index)">x</a></li>
 
@@ -28,36 +28,48 @@
     </div>
     </div>
     <div layout="row" id="profileWrapper1">
-    <div flex>
-        <div id="headerOwn"><h4>Songs {{profile.songs.length == 0 ? 'No songs': ''}}</h4></div>
+        <div flex>
+            <div layout="column" layout-align="center stretch">
+                <md-button class="md-raised md-primary" style="background-color: #01579b">Songs {{profile.songs.length == 0 ? 'No songs': ''}}</md-button></div>
         <div layout="column" layout-align="center stretch">
             <md-card mv-song-card class="mv-card" song="song" ng-repeat="song in profile.songs"></md-card>
         </div>
 
-        <div id="header"><h4>Buy Songs</h4></div>
 
-
-        <div layout="row" layout-align="center stretch">
-        <input type="text" ng-model="searchTerm" class="bar" placeholder="Enter your search terms" />
+        <div layout="column" layout-align="center stretch">
+            <md-button class="md-raised md-primary" style="background-color: #01579b">Buy Songs</md-button>
         </div>
+
+
+            <div class="bar">
+            <input type="text" ng-model="searchTerm" placeholder="Enter song title or artist" />
+            </div>
+
 
         <md-content>
             <md-list flex>
-                <md-list-item class="md-3-line" ng-repeat="track in tracks | orderBy: 'title' | filter:searchTerm"">
-                    <div class="md-list-item-text" layout="column">
+              <md-list-item class="md-3-line" ng-repeat="track in tracks | orderBy: 'title' | filter:searchTerm"">
+                <img id="note_pic" src="/img/music_note.png" alt="music" width = "40" height = "35">
+                </img>
+
+                <div class="md-list-item-text" layout="column" layout-align="center stretch">
+
                         <h3>{{track.title }}</h3>
                         <h4>{{ track.artist }}</h4>
-                        <p>Price: {{ track.points }}</p>
-                        <p class="md-body-1" id="number of points">
-                            <div ng-if="profile.points < track.points">You do not have enough points</div>
+                        <p>Price: {{ track.points }}</p> </div>
+                        <div class="md-body-1" id="number-of-points" layout="column" layout-align="center stretch">
+
+                            <div ng-if="profile.points < track.points" style="margin-top: 18px; margin-right: 5px">You don't have enough points</div>
                             <div ng-if="profile.points >= track.points">
                                 <md-button href="http://www.apple.com/itunes" target="_blank">
-                                    <img src="/img/cart.png" alt="cart" width = "25" height = "25" style = "vertical-align: middle">Get now
+                                    <img src="/img/cart.png" alt="cart" width = "25" height = "25" style="color: black; vertical-align: middle">Get now
                                 </md-button>
                             </div>
-                        </p>
+
+                        </div>
                         <md-divider ></md-divider>
-                    </div>
+
+
                 </md-list-item>
 
             </md-list>

@@ -21,8 +21,9 @@
 }
 
 #pic {
-  width:300px;
+  width:350px;
   layout-align:center;
+  margin-left:35px;
 }
 
 #header {
@@ -50,7 +51,7 @@
 }
 
 .md-button.md-whatsong-theme:hover:not([disabled]) {
-  background: none;
+  background-color: none;
 
 }
 
@@ -91,22 +92,21 @@
   font: 200 12pt/1.5 sans-serif;
 }
 
-#status {
-  margin: 6px;
 
-}
 
 .bar{
-  background-color:#808080;
+  background-color:#01579b;
 
-  background-image:-webkit-linear-gradient(top, #808080, #808080);
-  background-image:-moz-linear-gradient(top, #808080,#808080);
-  background-image:linear-gradient(top, #808080, #808080);
+  background-image:-webkit-linear-gradient(top, #01579b, #01579b);
+  background-image:-moz-linear-gradient(top, #01579b,#01579b);
+  background-image:linear-gradient(top, #01579b, #01579b);
 
   box-shadow: 0 1px 1px #ccc;
-  border-radius: 2px;
-  width: 250px;
+  border-radius: 1px;
+  width: 300px;
   padding: 4px;
+  margin-left: 8px;
+  margin-top: 3px;
 }
 
 .bar input{
@@ -115,16 +115,24 @@
 
   border: none;
   width: 100%;
-  line-height: 19px;
+  line-height: 10px;
   padding: 11px 0;
 
-  border-radius: 2px;
+  border-radius: 1px;
   box-shadow: 0 2px 8px #c4c4c4 inset;
   text-align: left;
   font-size: 14px;
   font-family: inherit;
-  color: #738289;
+  color: #808080;
   font-weight: bold;
   outline: none;
   text-indent: 40px;
+}
+#number-of-points {
+  margin-top: 20px;
+}
+
+#note_pic{
+  padding: 8px;
+  margin-top: 15px;
 }
