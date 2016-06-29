@@ -37,9 +37,7 @@ angular.module('myApp.profiles')
             return;
         });
 
-
-        $scope.tracks = Track.query();
-
+         
          $scope.edit = edit;
          $scope.save = save;
          $scope.cancel = cancel;
