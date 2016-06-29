@@ -39,7 +39,13 @@ angular.module('myApp.profiles')
             }}
         );
 
-         $scope.tracks = Track.query();
+
+         $scope.showEditDialog = showEditDialog;
+
+
+
+
+        $scope.tracks = Track.query();
          
 
         $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.profile._id;
@@ -69,6 +75,19 @@ angular.module('myApp.profiles')
         });
 
         ////////////////////
+
+
+         function showEditDialog(){
+             var useFullScreen = $mdMedia('xs');
+             $mdDialog.show({
+                 controller: 'edit',
+                 templateUrl: 'views/detail/edit-profile.html',
+                 clickOutsideToClose:true,
+                 fullscreen: useFullScreen
+             });
+         }
+
+
 
         function uploadPictureDialog(ev) {
             var useFullScreen = ( $mdMedia('xs'));

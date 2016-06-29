@@ -24,6 +24,7 @@
   width:350px;
   layout-align:center;
   margin-left:35px;
+  margin-top: 38px;
 }
 
 #header {
@@ -107,4 +108,9 @@
 #note_pic{
   padding: 8px;
   margin-top: 15px;
+}
+
+#edit-button {
+  position: relative;
+  right: calc(-95% + 5px);
 }
