@@ -52,12 +52,12 @@
 }
 
 .md-button.md-whatsong-theme:hover:not([disabled]) {
-  background-color: none;
+  background-color: unset;
 
 }
 
 #dv1{
-  margin-left: 0px;
+  margin-left: 0;
   width:450px;
 }
 
@@ -107,10 +107,31 @@
 
 #note_pic{
   padding: 8px;
-  margin-top: 15px;
 }
 
 #edit-button {
   position: relative;
   right: calc(-95% + 5px);
+}
+
+
+
+// Songs
+
+
+
+#vertical-container {
+  height: 400px;
+  width: 100%;
+  max-width: 1000px;
+  overflow: auto;
+}
+
+.track-info {
+  width: 70%;
+  max-width: 700px;
+}
+
+.md-line {
+  background-color: white;
 }

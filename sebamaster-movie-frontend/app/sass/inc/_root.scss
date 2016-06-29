@@ -4,19 +4,18 @@
 
 md-content.md-whatsong-theme {
   background: transparent;
-  overflow: inherit;
 }
 
 body{
   background-color: black;
+  overflow: hidden;
 
   .button-container {
     margin: 30px;
   }
 }
 
-#main {
-  padding-bottom: 100px;
+#main > *:last-child {
   margin-bottom: 100px;
 }
 

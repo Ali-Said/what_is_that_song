@@ -23,7 +23,7 @@ angular.module('myApp.profiles')
     })
 
 
-    .controller('ProfileSongsDetailCtrl', function($rootScope, $scope, $state, $breadcrumb, $stateParams, currUser, Track, Profile, $mdMedia, $mdToast, $mdDialog) {
+    .controller('ProfileSongsDetailCtrl', function($rootScope, $scope, $state, $filter, $breadcrumb, $stateParams, currUser, Track, Profile, $mdMedia, $mdToast, $mdDialog) {
 
         $scope.profile = Profile.get({username: $stateParams.username}, function(success){
             if(angular.equals({}, success)) {
@@ -37,10 +37,12 @@ angular.module('myApp.profiles')
         });
 
 
-        $scope.tracks = Track.query();
-
         $scope.profile.$promise.then(function(){
             $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.profile._id;
+        });
+
+        Track.query(function(success) {
+            $scope.tracks = success;
         });
 
 
