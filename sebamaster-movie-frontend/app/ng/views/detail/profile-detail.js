@@ -113,7 +113,7 @@ angular.module('myApp.profiles')
             }
 
             $scope.profile.$update().then(function(){
-                $rootScope.$broadcast('profileUpdated', $scope.profile);
+                $rootScope.$broadcast('profile-updated', $scope.profile);
                 showSimpleToast("update successfull");
             }, function(){
                 showSimpleToast("error. please try again later");

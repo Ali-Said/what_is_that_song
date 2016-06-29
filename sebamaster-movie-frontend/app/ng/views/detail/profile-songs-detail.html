@@ -9,8 +9,9 @@
 
     <div layout="row" id="profileWrapper1">
         <div flex>
+            <p>Available points: {{profile.points}}</p>
             <div layout="column" layout-align="center stretch">
-                <span class="titlebar">Songs</span></div>
+                <span class="titlebar">Owned Songs</span></div>
             <div>
                 <p ng-if="profile.songs.length == 0">No songs available</p>
                 <div ng-if="profile.songs.length > 0" layout="column" layout-align="center stretch">
@@ -40,7 +41,7 @@
 
                     <div ng-if="profile.points < track.points">You don't have enough points</div>
                     <div ng-if="profile.points >= track.points">
-                        <md-button href="http://www.apple.com/itunes" target="_blank">
+                        <md-button ng-click="getSong(track)">
                             <img src="/img/cart.png" alt="cart" width = "25" height = "25">Get now
                         </md-button>
                     </div>

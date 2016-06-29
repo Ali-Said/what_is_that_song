@@ -1,7 +1,10 @@
 <div layout="row">
 <md-card-title>
     <md-card-title-text>
-        <span class="">{{song.title}}</span>
+        <div class="track-info" layout="row" layout-align="space-between center">
+            <h4 flex="40">Artist: {{ song.artist }}</h4>
+            <h4 flex="40">Title: {{song.title }}</h4>
+        </div>
     </md-card-title-text>
     <md-card-title-media>
         <img class="mv-card-pic" ng-src="{{song.posters.thumbnail}}" />

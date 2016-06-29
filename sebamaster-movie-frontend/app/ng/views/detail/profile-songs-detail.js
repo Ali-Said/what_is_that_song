@@ -31,28 +31,60 @@ angular.module('myApp.profiles')
                 return;
             }
 
-            angular.forEach($scope.profile.songs, function(value, key) {
-                $scope.profile[key] = Track.get({trackId: value._id});
-            })
-            
+            initializeValues();
+
         }, function(error) {
             $state.go("dashboards.home");
             return;
         });
-
-
-        $scope.profile.$promise.then(function(){
-            $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.profile._id;
+        
+        $scope.$on('profile-updated', function(event, args) {
+            initializeValues();
         });
 
-        Track.query(function(success) {
-            $scope.tracks = success;
-        });
+        
+
+        
+        $scope.getSong = getSong;
 
 
         ////////////////////
 
+        function initializeValues() {
+            $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.profile._id;
 
+            Track.query(function(success) {
+                $scope.tracks = success;
+                angular.forEach($scope.profile.songs, function(value, key) {
+                    Track.get({trackId: value._id}, function(success) {
+                        $scope.profile.songs[key] = success;
+                        $scope.tracks.splice($scope.tracks.map(function(x) {return x._id}).indexOf(success._id),1);
+                    });
+                });
+
+            });
+        }
+
+        function getSong(track) {
+            $scope.profile.songs.push({_id: track._id});
+            $scope.profile.points -= track.points;
+            updateProfile(true);
+        }
+
+        function updateProfile(changed) {
+
+            if (!changed) {
+                showSimpleToast("no change");
+                return;
+            }
+
+            $scope.profile.$update().then(function(success){
+                $rootScope.$broadcast('profile-updated', success);
+                showSimpleToast("update successfull");
+            }, function(){
+                showSimpleToast("error. please try again later");
+            });
+        }
 
 
         function showSimpleToast(txt) {
