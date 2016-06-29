@@ -28,7 +28,7 @@
             </div>
 
             <md-list id="vertical-container" flex>
-                <md-list-item ng-repeat="track in tracks" class="md-line" layout="row" layout-align="space-between center" flex>
+                <md-list-item ng-repeat="track in tracks | orderBy: 'artist' | filter: searchTerm" class="md-line" layout="row" layout-align="space-between center" flex>
                     <img id="note_pic" src="/img/music_note.png" alt="music" width = "40" height = "35">
                     </img>
                     <div class="track-info" layout="row" layout-align="space-between center">
