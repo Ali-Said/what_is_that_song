@@ -1,10 +1,10 @@
 <div ng-app="myapp.posts" layout="column" id="postWrapper" layout-padding controller="PostDetailController" post>
     <div class="center" ng-show="!editing">
         <md-menu class="tool-buttons" ng-show="mayEdit" ng-disabled="!mayEdit" ng-cloak>
-                <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"><md-icon md-menu-origin md-svg-icon="action:ic_settings_24px"></md-icon></md-button>
+                <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)" aria-label="Post-Toolbar"><md-icon md-menu-origin md-svg-icon="action:ic_settings_24px"></md-icon></md-button>
                 <md-menu-content>
                     <md-menu-item>
-                        <md-button ng-click="edit()">Edit<md-icon md-menu-origin md-svg-icon="editor:ic_mode_edit_24px"></md-icon></md-button>
+                        <md-button ng-click="edit()" aria-label="Edit Request">Edit<md-icon md-menu-origin md-svg-icon="editor:ic_mode_edit_24px"></md-icon></md-button>
                     </md-menu-item>
                 </md-menu-content>
         </md-menu>
