@@ -14,7 +14,7 @@ angular.module('myApp.profiles')
                 }
             },
             ncyBreadcrumb: {
-                label: "Profile: {{profile.username}}",
+                label: "Songs",
                 parent: "profiles.detail"
             }
 
