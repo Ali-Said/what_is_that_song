@@ -26,7 +26,7 @@ angular.module('myApp.posts')
     })
     .controller('PostDetailCtrl', function($rootScope, $scope, $sce, $state, $filter, $breadcrumb, $stateParams, currUser, Post, $mdMedia, $mdToast, $mdDialog) {
 
-        $scope.cancelEditingProfile = function(){ showSimpleToast("Editing cancelled"); };
+        $scope.cancelEditingPost = function(){ showSimpleToast("Editing cancelled"); };
         $scope.updatePost = updatePost;
         $scope.rated = rated;
         $scope.edit = edit;

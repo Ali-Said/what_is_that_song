@@ -17,35 +17,49 @@
             </md-menu-content>
         </md-menu>
     </div>
-    <div layout="row">
-    <div layout="column" id="pic">
-        <md-button class="round-button" ng-click="uploadPictureDialog()" aria-label="Upload Picture" ng-cloak>
-            <img ng-src="http://localhost:3000/profile/pic/{{profile.picture || 'default'}}">
-        </md-button>
-        <div id="ratingInfo">
-        <p class="md-body-1">Rating: {{profile.rating}}</p>
-        <star-rating ng-model="profile.rating" readonly="true"></star-rating></div>
-    </div>
+    <div layout="column">
+        <div layout="row">
+            <div layout="column" id="pic">
+                <md-button class="round-button" ng-click="uploadPictureDialog()" aria-label="Upload Picture" ng-cloak>
+                    <img ng-src="http://localhost:3000/profile/pic/{{profile.picture || 'default'}}">
+                </md-button>
+                <div id="ratingInfo">
+                <p class="md-body-1">Rating: {{profile.rating}}</p>
+                <star-rating ng-model="profile.rating" readonly="true"></star-rating></div>
+            </div>
 
-        <div flex layout="column" width="300px">
+            <div flex layout="column" width="300px">
 
-        <div class="md-display-1 md-primary md-accent">{{profile.username}}</div>
-        <p class="md-body-1">Name: {{profile.name}}</p>
-        <p class="md-body-1">Birthday: {{profile.birthday | date:'dd.MM.yyyy'}}</p>
-        <p class="md-body-1">E-Mail: {{profile.email}}</p>
-        <p class="md-body-1">Points: {{profile.points}}</p>
+                <div class="md-display-1 md-primary md-accent">{{profile.username}}</div>
+                <div ng-if="!editing">
+                    <p class="md-body-1">Name: {{profile.name}}</p>
+                    <p class="md-body-1">Birthday: {{profile.birthday | date:'dd.MM.yyyy'}}</p>
+                    <p class="md-body-1">E-Mail: {{profile.email}}</p>
+                </div>
+                <div ng-if="editing" ng-cloak>
+                    <p class="md-body-1">Name: <input ng-model="tempProfile.name" /></p>
+                    <p class="md-body-1">Birthday: <md-datepicker ng-model="dt" ng-change="tempProfile.birthday = dt.toISOString()"></md-datepicker></p>
+                    <p class="md-body-1">E-Mail: <input ng-model="tempProfile.email" /></p>
+                </div>
+                <p class="md-body-1">Points: {{profile.points}}</p>
 
-        <div id='dv1' ng-controller="FrmController">
-            Post your Status
-            <form ng-show="mayDelete">
-                    <textarea ng-model="txtcomment" id = "status" placeholder="Enter your text here" style='width:450px'></textarea>
-                    <md-button class="md-raised md-primary" ng-click='btn_add();' layout-align="center end" style="background-color: #01579b; margin-left:369px;">POST</md-button>
-            </form>
-            <li id='list' ng-repeat="comnt in profile.status"> {{ comnt }} <a ng-show="mayDelete" style="float: right;" href="" ng-click="remItem($index)">x</a></li>
 
+                <div id='dv1' ng-controller="FrmController">
+                    Post your Status
+                    <form ng-show="mayDelete">
+                            <textarea ng-model="txtcomment" id = "status" placeholder="Enter your text here" style='width:450px'></textarea>
+                            <md-button class="md-raised md-primary" ng-click='btn_add();' layout-align="center end" style="background-color: #01579b; margin-left:369px;">POST</md-button>
+                    </form>
+                    <li id='list' ng-repeat="comnt in profile.status"> {{ comnt }} <a ng-show="mayDelete" style="float: right;" href="" ng-click="remItem($index)">x</a></li>
+
+                </div>
+
+            </div>
         </div>
-
-    </div>
+        <div ng-if="editing" layout="row" layout-align="center center">
+            <md-button class="md-raised" ng-click="save()">Save</md-button>
+            <md-button class="md-raised md-warn" ng-click="cancel()">Cancel</md-button>
+        </div>
     </div>
     <div layout="row" id="profileWrapper1">
         <div flex>

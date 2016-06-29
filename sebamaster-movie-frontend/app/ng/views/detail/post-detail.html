@@ -15,10 +15,9 @@
         </div>
         <br>
         <br>
-        <div ng-bind-html="post.text"></div>
 
     </div>
-    <div class="center" ng-show="editing" ng-controller="RequestController">
+    <div class="center" ng-if="editing" ng-controller="RequestController">
         <form method="post">
             <textarea ui-tinymce="tinymceOptions" ng-model="request"></textarea>
             <md-button class="md-raised" ng-click="save()">Save</md-button>

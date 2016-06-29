@@ -24,6 +24,7 @@ angular.module('myApp.profiles')
 
 
      .controller('ProfileDetailCtrl', function($rootScope, $scope, $state, $breadcrumb, $stateParams, currUser, Track, Profile, $mdMedia, $mdToast, $mdDialog) {
+
         $scope.profile = Profile.get({username: $stateParams.username}, function(success){
             if(angular.equals({}, success)) {
                 $state.go("dashboards.home");
@@ -34,22 +35,15 @@ angular.module('myApp.profiles')
         }, function(error) {
             $state.go("dashboards.home");
             return;
-        },
-        $scope.save = function (answer, answerForm){
-            if(answerForm.$valid){
-                alert("Your status is saved");
-            }}
-        );
-
-
-         $scope.showEditDialog = showEditDialog;
-
-
+        });
 
 
         $scope.tracks = Track.query();
-         
 
+         $scope.edit = edit;
+         $scope.save = save;
+         $scope.cancel = cancel;
+         $scope.editing = false;
         $scope.updateProfile = updateProfile;
         $scope.uploadPictureDialog = uploadPictureDialog;
         $scope.cancelEditingProfile = function(){ showSimpleToast("Editing cancelled"); }
@@ -78,18 +72,22 @@ angular.module('myApp.profiles')
 
         ////////////////////
 
-
-         function showEditDialog(){
-             var useFullScreen = $mdMedia('xs');
-             $mdDialog.show({
-                 controller: 'edit',
-                 templateUrl: 'views/detail/edit-profile.html',
-                 clickOutsideToClose:true,
-                 fullscreen: useFullScreen
-             });
+         function edit() {
+             $scope.tempProfile = $scope.profile;
+             $scope.dt = new Date($scope.profile.birthday);
+             $scope.editing = true;
          }
 
+         function cancel() {
+             $scope.cancelEditingProfile();
+             $scope.editing = false;
+         }
 
+         function save() {
+             $scope.profile = $scope.tempProfile;
+             $scope.updateProfile(true);
+             $scope.editing = false;
+         }
 
         function uploadPictureDialog(ev) {
             var useFullScreen = ( $mdMedia('xs'));
