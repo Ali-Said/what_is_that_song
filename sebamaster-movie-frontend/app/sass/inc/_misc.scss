@@ -35,3 +35,12 @@ md-input-container textarea[md-no-autogrow].md-input {
     fill: grey;
   }
 }
+
+.center {
+  text-align: center;
+}
+
+.tool-buttons {
+  position: relative;
+  right: calc(-50% + 10px);
+}

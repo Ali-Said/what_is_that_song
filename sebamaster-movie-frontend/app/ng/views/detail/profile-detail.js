@@ -29,6 +29,8 @@ angular.module('myApp.profiles')
                 $state.go("dashboards.home");
                 return;
             }
+
+
         }, function(error) {
             $state.go("dashboards.home");
             return;
@@ -48,13 +50,13 @@ angular.module('myApp.profiles')
         $scope.tracks = Track.query();
          
 
-        $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.profile._id;
         $scope.updateProfile = updateProfile;
         $scope.uploadPictureDialog = uploadPictureDialog;
         $scope.cancelEditingProfile = function(){ showSimpleToast("Editing cancelled"); }
 
         $scope.profile.$promise.then(function(){
             $scope.mayDelete = $scope.profile._id && $scope.profile._id == currUser.getUser()._id;
+            $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.profile._id;
         });
 
         $scope.$watch(function(){
@@ -64,7 +66,7 @@ angular.module('myApp.profiles')
                 $scope.mayDelete = false;
                 $scope.mayEdit = false;
             } else {
-                $scope.mayEdit = currUser.getUser()._id == $scope.profile._id;
+                $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.profile._id;
                 $scope.mayDelete = $scope.profile._id == currUser.getUser()._id;
             }
         });

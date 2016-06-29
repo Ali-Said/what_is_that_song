@@ -1,5 +1,22 @@
 <div ng-app="myapp.profiles" id="profileWrapper" layout-padding profile>
 
+    <div layout="row" ng-if="mayEdit" ng-cloak>
+        <md-button>Profile</md-button>
+        <md-button>Own Requests</md-button>
+        <md-button>Own comments</md-button>
+        <md-button>Own Songs</md-button>
+    </div>
+
+    <div class="center">
+        <md-menu class="tool-buttons" ng-if="mayEdit" ng-disabled="!mayEdit" ng-cloak>
+            <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)" aria-label="Post-Toolbar"><md-icon md-menu-origin md-svg-icon="action:ic_settings_24px"></md-icon></md-button>
+            <md-menu-content>
+                <md-menu-item>
+                    <md-button ng-click="edit()" aria-label="Edit Request">Edit<md-icon md-menu-origin md-svg-icon="editor:ic_mode_edit_24px"></md-icon></md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </div>
     <div layout="row">
     <div layout="column" id="pic">
         <md-button class="round-button" ng-click="uploadPictureDialog()" aria-label="Upload Picture" ng-cloak>
@@ -9,12 +26,8 @@
         <p class="md-body-1">Rating: {{profile.rating}}</p>
         <star-rating ng-model="profile.rating" readonly="true"></star-rating></div>
     </div>
-    <div flex layout="column" width="300px">
 
-
-        <md-button class="md-icon-button" id="edit-button" aria-label="Profile-Settings"><md-icon md-menu-origin md-svg-icon="action:ic_settings_24px" ng-click="showEditDialog()">
-        </md-icon></md-button>
-
+        <div flex layout="column" width="300px">
 
         <div class="md-display-1 md-primary md-accent">{{profile.username}}</div>
         <p class="md-body-1">Name: {{profile.name}}</p>
