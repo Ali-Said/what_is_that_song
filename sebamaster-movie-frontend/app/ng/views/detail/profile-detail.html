@@ -1,4 +1,5 @@
 <div ng-app="myapp.profiles" id="profileWrapper" layout-padding profile>
+
     <div layout="row">
     <div layout="column" id="pic">
         <md-button class="round-button" ng-click="uploadPictureDialog()" ng-cloak>
@@ -9,6 +10,12 @@
         <star-rating ng-model="profile.rating" readonly="true"></star-rating></div>
     </div>
     <div flex layout="column" width="300px">
+
+
+        <md-button class="md-icon-button" id="edit-button"><md-icon md-menu-origin md-svg-icon="action:ic_settings_24px" ng-click="showEditDialog()">
+        </md-icon></md-button>
+
+
         <div class="md-display-1 md-primary md-accent">{{profile.username}}</div>
         <p class="md-body-1">Name: {{profile.name}}</p>
         <p class="md-body-1">Birthday: {{profile.birthday | date:'dd.MM.yyyy'}}</p>
