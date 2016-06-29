@@ -4,9 +4,10 @@ var mongoose = require('mongoose');
 // Define our movie schema
 var Track   = new mongoose.Schema({
     title: String,
-    rating: {type: Number, default: 3 ,min: 0, max: 5,},
+    rating: {type: Number, default: 3 ,min: 0, max: 5},
     artist: String,
-    points: Number
+    points: Number,
+    url: String
 });
 
 // Export the Mongoose model

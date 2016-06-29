@@ -30,6 +30,10 @@ angular.module('myApp.profiles')
                 $state.go("dashboards.home");
                 return;
             }
+
+            angular.forEach($scope.profile.songs, function(value, key) {
+                $scope.profile[key] = Track.get({trackId: value._id});
+            })
             
         }, function(error) {
             $state.go("dashboards.home");

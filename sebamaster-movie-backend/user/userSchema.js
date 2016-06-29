@@ -16,7 +16,11 @@ var userSchema = mongoose.Schema({
     status: [String],
     rating: {type: Number, default: 3 ,min: 0, max: 5,},
     points: {type: Number, default: 0},
-    songs: {type: Array}
+    songs:  [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Track',
+        required: true
+    }]
 });
 
 userSchema.pre('save', function(next) {

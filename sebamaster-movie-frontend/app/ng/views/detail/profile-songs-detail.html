@@ -10,16 +10,17 @@
     <div layout="row" id="profileWrapper1">
         <div flex>
             <div layout="column" layout-align="center stretch">
-                <md-button class="md-raised md-primary" class="blue">Songs {{profile.songs.length == 0 ? 'No songs': ''}}</md-button></div>
-            <div style="height: 230px; overflow: auto; padding: 5px;">
-                <div layout="column" layout-align="center stretch">
+                <span class="titlebar">Songs</span></div>
+            <div>
+                <p ng-if="profile.songs.length == 0">No songs available</p>
+                <div ng-if="profile.songs.length > 0" layout="column" layout-align="center stretch">
                     <md-card mv-song-card class="mv-card" song="song" ng-repeat="song in profile.songs"></md-card>
                 </div>
             </div>
 
 
             <div layout="column" layout-align="center stretch">
-                <md-button class="md-raised md-primary" class="blue">Buy Songs</md-button>
+                <span class="titlebar">Buy Songs</span>
             </div>
 
 
