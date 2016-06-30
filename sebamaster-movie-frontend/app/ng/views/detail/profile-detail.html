@@ -8,7 +8,7 @@
 
     <div class="center">
         <md-menu class="tool-buttons" ng-if="mayEdit" ng-disabled="!mayEdit" ng-cloak>
-            <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)" aria-label="Post-Toolbar"><md-icon md-menu-origin md-svg-icon="action:ic_settings_24px"></md-icon></md-button>
+            <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)" aria-label="Post-Toolbar" style="margin-top: 10px"><md-icon md-menu-origin md-svg-icon="action:ic_settings_24px"></md-icon></md-button>
             <md-menu-content>
                 <md-menu-item>
                     <md-button ng-click="edit()" aria-label="Edit Request">Edit<md-icon md-menu-origin md-svg-icon="editor:ic_mode_edit_24px"></md-icon></md-button>
@@ -57,7 +57,7 @@
         </div>
         <div ng-if="editing" layout="row" layout-align="center center">
             <md-button class="md-raised" ng-click="save()">Save</md-button>
-            <md-button class="md-raised md-warn" ng-click="cancel()">Cancel</md-button>
+            <md-button class="md-raised md-warn" ng-click="cancel()" style="background-color: #01579b">Cancel</md-button>
         </div>
     </div>
 </div>

@@ -26,15 +26,15 @@
   .usercard {
     padding: 10px;
     width: 200px;
-    background: lightsteelblue;
+    background: transparent;
   }
 }
 
 .vote {
   height: 100px;
 
-  .green {
-    fill: green;
+  .gold {
+    fill: gold;
   }
   .red {
     fill: red;
@@ -46,8 +46,11 @@
 .comment .date {
   color: darkgray;
   font-size: 0.8em;
+  background-color: transparent;
 }
 
 .comment .user {
   font-size: 0.7em;
+  background-color: transparent;
 }
+
