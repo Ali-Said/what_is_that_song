@@ -124,12 +124,32 @@ angular.module('myApp.posts')
             });
         });
 
+        $scope.$on('editing-off', function(event, args) {
+            $scope.editing = false;
+        })
+
+
 
         ////////////////////
 
         function initValues(success) {
-            $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.post.user._id;
-            $scope.mayDelete = $scope.post.user._id && $scope.post.user._id == currUser.getUser()._id;
+            $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.post.user;
+            $scope.mayDelete = $scope.post.user && $scope.post.user == currUser.getUser()._id;
+
+            if (success.comments._id) {
+                angular.forEach(success.comments, function(value, key) {
+                    Post.get({postId: value._id}, function(success) {
+                        $scope.post.comments[key] = success;
+                    })
+
+                })
+            } else
+                angular.forEach(success.comments, function(value, key) {
+                    Post.get({postId: value}, function(success) {
+                        $scope.post.comments[key] = success;
+                    })
+
+                });
 
             var result = $filter('filter')(success.voters, {user: currUser.getUser()._id}, true);
             result && result.length > 0 ? $scope.personalRating = result[0] : $scope.personalRating = {rating: 0};
@@ -169,7 +189,7 @@ angular.module('myApp.posts')
         }
 
     })
-    .controller('RequestController', function($scope) {
+    .controller('RequestController', function($rootScope, $scope) {
 
         $scope.cancel = cancel;
         $scope.save = save;
@@ -180,13 +200,13 @@ angular.module('myApp.posts')
 
         function cancel() {
             $scope.request = $scope.post.text;
-            $scope.$parent.editing = false;
+            $rootScope.$broadcast('editing-off');
         };
 
         function save() {
             $scope.post.text = $scope.request;
             $scope.updatePost(true);
-            $scope.$parent.editing = false;
+            $rootScope.$broadcast('editing-off');
         };
     })
     .controller('CommentController', function($rootScope, $scope, currUser, Post) {
@@ -225,21 +245,20 @@ angular.module('myApp.posts')
         $scope.votedUp = false;
         $scope.voedDown = false;
 
-        if ($scope.comment)
-            Post.get({postId: $scope.comment}, function(success) {
-                $scope.comment = success;
-                User.get({id: success.user}, function(success) {
-                    $scope.comment.user = success;
-                });
-                $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == success.user;
-                $scope.voteData = $filter('filter')($scope.comment.voters, {user: currUser.getUser()._id}, true);
-                $scope.voteData && $scope.voteData.length > 0 ? $scope.voteData = $scope.voteData[0] : $scope.voteData = null;
-                if ($scope.voteData) {
-                    $scope.vote.voted = $scope.voteData.user ? true : false;
-                    $scope.votedUp = $scope.vote.voted && $scope.voteData.up;
-                    $scope.votedDown = $scope.vote.voted && !$scope.voteData.up;
-                }
+        if ($scope.comment.user) {
+            User.get({id: $scope.comment.user}, function (success) {
+                $scope.comment.user = success;
             });
+            $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.comment.user;
+            $scope.voteData = $filter('filter')($scope.comment.voters, {user: currUser.getUser()._id}, true);
+            $scope.voteData && $scope.voteData.length > 0 ? $scope.voteData = $scope.voteData[0] : $scope.voteData = null;
+            if ($scope.voteData) {
+                $scope.vote.voted = $scope.voteData.user ? true : false;
+                $scope.votedUp = $scope.vote.voted && $scope.voteData.up;
+                $scope.votedDown = $scope.vote.voted && !$scope.voteData.up;
+            }
+        }
+
 
 
         $scope.voteUp = voteUp;
@@ -309,8 +328,10 @@ angular.module('myApp.posts')
                 $scope.comment.voters.push($scope.voteData);
             }
 
-            $scope.comment.$update();
-            $rootScope.$broadcast('changed-comment', $scope.comment);
+            $scope.comment.$update(function(success) {
+                $rootScope.$broadcast('changed-comment', success);
+            });
+
 
         }
 

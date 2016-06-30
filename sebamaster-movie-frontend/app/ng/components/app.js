@@ -11,7 +11,7 @@ angular.module('myApp', ['ui.router', 'myApp.dashboards', 'myApp.profiles', 'myA
             '200': '#0000ff',
             '300': '#000fff',
             '400': '#00ffff',
-            '500': '#000000',
+            '500': '#01579b',
             '600': '#ffffff',
             '700': '#fffff0',
             '800': '#ffff00',

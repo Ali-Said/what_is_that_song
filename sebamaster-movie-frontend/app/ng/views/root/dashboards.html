@@ -21,9 +21,9 @@
         </div>
     </div>
 </div>
-<div layout="row" layout-align="center">
-    <md-toolbar id="video_container" layout="row" style="width:0px;height:0px;">
-        <video id="video_stream" style="position:inherit;z-index:-1;top:0%;left:0%;transform:inherit;-webkit-transform:inherit;"></video>
+<div ng-if="Vars.camera" layout="row" layout-align="center">
+    <md-toolbar id="video_container" layout="row">
+        <video id="video_stream"></video>
     </md-toolbar>
 </div>
 
@@ -62,9 +62,11 @@
     <md-content>
         <md-list flex>
             <md-list-item class="md-3-line" ng-repeat="profile in profiles | orderBy: 'rating' : true | limitTo: 10" ng-click="gotoProfile(profile.username)">
-                <img ng-src="http://localhost:3000/profile/pic/{{profile.picture}}" class="md-avatar" alt="{{profile.username}}" />
-                <div layout="row" layout-align="space-around center" layout-padding><h3>{{ profile.username }}</h3>
-                <h4>Rating: {{ profile.rating }}</h4></div>
+                <div flex="100" layout="row" layout-align="space-between center">
+                    <img ng-src="http://localhost:3000/profile/pic/{{profile.picture}}" class="md-avatar" alt="{{profile.username}}" />
+                    <h3>{{ profile.username }}</h3>
+                    <h4>Rating: {{ profile.rating }}</h4>
+                </div>
                 <md-divider ></md-divider>
             </md-list-item>
         </md-list>

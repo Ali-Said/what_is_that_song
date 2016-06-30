@@ -7,6 +7,20 @@
   margin:auto;
 }
 
+#video_container {
+  width:450px;
+  height:350px;
+
+  video {
+    positio: inherit;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    background-size: cover;
+  }
+}
+
 
 #tabs {
   width: 250px;
@@ -33,8 +47,8 @@
 .vote {
   height: 100px;
 
-  .gold {
-    fill: gold;
+  .green {
+    fill: green;
   }
   .red {
     fill: red;

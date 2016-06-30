@@ -8,7 +8,7 @@
 
     <div class="center">
         <md-menu class="tool-buttons" ng-if="mayEdit" ng-disabled="!mayEdit" ng-cloak>
-            <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)" aria-label="Post-Toolbar" style="margin-top: 10px"><md-icon md-menu-origin md-svg-icon="action:ic_settings_24px"></md-icon></md-button>
+            <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)" aria-label="Post-Toolbar"><md-icon md-menu-origin md-svg-icon="action:ic_settings_24px"></md-icon></md-button>
             <md-menu-content>
                 <md-menu-item>
                     <md-button ng-click="edit()" aria-label="Edit Request">Edit<md-icon md-menu-origin md-svg-icon="editor:ic_mode_edit_24px"></md-icon></md-button>
@@ -46,10 +46,10 @@
                 <div id='dv1' ng-controller="FrmController">
                     Post your Status
                     <form ng-show="mayDelete">
-                            <textarea ng-model="txtcomment" id = "status" placeholder="Enter your text here" style='width:450px'></textarea>
-                            <md-button class="md-raised md-primary" ng-click='btn_add();' layout-align="center end" style="background-color: #01579b; margin-left:369px;">POST</md-button>
+                            <textarea ng-model="txtcomment" id = "status" placeholder="Enter your text here"></textarea>
+                            <md-button class="md-raised md-primary" ng-click='btn_add();' layout-align="center end">POST</md-button>
                     </form>
-                    <li id='list' ng-repeat="comnt in profile.status"> {{ comnt }} <a ng-show="mayDelete" style="float: right;" href="" ng-click="remItem($index)">x</a></li>
+                    <li id='list' ng-repeat="comnt in profile.status"> {{ comnt }} <a ng-show="mayDelete" href="" ng-click="remItem($index)">x</a></li>
 
                 </div>
 
@@ -57,7 +57,7 @@
         </div>
         <div ng-if="editing" layout="row" layout-align="center center">
             <md-button class="md-raised" ng-click="save()">Save</md-button>
-            <md-button class="md-raised md-warn" ng-click="cancel()" style="background-color: #01579b">Cancel</md-button>
+            <md-button class="md-raised md-warn" ng-click="cancel()">Cancel</md-button>
         </div>
     </div>
 </div>

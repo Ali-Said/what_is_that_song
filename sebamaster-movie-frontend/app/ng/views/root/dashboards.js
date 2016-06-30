@@ -117,11 +117,10 @@ angular.module('myApp.dashboards')
                     }
                     tracks = stream.getTracks();
                     */
-                    document.getElementById('video_container').style="width:50%;";
+                    document.getElementById('video_container');
                     var video = document.getElementById('video_stream');
                     video.controls="";
                     video.muted= true;
-                    video.style="position:inherit;z-index:0;transform:inherit;-webkit-transform:inherit;top:0%;left:0%;";
                     video.src = url ? url.createObjectURL(stream) : stream;
                     video.focus();
                     video.play();
@@ -151,8 +150,7 @@ angular.module('myApp.dashboards')
                 });
                 tracks = stream.getTracks();
                 video = document.getElementById('video_stream');
-                document.getElementById('video_container').style="width:50%;";
-                video.style="position:inherit;z-index:0;transform:inherit;-webkit-transform:inherit;top:0%;left:0%;";
+                document.getElementById('video_container');
                 video.src = url ? url.createObjectURL(stream) : stream;
                 video.focus();
                 video.play();
@@ -198,9 +196,6 @@ angular.module('myApp.dashboards')
                 $scope.Vars.recording = false;
                 $scope.Vars.ready = false;
             });
-            var vid = document.getElementById('video_stream');
-            vid.style="position:inherit;z-index:-1;top:0%;left:0%;transform:inherit;-webkit-transform:inherit;";
-            vid.parentNode.style="width:0px;height:0px;";
         };
 
         function postFiles(type, blob) {

@@ -14,7 +14,7 @@
         <md-list id="vertical-container" flex>
             <md-list-item ng-repeat="post in posts | filter:{type: type}" class="md-line" ui-sref="posts.detail({postId: post._id})" flex>
                 <div flex="100" layout="row" layout-align="space-between center">
-                    <div layout="column">
+                    <div flex="40" layout="column">
                         <span>{{post.text | stripTags | characters:50}}</span>
                         <span class="date">{{post.date | date:"MMM d yy 'at' H:mm"}}</span>
                     </div>
