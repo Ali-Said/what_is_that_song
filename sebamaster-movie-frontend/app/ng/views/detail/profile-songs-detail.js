@@ -25,11 +25,13 @@ angular.module('myApp.profiles')
 
     .controller('ProfileSongsDetailCtrl', function($rootScope, $scope, $state, $filter, $breadcrumb, $stateParams, currUser, Track, Profile, $mdMedia, $mdToast, $mdDialog) {
 
-        $scope.profile = Profile.get({username: $stateParams.username}, function(success){
+        Profile.get({username: $stateParams.username}, function(success){
             if(angular.equals({}, success)) {
                 $state.go("dashboards.home");
                 return;
             }
+
+            $scope.profile = success;
 
             initializeValues();
 
@@ -56,7 +58,7 @@ angular.module('myApp.profiles')
             Track.query(function(success) {
                 $scope.tracks = success;
                 angular.forEach($scope.profile.songs, function(value, key) {
-                    Track.get({trackId: value._id}, function(success) {
+                    Track.get({trackId: value}, function(success) {
                         $scope.profile.songs[key] = success;
                         $scope.tracks.splice($scope.tracks.map(function(x) {return x._id}).indexOf(success._id),1);
                     });

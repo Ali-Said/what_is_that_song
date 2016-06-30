@@ -61,7 +61,10 @@
                             <md-button class="md-raised md-warn" ng-click="cancel()">Cancel</md-button>
                         </form>
                         <div layout="row" layout-align="space-between start">
-                            <a class="gray md-caption" ng-show="mayEdit" ng-click="edit()">edit</a>
+                            <div>
+                                <a class="gray md-caption" ng-if="mayEdit" ng-click="edit()" href="">edit</a>
+                                <a class="gray md-caption" ng-if="mayEdit" ng-click="remove($event)" href="">delete</a>
+                            </div>
                             <div class="usercard" layout="column">
                                 <span class="date">answered {{comment.date | date:"MMM d yy 'at' H:mm"}}</span>
                                 <div layout="row">

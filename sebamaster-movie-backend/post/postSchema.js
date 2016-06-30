@@ -16,6 +16,7 @@ var Post   = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+    parent: {type: mongoose.Schema.Types.ObjectId, ref:'Post'},
     comments: [{type: mongoose.Schema.Types.ObjectId, ref:'Post'}],
     rating: Number,
     votes: Number,

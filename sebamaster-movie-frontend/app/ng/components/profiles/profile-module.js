@@ -1,6 +1,6 @@
 angular.module('myApp.profiles', ['ngResource', 'ui.router'])
 
-    .config(function ($stateProvider, $urlRouterProvider, profileDetailsState, profileSongsDetailsState) {
+    .config(function ($stateProvider, $urlRouterProvider, profileDetailsState, profileSongsDetailsState, profilePostsDetailsState) {
         $stateProvider
 
             .state('profiles', {
@@ -13,7 +13,8 @@ angular.module('myApp.profiles', ['ngResource', 'ui.router'])
             })
 
             .state(profileDetailsState.name, profileDetailsState.options)
-            .state(profileSongsDetailsState.name, profileSongsDetailsState.options);
+            .state(profileSongsDetailsState.name, profileSongsDetailsState.options)
+            .state(profilePostsDetailsState.name, profilePostsDetailsState.options);
 
     });
 

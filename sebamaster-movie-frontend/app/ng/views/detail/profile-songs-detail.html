@@ -2,8 +2,7 @@
 
     <div layout="row" ng-if="mayEdit" ng-cloak>
         <md-button ui-sref="profiles.detail({username: profile.username})">Profile</md-button>
-        <md-button>Own Requests</md-button>
-        <md-button>Own comments</md-button>
+        <md-button ui-sref="profiles.posts({username: profile.username})">Own Posts</md-button>
         <md-button>Own Songs</md-button>
     </div>
 

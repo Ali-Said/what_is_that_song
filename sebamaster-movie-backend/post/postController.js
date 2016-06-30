@@ -26,15 +26,6 @@ exports.postPost = function(req, res) {
 exports.getPosts = function(req, res) {
     Post.find()
         .lean()
-        .populate('user')
-        .populate({
-            path: 'comments',
-            model: 'Post',
-            populate: {
-                path: 'user',
-                model: 'User'
-            }
-        })
         .exec(function(err, post) {
             if (err) {
                 res.status(500).send(err);
@@ -51,15 +42,6 @@ exports.getPost = function(req, res) {
     // Use the Beer model to find a specific beer
     Post.findById(req.params.post_id)
         .lean()
-        .populate('user')
-        .populate({
-            path: 'comments',
-            model: 'Post',
-            populate: {
-                path: 'user',
-                model: 'User'
-            }
-        })
         .exec(function(err, post) {
             if (err) {
                 res.status(500).send(err);
@@ -83,15 +65,6 @@ exports.putPost = function(req, res) {
             runValidators: true
         })
         .lean()
-        .populate('user')
-        .populate({
-            path: 'comments',
-            model: 'Post',
-            populate: {
-                path: 'user',
-                model: 'User'
-            }
-        })
         .exec(function(err, post) {
             if (err) {
                 res.status(500).send(err);

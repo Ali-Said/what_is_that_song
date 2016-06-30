@@ -18,6 +18,10 @@ function userRoutes(passport) {
     router.route('/profile/:username')
         .get(userController.getProfile)
         .put(userController.putProfile);
+    
+    router.route('/user/:id')
+        .get(userController.getUser)
+        .put(userController.putUser);
 
     return router;
 

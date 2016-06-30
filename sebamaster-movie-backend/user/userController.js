@@ -109,6 +109,36 @@ module.exports.putProfile = function(req, res) {
         });
 
 };
+
+module.exports.getUser = function(req, res) {
+    User.findById(req.params.id, function (err, user) {
+        if (err) {
+            res.status(500).send(err)
+            return;
+        }
+
+        res.json(user);
+    });
+};
+
+module.exports.putUser = function(req, res) {
+    User.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        {
+            //pass the new object to cb function
+            new: true,
+            //run validations
+            runValidators: true
+        }, function (err, user) {
+            if (err) {
+                res.status(500).send(err);
+                return;
+            }
+            res.json(user);
+        });
+}
+
 var path = require('path');
 var fs = require('fs');
 

@@ -1,0 +1,20 @@
+<div ng-app="myapp.profiles" id="profileWrapper" layout-padding profile>
+
+    <div layout="row" ng-if="mayEdit" ng-cloak>
+        <md-button ui-sref="profiles.detail({username: profile.username})">Profile</md-button>
+        <md-button>Own Posts</md-button>
+        <md-button ui-sref="profiles.songs({username: profile.username})">Own Songs</md-button>
+    </div>
+
+    <div layout="row" layout-align="center center">
+        <md-button ng-click="type = 'request'">Requests</md-button>
+        <md-button ng-click="type = 'comment'">Comments</md-button>
+    </div>
+    <div layout="row" id="profileWrapper1">
+        <md-list id="vertical-container" flex>
+            <md-list-item ng-repeat="post in posts | filter:{type: type}" class="md-line" layout="row" layout-align="space-between center" ui-sref="posts.detail({postId: post._id})" flex>
+                <p>{{post.text}}</p>
+            </md-list-item>
+        </md-list>
+    </div>
+</div>

@@ -32,6 +32,7 @@ angular.module('myApp.posts')
         $scope.edit = edit;
         $scope.editing = false;
         $scope.personalRating = {rating: 0};
+        $scope.post = {};
 
 
 
@@ -40,11 +41,15 @@ angular.module('myApp.posts')
         $scope.tabs = tabs;
         $scope.select = {selectedIndex: 1};
 
-        $scope.post = Post.get({postId: $stateParams.postId}, function(success){
+        Post.get({postId: $stateParams.postId}, function(success){
             if(angular.equals({}, success)) {
                 $state.go("dashboards.home");
                 return;
             }
+            if (success.parent) {
+                $state.go("posts.detail",{postId: success.parent});
+            }
+            $scope.post = success;
 
             initValues(success);
 
@@ -87,6 +92,11 @@ angular.module('myApp.posts')
             $scope.post.comments.push(args);
             updatePost(true);
         });
+
+        $scope.$on('comment-removed', function(event, args) {
+            $scope.post.comments.splice($scope.post.comments.indexOf(args),1);
+            updatePost(true);
+        })
 
 
 
@@ -142,7 +152,7 @@ angular.module('myApp.posts')
 
             $scope.post.$update().then(function(success){
                 initValues(success);
-                $rootScope.$broadcast('postUpdated', success);
+                $rootScope.$broadcast('post-updated', success);
                 showSimpleToast("update successfull");
             }, function(){
                 showSimpleToast("error. please try again later");
@@ -196,6 +206,7 @@ angular.module('myApp.posts')
 
         function save() {
             $scope.comment.text = $scope.newComment;
+            $scope.comment.parent = $scope.post._id;
             $scope.comment.type = "comment";
             $scope.comment.date = new Date();
             $scope.comment.user = currUser.getUser();
@@ -205,7 +216,7 @@ angular.module('myApp.posts')
             });
         };
     })
-    .controller('AnswerListController', function($rootScope, $scope, $filter, currUser, Post) {
+    .controller('AnswerListController', function($rootScope, $scope, $filter, currUser, Post, User, $mdDialog) {
 
         $scope.mayEdit = false;
         $scope.vote = {};
@@ -214,9 +225,13 @@ angular.module('myApp.posts')
         $scope.votedUp = false;
         $scope.voedDown = false;
 
-        if ($scope.comment._id)
-            $scope.comment = Post.get({postId: $scope.comment._id}, function(success) {
-                $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == success.user._id;
+        if ($scope.comment)
+            Post.get({postId: $scope.comment}, function(success) {
+                $scope.comment = success;
+                User.get({id: success.user}, function(success) {
+                    $scope.comment.user = success;
+                });
+                $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == success.user;
                 $scope.voteData = $filter('filter')($scope.comment.voters, {user: currUser.getUser()._id}, true);
                 $scope.voteData && $scope.voteData.length > 0 ? $scope.voteData = $scope.voteData[0] : $scope.voteData = null;
                 if ($scope.voteData) {
@@ -232,6 +247,7 @@ angular.module('myApp.posts')
         $scope.updateVoteData = updateVoteData;
         $scope.editing = false;
         $scope.edit = edit;
+        $scope.remove = remove;
         $scope.cancel = cancel;
         $scope.save = save;
         $scope.tinymceOptions = {
@@ -301,6 +317,22 @@ angular.module('myApp.posts')
         function edit() {
             $scope.commentText = $scope.comment.text;
             $scope.editing = true;
+        }
+
+        function remove(ev) {
+            var confirm = $mdDialog.confirm()
+                .title('Remove Answer')
+                .textContent('Are you sure, that you want to remove your comment?')
+                .ariaLabel('Remove')
+                .targetEvent(ev)
+                .clickOutsideToClose(true)
+                .ok('Yes')
+                .cancel('Abort');
+            $mdDialog.show(confirm).then(function() {
+                $scope.comment.$delete(function(success) {
+                    $rootScope.$broadcast('comment-removed', success);
+                });
+            });
         }
 
         function cancel() {

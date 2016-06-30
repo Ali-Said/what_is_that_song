@@ -9,4 +9,7 @@ angular.module('myApp.profiles')
     .factory('Profile', function( $resource) {
         return $resource('http://localhost:3000/profile/:username', {username:'@username'});
 
+    })
+    .factory('User', function($resource) {
+        return $resource('http://localhost:3000/user/:id', {id:'@id'});
     });
