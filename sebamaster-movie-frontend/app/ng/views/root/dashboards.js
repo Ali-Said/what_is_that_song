@@ -22,7 +22,7 @@ angular.module('myApp.dashboards')
         }
 
     })
-    .controller('DashboardsCtrl', function($scope, $q, $filter, $state, $timeout, Upload, Profile, Post, currUser) {
+    .controller('DashboardsCtrl', function($scope, $q, $filter, $state, Profile, Post, currUser, $mdMedia, $mdDialog) {
         $scope.profiles = Profile.query();
         Post.query(function(sucess) {
             $scope.posts = $filter('filter')(sucess, {type: 'request'}, true);
@@ -31,17 +31,12 @@ angular.module('myApp.dashboards')
         $scope.gotoProfile = gotoProfile;
         $scope.gotoPost = gotoPost;
         $scope.search = search;
-        $scope.openCamera = openCamera;
-        $scope.startRecording = startRecording;
-        $scope.stopRecording = stopRecording;
+        $scope.loggedIn = currUser.loggedIn();
+        $scope.customFullscreen = false;
 
-        $scope.saveRecording = saveRecording;
-        $scope.cancelRecording = cancelRecording;
-        $scope.Vars = {
-            recording : false,
-            camera : false,
-            ready : false
-        };
+        $scope.$watch(function(){
+            $scope.loggedIn =  currUser.loggedIn();
+        });
 
 
         function gotoProfile(username) {
@@ -52,8 +47,70 @@ angular.module('myApp.dashboards')
             $state.go('posts.detail', {postId: postId});
         }
 
+        var tracks;
+        $scope.$on('stream-tracks', function(event, args) {
+            tracks = args;
+        })
 
-        var video = document.getElementById('video_stream');
+
+        $scope.recordingDialog = function(ev) {
+            var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+            $mdDialog.show({
+                controller: "RecordingCtrl",
+                templateUrl: 'views/root/video-record.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true,
+                fullscreen: useFullScreen
+            })
+                .then(function(answer) {
+                }, function() {
+                    tracks.forEach( function(track)
+                    {
+                        track.stop();
+                    });
+
+                });
+            $scope.$watch(function() {
+                return $mdMedia('xs') || $mdMedia('sm');
+            }, function(wantsFullScreen) {
+                $scope.customFullscreen = (wantsFullScreen === true);
+            });
+        };
+
+
+
+        function search() {
+
+            var name = document.getElementById("searchForm").elements["searchItem"].value;
+            var pattern = name.toLowerCase();
+            var targetId = "";
+
+            var divs = document.getElementsByClassName("md-3-line");
+            for (var i = 0; i < divs.length; i++) {
+                var para = divs[i].getElementsByTagName("p");
+                var index = para[0].innerText.toLowerCase().indexOf(pattern);
+                if (index != -1) {
+                    targetId = divs[i].parentNode.id;
+                    document.getElementById(targetId).scrollIntoView();
+                    break;
+                }
+            }
+        }
+    })
+    .controller('RecordingCtrl', function($rootScope, $scope, $q, $state, $timeout, Upload, Profile, Post, currUser, $mdDialog) {
+
+        $scope.startRecording = startRecording;
+        $scope.stopRecording = stopRecording;
+
+        $scope.saveRecording = saveRecording;
+        $scope.cancelRecording = cancelRecording;
+
+        $scope.Vars = {
+            recording : false,
+            camera : false,
+            ready : false
+        };
 
         var constraints = {
             audio: true,
@@ -61,11 +118,13 @@ angular.module('myApp.dashboards')
         };
 
         var media;
-        var tracks = [];
+        var tracks;
         var mainstream = null;
         var url = window.URL || window.webkitURL;
+        var video;
 
-        function openCamera() {
+        $timeout(function() {
+            video = document.getElementById('video_stream');
 
             var promisifiedOldGUM = function(constraints) {
                 // First get ahold of getUserMedia, if present
@@ -102,26 +161,13 @@ angular.module('myApp.dashboards')
             navigator.mediaDevices
                 .getUserMedia (constraints)
                 .then(function(stream) {
-                    /*
-                    media = RecordRTC(stream, {
-                        type: 'video'
-                    });
-
-                    media.startRecording();
-                    if (!$scope.$$phase){
-                        $scope.$apply(function() {$scope.Vars.recording = true;});
-                    }
-                    else
-                    {
-                        $scope.Vars.recording = true;
-                    }
-                    tracks = stream.getTracks();
-                    */
                     video.controls="";
                     video.muted= true;
                     video.src = url ? url.createObjectURL(stream) : stream;
                     video.focus();
                     video.play();
+                    tracks = stream.getTracks();
+                    $rootScope.$broadcast('stream-tracks', tracks);
                     mainstream = stream;
                     $timeout(function() {
                         $scope.Vars.camera= true;
@@ -131,9 +177,8 @@ angular.module('myApp.dashboards')
                 .catch(function (error) {
                     alert("Error:" + JSON.stringify(error));
                 });
+        })
 
-
-        }
         function startRecording(){
             if(mainstream) {
                 var stream = mainstream;
@@ -146,7 +191,6 @@ angular.module('myApp.dashboards')
                     $scope.Vars.recording = true;
                     $scope.Vars.ready = false;
                 });
-                tracks = stream.getTracks();
                 video.src = url ? url.createObjectURL(stream) : stream;
                 video.focus();
                 video.play();
@@ -181,6 +225,7 @@ angular.module('myApp.dashboards')
                 type: 'video/webm',
                 contents: media.getBlob()
             };
+            $mdDialog.hide();
             postFiles('video', file);
 
         };
@@ -195,6 +240,7 @@ angular.module('myApp.dashboards')
                 $scope.Vars.recording = false;
                 $scope.Vars.ready = false;
             });
+            $mdDialog.hide();
         };
 
         function postFiles(type, blob) {
@@ -214,23 +260,5 @@ angular.module('myApp.dashboards')
                     $state.go('posts.detail', {postId: success._id});
                 });
             });
-        }
-
-        function search() {
-
-            var name = document.getElementById("searchForm").elements["searchItem"].value;
-            var pattern = name.toLowerCase();
-            var targetId = "";
-
-            var divs = document.getElementsByClassName("md-3-line");
-            for (var i = 0; i < divs.length; i++) {
-                var para = divs[i].getElementsByTagName("p");
-                var index = para[0].innerText.toLowerCase().indexOf(pattern);
-                if (index != -1) {
-                    targetId = divs[i].parentNode.id;
-                    document.getElementById(targetId).scrollIntoView();
-                    break;
-                }
-            }
         }
     });
