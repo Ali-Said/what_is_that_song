@@ -4,12 +4,12 @@
     <div layout="row" layout-align="center center" layout-padding>
 
         <div ng-show="loggedIn">
-            <md-button class="md-raised" id="open-camera" ng-click="openCamera()" ng-show="!Vars.camera">Open Webcam</md-button>
+            <md-button class="md-raised" id="open-camera" ng-click="openCamera()" ng-disabled="Vars.camera">Open Webcam</md-button>
             <md-button class="md-raised" id="start-recording" ng-click="startRecording()" ng-disabled="!Vars.camera || Vars.recording">Start Recording</md-button>
 
-            <md-button class="md-raised" id="stop-recording" ng-click="stopRecording()" ng-disabled="!Vars.recording">Stop Recording</md-button>
-            <md-button class="md-raised" id="save-recording" ng-click="saveRecording()" ng-disabled="!Vars.recording">Save File</md-button>
-            <md-button class="md-raised" id="cancel-recording" ng-click="cancelRecording()" ng-disabled="!Vars.recording">Cancel</md-button>
+            <md-button class="md-raised md-warn" id="stop-recording" ng-click="stopRecording()" ng-disabled="!Vars.recording">Stop Recording</md-button>
+            <md-button class="md-raised launch" id="save-recording" ng-click="saveRecording()" ng-disabled="!Vars.ready">Save File</md-button>
+            <md-button class="md-raised md-warn" id="cancel-recording" ng-click="cancelRecording()" ng-disabled="!Vars.camera">Cancel</md-button>
         </div>
 
         <div ng-show="!loggedIn">
@@ -17,13 +17,13 @@
         </div>
 
         <div class="bar">
-           <input type="text" ng-model="searchTerm" placeholder="Enter your search terms" />
+           <input type="text" ng-model="searchTerm" placeholder="Search for Requests" />
         </div>
     </div>
 </div>
-<div ng-if="Vars.camera" layout="row" layout-align="center">
+<div layout="row" layout-align="center">
     <md-toolbar id="video_container" layout="row" style="width:0px;height:0px;">
-        <video id="video_stream" style="position:inherit;z-index:-1;top:0%;left:0%;transform:inherit;-webkit-transform:inherit;" muted></video>
+        <video id="video_stream" style="position:inherit;z-index:-1;top:0%;left:0%;transform:inherit;-webkit-transform:inherit;"></video>
     </md-toolbar>
 </div>
 

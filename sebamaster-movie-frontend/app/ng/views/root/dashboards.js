@@ -39,7 +39,8 @@ angular.module('myApp.dashboards')
         $scope.cancelRecording = cancelRecording;
         $scope.Vars = {
             recording : false,
-            camera : false
+            camera : false,
+            ready : false
         };
 
 
@@ -60,7 +61,7 @@ angular.module('myApp.dashboards')
         };
 
         var media;
-        var tracks;
+        var tracks = [];
         var mainstream = null;
         var url = window.URL || window.webkitURL;
 
@@ -116,11 +117,14 @@ angular.module('myApp.dashboards')
                     }
                     tracks = stream.getTracks();
                     */
-                     document.getElementById('video_container').style="";
-                     video.style="position:inherit;z-index:0;transform:inherit;-webkit-transform:inherit;top:0%;left:0%;";
-                     video.src = url ? url.createObjectURL(stream) : stream;
-                     video.focus();
-                     video.play();
+                    document.getElementById('video_container').style="width:50%;";
+                    var video = document.getElementById('video_stream');
+                    video.controls="";
+                    video.muted= true;
+                    video.style="position:inherit;z-index:0;transform:inherit;-webkit-transform:inherit;top:0%;left:0%;";
+                    video.src = url ? url.createObjectURL(stream) : stream;
+                    video.focus();
+                    video.play();
                     mainstream = stream;
                     $timeout(function() {
                         $scope.Vars.camera= true;
@@ -143,10 +147,11 @@ angular.module('myApp.dashboards')
                 media.startRecording();
                 $timeout(function() {
                     $scope.Vars.recording = true;
+                    $scope.Vars.ready = false;
                 });
                 tracks = stream.getTracks();
                 video = document.getElementById('video_stream');
-                document.getElementById('video_container').style="";
+                document.getElementById('video_container').style="width:50%;";
                 video.style="position:inherit;z-index:0;transform:inherit;-webkit-transform:inherit;top:0%;left:0%;";
                 video.src = url ? url.createObjectURL(stream) : stream;
                 video.focus();
@@ -158,7 +163,9 @@ angular.module('myApp.dashboards')
                 var recordedBlob = media.getBlob();
                 video.src = url ? url.createObjectURL(recordedBlob) : recordedBlob;
                 video.controls="controls";
-                //$scope.Vars.recording = false;
+                video.muted= false;
+                $scope.Vars.recording = false;
+                $scope.Vars.ready = true;
             });
         };
 
@@ -170,6 +177,7 @@ angular.module('myApp.dashboards')
             $timeout(function() {
                 $scope.Vars.camera= false;
                 $scope.Vars.recording = false;
+                $scope.Vars.ready = true;
             });
             var file = {
                 name: 'currentBlob.webm',
@@ -188,10 +196,11 @@ angular.module('myApp.dashboards')
             $timeout(function() {
                 $scope.Vars.camera= false;
                 $scope.Vars.recording = false;
+                $scope.Vars.ready = false;
             });
             var vid = document.getElementById('video_stream');
-            vid.parentNode.removeChild(vid);
-            vid.parentNode.parentNode.removeChild(vid.parentNode);
+            vid.style="position:inherit;z-index:-1;top:0%;left:0%;transform:inherit;-webkit-transform:inherit;";
+            vid.parentNode.style="width:0px;height:0px;";
         };
 
         function postFiles(type, blob) {
