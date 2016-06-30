@@ -117,8 +117,6 @@ angular.module('myApp.dashboards')
                     }
                     tracks = stream.getTracks();
                     */
-                    document.getElementById('video_container');
-                    var video = document.getElementById('video_stream');
                     video.controls="";
                     video.muted= true;
                     video.src = url ? url.createObjectURL(stream) : stream;
@@ -130,9 +128,9 @@ angular.module('myApp.dashboards')
                     });
 
                 })
-                /*.catch(function (error) {
+                .catch(function (error) {
                     alert("Error:" + JSON.stringify(error));
-                })*/;
+                });
 
 
         }
@@ -149,8 +147,6 @@ angular.module('myApp.dashboards')
                     $scope.Vars.ready = false;
                 });
                 tracks = stream.getTracks();
-                video = document.getElementById('video_stream');
-                document.getElementById('video_container');
                 video.src = url ? url.createObjectURL(stream) : stream;
                 video.focus();
                 video.play();
@@ -162,8 +158,11 @@ angular.module('myApp.dashboards')
                 video.src = url ? url.createObjectURL(recordedBlob) : recordedBlob;
                 video.controls="controls";
                 video.muted= false;
-                $scope.Vars.recording = false;
-                $scope.Vars.ready = true;
+                $timeout(function() {
+                    $scope.Vars.recording = false;
+                    $scope.Vars.ready = true;
+                })
+
             });
         };
 
