@@ -46,7 +46,7 @@
         </script>
         <ul>
             <li ng-repeat="comment in post.comments | orderBy: selected.search : selected.reverse" ng-controller="AnswerListController">
-                <div layout="row" layout-padding>
+                <div ng-if="comment.user.username" layout="row" layout-padding>
                     <div class="vote" layout="column" layout-align="start center">
                         <md-button ng-click="voteUp()" aria-label="Vote Up"><md-icon ng-class="{green: votedUp}" md-menu-origin md-svg-icon="navigation:ic_arrow_drop_up_24px"></md-icon></md-button>
                         <span>{{comment.votes}}</span>
