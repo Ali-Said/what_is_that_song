@@ -25,7 +25,7 @@
         </form>
     </div>
 
-    <div>Rate performance:<star-rating ng-model="personalRating.rating" on-rating-select="rated(rating)"></star-rating> Current Rating: {{post.rating}}</div>
+    <div>Rate performance:<star-rating ng-model="personalRating.rating" readonly="!loggedIn" on-rating-select="rated(rating)"></star-rating> Current Rating: {{post.rating}}</div>
 
     <div layout="row" layout-align="start center" flex>
         <div class="md-title">{{post.comments.length}} Answer{{post.comments.length != 1 ? 's' : ''}}</div>

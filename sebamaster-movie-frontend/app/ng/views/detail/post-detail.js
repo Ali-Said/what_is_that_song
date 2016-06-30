@@ -31,6 +31,7 @@ angular.module('myApp.posts')
         $scope.rated = rated;
         $scope.edit = edit;
         $scope.editing = false;
+        $scope.loggedIn = false;
         $scope.personalRating = {rating: 0};
         $scope.post = {};
 
@@ -135,6 +136,7 @@ angular.module('myApp.posts')
         function initValues(success) {
             $scope.mayEdit = currUser.loggedIn() && currUser.getUser()._id == $scope.post.user;
             $scope.mayDelete = $scope.post.user && $scope.post.user == currUser.getUser()._id;
+            $scope.loggedIn = currUser.loggedIn();
 
             if (success.comments._id) {
                 angular.forEach(success.comments, function(value, key) {

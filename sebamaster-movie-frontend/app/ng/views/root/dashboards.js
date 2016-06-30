@@ -208,7 +208,7 @@ angular.module('myApp.dashboards')
                 $scope.post.type = "request";
                 $scope.post.date = new Date();
                 $scope.post.user = currUser.getUser();
-                $scope.post.votes = 0;
+                $scope.post.rating = 3;
                 $scope.post.media = f;
                 $scope.post.$save(function (success) {
                     $state.go('posts.detail', {postId: success._id});
