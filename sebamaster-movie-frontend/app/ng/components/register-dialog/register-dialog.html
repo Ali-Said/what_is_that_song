@@ -37,13 +37,6 @@
                 <div ng-message="compareTo">Passwords must match.</div>
             </div>
         </md-input-container>
-        <md-input-container class="md-block">
-            <label>Birthday</label>
-            <input type="date" required name="birthday" ng-model="birthday">
-            <div ng-messages="registerForm.birthday.$error">
-                <div ng-message="required">Birthday is only kinda required.</div>
-            </div>
-        </md-input-container>
     </md-dialog-content>
     <md-dialog-actions layout="row" layout-align="space-around center">
         <md-button ng-click="cancel()">

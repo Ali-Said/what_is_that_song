@@ -238,7 +238,7 @@ angular.module('myApp.posts')
             });
         };
     })
-    .controller('AnswerListController', function($rootScope, $scope, $filter, currUser, Post, User, $mdDialog) {
+    .controller('AnswerListController', function($rootScope, $scope, $filter, currUser, Post, User, $mdDialog, $mdToast) {
 
         $scope.mayEdit = false;
         $scope.vote = {};
@@ -279,38 +279,50 @@ angular.module('myApp.posts')
 
 
         function voteUp() {
-            if ($scope.votedUp) {
-                $scope.comment.votes--;
-                $scope.voted = false;
-            }
-            else if ($scope.votedDown) {
-                $scope.comment.votes += 2;
+
+            if (currUser.loggedIn()) {
+
+                if ($scope.votedUp) {
+                    $scope.comment.votes--;
+                    $scope.voted = false;
+                }
+                else if ($scope.votedDown) {
+                    $scope.comment.votes += 2;
+                }
+                else {
+                    $scope.comment.votes++;
+                    $scope.voted = true;
+                }
+                $scope.votedDown = false;
+                $scope.votedUp = !$scope.votedUp;
+
+                updateVoteData();
             }
             else {
-                $scope.comment.votes++;
-                $scope.voted = true;
+                showSimpleToast("You have to log in to vote!")
             }
-            $scope.votedDown = false;
-            $scope.votedUp = !$scope.votedUp;
-
-            updateVoteData();
         }
 
         function voteDown() {
-            if ($scope.votedDown) {
-                $scope.comment.votes++;
-                $scope.voted = false;
-            }
-            else if ($scope.votedUp)
-                $scope.comment.votes -= 2;
-            else {
-                $scope.comment.votes--;
-                $scope.voted = true;
-            }
-            $scope.votedUp = false;
-            $scope.votedDown = !$scope.votedDown;
+            if (currUser.loggedIn()) {
+                if ($scope.votedDown) {
+                    $scope.comment.votes++;
+                    $scope.voted = false;
+                }
+                else if ($scope.votedUp)
+                    $scope.comment.votes -= 2;
+                else {
+                    $scope.comment.votes--;
+                    $scope.voted = true;
+                }
+                $scope.votedUp = false;
+                $scope.votedDown = !$scope.votedDown;
 
-            updateVoteData();
+                updateVoteData();
+            }
+            else {
+                showSimpleToast("You have to log in to vote!")
+            }
 
         }
 
@@ -367,4 +379,13 @@ angular.module('myApp.posts')
             $scope.comment.$update();
             $scope.editing = false;
         };
+
+        function showSimpleToast(txt) {
+            $mdToast.show(
+                $mdToast.simple()
+                    .textContent(txt)
+                    .position('bottom right')
+                    .hideDelay(3000)
+            );
+        }
     });

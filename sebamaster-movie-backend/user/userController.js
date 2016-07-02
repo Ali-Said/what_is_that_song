@@ -48,8 +48,7 @@ module.exports.signup = function(req, res){
     user.email = req.body.email;
     user.username = req.body.username;
     user.password = req.body.password;
-    user.birthday = req.body.birthday;
-
+    
     user.save(function(err) {
         if (err) {
             res.status(500).send(err);
