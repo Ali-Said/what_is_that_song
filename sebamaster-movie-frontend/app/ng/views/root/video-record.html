@@ -5,9 +5,14 @@
         </md-toolbar>
     </div>
     <div layout="row" layout-align="center center" layout-padding>
-        <md-button class="md-raised" id="start-recording" ng-click="startRecording()" ng-disabled="!Vars.camera || Vars.recording">Start Recording</md-button>
-        <md-button class="md-raised md-warn" id="stop-recording" ng-click="stopRecording()" ng-disabled="!Vars.recording">Stop Recording</md-button>
-        <md-button class="md-raised launch" id="save-recording" ng-click="saveRecording()" ng-disabled="!Vars.ready">Save File</md-button>
+        <md-button class="md-raised round" id="start-recording" ng-click="startRecording()" ng-disabled="!Vars.camera || Vars.recording" aria-label="Record">
+            <md-icon class="red" md-svg-icon="av:ic_fiber_manual_record_24px">
+        </md-icon></md-button>
+        <md-button class="md-raised round" id="stop-recording" ng-click="stopRecording()" ng-disabled="!Vars.recording" aria-label="Stop">
+            <md-icon md-svg-icon="av:ic_stop_24px">
+            </md-icon>
+        </md-button>
+        <md-button class="md-raised launch" id="save-recording" ng-click="saveRecording()" ng-disabled="!Vars.ready">Post</md-button>
         <md-button class="md-raised md-warn" id="cancel-recording" ng-click="cancelRecording()" ng-disabled="!Vars.camera">Cancel</md-button>
     </div>
 </md-content>

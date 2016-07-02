@@ -46,6 +46,7 @@ angular.module('myApp', ['ui.router', 'myApp.dashboards', 'myApp.profiles', 'myA
             });
 
         $mdIconProvider
+            .iconSet('av', 'libs/material-design-icons/sprites/svg-sprite/svg-sprite-av.svg')
             .iconSet('content', 'libs/material-design-icons/sprites/svg-sprite/svg-sprite-content.svg')
             .iconSet('action', 'libs/material-design-icons/sprites/svg-sprite/svg-sprite-action.svg')
             .iconSet('editor', 'libs/material-design-icons/sprites/svg-sprite/svg-sprite-editor.svg')

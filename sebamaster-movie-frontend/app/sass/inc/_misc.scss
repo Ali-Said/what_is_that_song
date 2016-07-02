@@ -49,3 +49,22 @@ md-input-container textarea[md-no-autogrow].md-input {
   position: relative;
   right: calc(-50% + 10px);
 }
+
+.round {
+  line-height: normal;
+  width: auto;
+  min-width: auto;
+  border-radius: 50%;
+}
+
+.gray {
+  color: gray;
+}
+
+md-icon {
+    &.red {
+      svg > * {
+        fill: red;
+      }
+    }
+}
