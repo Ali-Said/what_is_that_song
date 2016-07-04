@@ -16,6 +16,7 @@
         <br>
         <br>
         <div ng-bind-html="post.text"></div>
+        <div class="date">posted by <a class="user" ui-sref="profiles.detail({username: post.user.username})"> {{post.user.username}}</a></div>
         
     </div>
     <div class="center" ng-if="editing" ng-controller="RequestController">

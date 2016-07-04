@@ -23,13 +23,17 @@ angular.module('myApp.profiles')
     })
 
 
-     .controller('ProfileDetailCtrl', function($rootScope, $scope, $state, $breadcrumb, $stateParams, currUser, Track, Profile, $mdMedia, $mdToast, $mdDialog) {
+     .controller('ProfileDetailCtrl', function($rootScope, $scope, $state, $filter, $breadcrumb, $stateParams, currUser, Track, Profile, Post, $mdMedia, $mdToast, $mdDialog) {
 
         $scope.profile = Profile.get({username: $stateParams.username}, function(success){
             if(angular.equals({}, success)) {
                 $state.go("dashboards.home");
                 return;
             }
+
+            Post.query(function(success) {
+                $scope.posts = $filter('filter')(success, {user: $scope.profile._id}, true);
+            })
 
 
         }, function(error) {

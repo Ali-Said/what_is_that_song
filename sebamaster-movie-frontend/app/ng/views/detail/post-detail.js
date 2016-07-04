@@ -154,6 +154,10 @@ angular.module('myApp.posts')
             $scope.mayDelete = $scope.post.user && $scope.post.user == currUser.getUser()._id;
             $scope.loggedIn = currUser.loggedIn();
 
+            User.get({id: $scope.post.user}, function (success) {
+                $scope.post.user = success;
+            });
+
             if (success.comments._id) {
                 angular.forEach(success.comments, function(value, key) {
                     Post.get({postId: value._id}, function(success) {

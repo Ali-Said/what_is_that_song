@@ -44,9 +44,8 @@
 
 
                 <div id='dv1' ng-controller="FrmController">
-                    Post your Status
                     <form ng-show="mayDelete">
-                            <textarea ng-model="txtcomment" id = "status" placeholder="Enter your text here"></textarea>
+                            <textarea ng-model="txtcomment" id = "status" placeholder="Post your status here"></textarea>
                             <md-button class="md-raised md-primary" ng-click='btn_add();' layout-align="center end">POST</md-button>
                     </form>
                     <li id='list' ng-repeat="comnt in profile.status"> {{ comnt }} <a ng-show="mayDelete" href="" ng-click="remItem($index)">x</a></li>
@@ -58,6 +57,27 @@
         <div ng-if="editing" layout="row" layout-align="center center">
             <md-button class="md-raised" ng-click="save()">Save</md-button>
             <md-button class="md-raised md-warn" ng-click="cancel()">Cancel</md-button>
+        </div>
+
+        <div ng-if="!mayEdit" layout="column" layout-align="center center" id="profileWrapper1" ng-cloak>
+            <div class="center">
+                <h2>Requests</h2>
+                <div ng-if="posts.length == 0">This user didn't make any requests!</div>
+            </div>
+            <md-list ng-if="posts.length > 0" id="vertical-container" flex>
+                <md-list-item ng-repeat="post in posts | filter:{type: 'request'}" class="md-line" ui-sref="posts.detail({postId: post._id})" flex>
+                    <div flex="100" layout="row" layout-align="space-between center">
+                        <div flex="40" layout="column">
+                            <span>{{post.text | stripTags | characters:50}}</span>
+                            <span class="date">{{post.date | date:"MMM d yy 'at' H:mm"}}</span>
+                        </div>
+                        <h4 ng-if="post.type == 'request'">{{post.comments.length}} answer{{post.comments.length != 1 ? 's' : ''}}</h4>
+                        <span ng-if="post.type == 'request'"><star-rating ng-model="post.rating" readonly="true"></star-rating> {{post.rating}}</span>
+                        <h4 ng-if="post.type == 'comment'">Voting score: {{post.votes}}</h4>
+                    </div>
+                </md-list-item>
+            </md-list>
+
         </div>
     </div>
 </div>
