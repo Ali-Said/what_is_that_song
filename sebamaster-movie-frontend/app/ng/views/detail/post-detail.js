@@ -73,6 +73,17 @@ angular.module('myApp.posts')
 
             $scope.post.rating = average($scope.post.voters);
 
+            if ($scope.post.voters.length % 10 == 1 ) $scope.post.user += $scope.post.rating * 10;
+
+
+            if (!$scope.comment.lockVotes) $scope.comment.lockVotes = [true];
+            var lowerBound = Math.floor($scope.comment.voters.length / 10);
+            if($scope.comment.voters.length > 9 && !$scope.comment.lockVotes[lowerBound]) {
+                $scope.comment.user.points += 10 * $scope.post.rating;
+                $scope.comment.lockVotes.push(true);
+                $scope.comment.user.$update();
+            }
+
             updatePost(true);
 
             function average(data) {
@@ -342,11 +353,11 @@ angular.module('myApp.posts')
                 $scope.comment.voters.push($scope.voteData);
             }
 
-            if (!$scope.comment.lockVotes) $scope.comment.lockVotes = [];
+            if (!$scope.comment.lockVotes) $scope.comment.lockVotes = [true];
             var lowerBound = Math.floor($scope.comment.votes / 10);
-            if($scope.comment.votes > 9 && !$scope.comment.lockVote[lowerBound]) {
+            if($scope.comment.votes > 9 && !$scope.comment.lockVotes[lowerBound]) {
                 $scope.comment.user.points += 10;
-                $scope.comment.lockVote.push(true);
+                $scope.comment.lockVotes.push(true);
                 $scope.comment.user.$update();
             }
 
