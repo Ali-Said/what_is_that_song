@@ -13,11 +13,7 @@
         //////////////////////////////
 
         function responseError(rej) {
-            if ([-1, 404].indexOf(rej.status) !== -1) {
-                showAlert({title: 'Connection Error', msg: 'Could not reach the server. Try again later'});
-            } else {
-                showAlert({title: 'Unknown Error', msg: 'Unknown error. Try again later'});
-            }
+            showAlert({title: rej.statusText, msg: rej.data});
 
             return $q.reject(rej);
         }

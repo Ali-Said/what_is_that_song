@@ -7,12 +7,13 @@
 
     <md-dialog-content layout-margin>
         <h2 class="md-title md-primary">Create a new account</h2>
-        <p class="md-warn" ng-show="errorText">{{errorText}}</p>
+        <p class="mv-error-text" ng-show="errorText">{{errorText}}</p>
         <md-input-container class="md-block">
             <label>Email</label>
-            <input type="text" required name="email" ng-model="email">
+            <input type="email" required name="email" ng-model="email">
             <div ng-messages="registerForm.email.$error">
                 <div ng-message="required">Email is required.</div>
+                <div ng-message="email">That's not a valid E-mail address!</div>
             </div>
         </md-input-container>
         <md-input-container class="md-block">
@@ -24,9 +25,10 @@
         </md-input-container>
         <md-input-container class="md-block">
             <label>Password</label>
-            <input type="password" required name="password" ng-model="pwd">
+            <input type="password" required ng-minlength="6" name="password" ng-model="pwd">
             <div ng-messages="registerForm.password.$error">
                 <div ng-message="required">Password is required.</div>
+                <div ng-message="minlength">Password has to have at least 6 digits!</div>
             </div>
         </md-input-container>
         <md-input-container class="md-block">

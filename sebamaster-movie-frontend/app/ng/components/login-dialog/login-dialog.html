@@ -10,9 +10,10 @@
         <span class="md-body-2 mv-error-text" ng-show="errorText">{{errorText}}</span>
         <md-input-container class="md-block">
             <label>Email</label>
-            <input required name="email" ng-model="email">
+            <input required name="email" type="email" ng-model="email">
             <div ng-messages="loginForm.email.$error">
                 <div ng-message="required">Email is required.</div>
+                <div ng-message="email">That's not a valid E-mail address!</div>
             </div>
         </md-input-container>
         <md-input-container class="md-block">

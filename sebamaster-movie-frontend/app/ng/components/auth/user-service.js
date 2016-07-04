@@ -26,7 +26,7 @@
             return $http.post(BASEURL + '/login', {
                 email: email,
                 password: pass
-            });
+            })
         }
 
         function getUser() {

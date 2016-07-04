@@ -14,9 +14,17 @@ angular.module('myApp')
             currUser.register($scope.email, $scope.username, $scope.pwd).then(function () {
                 $mdDialog.hide();
             }, function (response) {
-                debugger;
+                //debugger;
                 if (response.status == 400 || response.status == 401) {
                     $scope.errorText = "An unknown error occured. please try again later.";
+                }
+                else if (response.status == 500) {
+                    if (response.data.errmsg.contains("username")) {
+                        $scope.errorText = "Username already taken!";
+                    }
+                    else {
+                        $scope.errorText = "E-Mail already exists!";
+                    }
                 }
             });
         }

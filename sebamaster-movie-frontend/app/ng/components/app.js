@@ -62,7 +62,7 @@ angular.module('myApp', ['ui.router', 'myApp.dashboards', 'myApp.profiles', 'myA
 
         });
 
-        $httpProvider.interceptors.push('reqErrInterceptor');
+        //$httpProvider.interceptors.push('reqErrInterceptor');
         //auth interceptor
         $httpProvider.interceptors.push('authInterceptor');
 

@@ -24,7 +24,7 @@ angular.module('myApp.posts')
 
         }
     })
-    .controller('PostDetailCtrl', function($rootScope, $scope, $sce, $state, $filter, $breadcrumb, $stateParams, currUser, Post, $mdMedia, $mdToast, $mdDialog) {
+    .controller('PostDetailCtrl', function($rootScope, $scope, $sce, $state, $filter, $breadcrumb, $stateParams, currUser, Post, User, $mdMedia, $mdToast, $mdDialog) {
 
         $scope.cancelEditingPost = function(){ showSimpleToast("Editing cancelled"); };
         $scope.updatePost = updatePost;
@@ -73,12 +73,15 @@ angular.module('myApp.posts')
 
             $scope.post.rating = average($scope.post.voters);
 
-            if (!$scope.comment.lockVotes) $scope.comment.lockVotes = [true];
-            var lowerBound = Math.floor($scope.comment.voters.length / 10);
-            if($scope.comment.voters.length > 9 && !$scope.comment.lockVotes[lowerBound]) {
-                $scope.comment.user.points += 10 * $scope.post.rating;
-                $scope.comment.lockVotes.push(true);
-                $scope.comment.user.$update();
+            if (!$scope.post.lockVotes) $scope.post.lockVotes = [true];
+            var lowerBound = Math.floor($scope.post.voters.length / 10);
+            if($scope.post.voters.length > 9 && !$scope.post.lockVotes[lowerBound]) {
+                User.get({id: $scope.post.user}, function(success) {
+                    success.points += 10 * $scope.post.rating;
+                    $scope.post.lockVotes.push(true);
+                    success.$update();
+                });
+
             }
 
             updatePost(true);
@@ -89,10 +92,11 @@ angular.module('myApp.posts')
                 {
                     sum += parseInt(data[i].rating, 10); //don't forget to add the base }
 
-                    var avg = sum / data.length;
-
-                    return avg;
                 }
+
+                var avg = sum / data.length;
+
+                return Math.round(avg *10) /10;
             };
 
         };
@@ -115,6 +119,7 @@ angular.module('myApp.posts')
             if (!loggedIn) {
                 $scope.mayDelete = false;
                 $scope.mayEdit = false;
+                $scope.personalRating = {rating: 0};
             } else if($scope.post.user) {
                 $scope.mayEdit = currUser.getUser()._id == $scope.post.user._id;
                 $scope.mayDelete = $scope.post.user._id == currUser.getUser()._id;
