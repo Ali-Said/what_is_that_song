@@ -73,9 +73,6 @@ angular.module('myApp.posts')
 
             $scope.post.rating = average($scope.post.voters);
 
-            if ($scope.post.voters.length % 10 == 1 ) $scope.post.user += $scope.post.rating * 10;
-
-
             if (!$scope.comment.lockVotes) $scope.comment.lockVotes = [true];
             var lowerBound = Math.floor($scope.comment.voters.length / 10);
             if($scope.comment.voters.length > 9 && !$scope.comment.lockVotes[lowerBound]) {
