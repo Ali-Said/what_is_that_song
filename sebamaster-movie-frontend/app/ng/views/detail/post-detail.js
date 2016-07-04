@@ -238,7 +238,7 @@ angular.module('myApp.posts')
         $scope.save = save;
         $scope.tinymceOptions = {
             plugins: 'link image code',
-            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
+            toolbar: 'undo redo | bold italic',
             forced_root_block: '',
             entity_encoding: 'raw'
         };
@@ -295,7 +295,7 @@ angular.module('myApp.posts')
         $scope.save = save;
         $scope.tinymceOptions = {
             plugins: 'link image code',
-            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
+            toolbar: 'undo redo | bold italic',
             forced_root_block: '',
             entity_encoding: 'raw'
         };
