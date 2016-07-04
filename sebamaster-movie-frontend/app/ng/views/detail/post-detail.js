@@ -76,7 +76,7 @@ angular.module('myApp.posts')
             if (!$scope.post.lockVotes) $scope.post.lockVotes = [true];
             var lowerBound = Math.floor($scope.post.voters.length / 10);
             if($scope.post.voters.length > 9 && !$scope.post.lockVotes[lowerBound]) {
-                User.get({id: $scope.post.user}, function(success) {
+                User.get({id: $scope.post.user._id}, function(success) {
                     success.points += 10 * $scope.post.rating;
                     Post.query(function(postsuccess) {
                         success.rating = average($filter('filter')(postsuccess, {user: success._id, type: 'request'}, true));
