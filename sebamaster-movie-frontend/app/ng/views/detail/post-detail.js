@@ -217,7 +217,8 @@ angular.module('myApp.posts')
         $scope.save = save;
         $scope.tinymceOptions = {
             plugins: 'link image code',
-            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
+            entity_encoding: 'raw'
         };
 
         function cancel() {
@@ -238,7 +239,8 @@ angular.module('myApp.posts')
         $scope.tinymceOptions = {
             plugins: 'link image code',
             toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
-            forced_root_block: ''
+            forced_root_block: '',
+            entity_encoding: 'raw'
         };
         $scope.comment = new Post();
 
@@ -294,7 +296,8 @@ angular.module('myApp.posts')
         $scope.tinymceOptions = {
             plugins: 'link image code',
             toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
-            forced_root_block: ''
+            forced_root_block: '',
+            entity_encoding: 'raw'
         };
 
 
