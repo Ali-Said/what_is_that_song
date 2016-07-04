@@ -79,10 +79,15 @@ angular.module('myApp.posts')
                 User.get({id: $scope.post.user}, function(success) {
                     success.points += 10 * $scope.post.rating;
                     $scope.post.lockVotes.push(true);
-                    success.$update();
+                    Post.query(function(postsuccess) {
+                        success.rating = average($filter('filter')(postsuccess, {user: success._id, type: 'request'}, true));
+                        success.$update();
+                    });
                 });
 
             }
+
+
 
             updatePost(true);
 
@@ -90,7 +95,7 @@ angular.module('myApp.posts')
                 var sum = 0;
                 for (var i = 0; i < data.length; i++)
                 {
-                    sum += parseInt(data[i].rating, 10); //don't forget to add the base }
+                    sum += data[i].rating; //don't forget to add the base }
 
                 }
 
