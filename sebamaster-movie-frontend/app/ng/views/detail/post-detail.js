@@ -342,6 +342,14 @@ angular.module('myApp.posts')
                 $scope.comment.voters.push($scope.voteData);
             }
 
+            if (!$scope.comment.lockVotes) $scope.comment.lockVotes = [];
+            var lowerBound = Math.floor($scope.comment.votes / 10);
+            if($scope.comment.votes > 9 && !$scope.comment.lockVote[lowerBound]) {
+                $scope.comment.user.points += 10;
+                $scope.comment.lockVote.push(true);
+                $scope.comment.user.$update();
+            }
+
             $scope.comment.$update(function(success) {
                 $rootScope.$broadcast('changed-comment', success);
             });

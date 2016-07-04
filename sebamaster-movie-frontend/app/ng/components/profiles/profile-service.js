@@ -11,5 +11,5 @@ angular.module('myApp.profiles')
 
     })
     .factory('User', function($resource) {
-        return $resource('http://localhost:3000/user/:id', {id:'@id'});
+        return $resource('http://localhost:3000/user/:id', {id:'@_id'});
     });

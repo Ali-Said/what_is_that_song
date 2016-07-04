@@ -20,6 +20,7 @@ var Post   = new mongoose.Schema({
     comments: [{type: mongoose.Schema.Types.ObjectId, ref:'Post'}],
     rating: Number,
     votes: Number,
+    lockVotes: [Boolean],
     voters: [{user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

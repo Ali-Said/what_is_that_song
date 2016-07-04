@@ -18,7 +18,7 @@
             return $http.post(BASEURL + '/signup', {
                 email: email,
                 username: user,
-                password: pass
+                password: pass,
             });
         }
 
